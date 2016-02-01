@@ -1,0 +1,13 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="de.t7soft.android.t7TooLate.MainActivity" >
+    
+    <item
+        android:id="@+id/action_about"
+        android:icon="@drawable/ic_dark_about"
+        android:enabled="true"
+        android:showAsAction="never"
+        android:visible="true"
+        android:title="@string/about_menu_item"/>    
+    
+</menu>
