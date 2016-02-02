@@ -7,23 +7,40 @@ import java.util.Locale;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.webkit.WebView;
+import de.t7soft.android.t7toolate.analysis.AnalysisFragment;
+import de.t7soft.android.t7toolate.capture.CaptueFragment;
+import de.t7soft.android.t7toolate.connections.ConnectionsFragment;
 
-public class MainActivity extends Activity {
+public class MainActivity extends FragmentActivity {
 
 	@Override
 	protected void onCreate(final Bundle savedInstanceState) {
+
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+
+		final ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
+		setupViewPager(viewPager);
+
+	}
+
+	private void setupViewPager(final ViewPager viewPager) {
+		final MainTabPagerAdapter adapter = new MainTabPagerAdapter(getSupportFragmentManager());
+		adapter.addFrag(new CaptueFragment());
+		adapter.addFrag(new ConnectionsFragment());
+		adapter.addFrag(new AnalysisFragment());
+		viewPager.setAdapter(adapter);
 	}
 
 	@Override

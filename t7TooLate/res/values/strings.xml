@@ -6,5 +6,12 @@
     <string name="hello_world">Hello world!</string>
     <string name="about_menu_item">Info</string>
     <string name="tooLate_info_msg" formatted="false"><![CDATA[<table border="0"><tr><td>Version:</td><td>{0}</tr><tr><td>Date:</td><td>{1}</td></tr><tr><td>Author:</td><td>Thorsten Schenkel</td></tr><tr><td>Homepage:</td><td><a href="http://www.t7soft.de/html/joomla_t7soft/index.php">www.t7soft.de</td></tr></table>]]></string>
+    <!-- Tabs -->
+    <!-- Capture -->
+    <string name="capture_tab_tilte">Erfassen</string>
+    <!-- Connections -->
+    <string name="connections_tab_tilte">Verbindungen</string>
+    <!-- Analysis -->
+    <string name="analysis_tab_tilte">Auswertung</string>
     
 </resources>
