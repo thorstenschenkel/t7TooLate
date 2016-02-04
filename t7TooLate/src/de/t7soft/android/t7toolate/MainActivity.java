@@ -7,7 +7,10 @@ import java.util.Locale;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
+import android.app.ActionBar;
+import android.app.ActionBar.Tab;
 import android.app.AlertDialog;
+import android.app.FragmentTransaction;
 import android.content.DialogInterface;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager.NameNotFoundException;
@@ -24,6 +27,13 @@ import de.t7soft.android.t7toolate.connections.ConnectionsFragment;
 
 public class MainActivity extends FragmentActivity {
 
+	// private static int[] TAB_TILTE_IDS = {
+	// R.string.capture_tab_tilte, R.string.connections_tab_tilte, R.string.analysis_tab_tilte
+	// };
+	private static int[] TAB_ICON_IDS = {
+			R.drawable.ic_time, R.drawable.ic_train, R.drawable.ic_analysis
+	};
+
 	@Override
 	protected void onCreate(final Bundle savedInstanceState) {
 
@@ -33,14 +43,64 @@ public class MainActivity extends FragmentActivity {
 		final ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
 		setupViewPager(viewPager);
 
+		final ActionBar actionBar = getActionBar();
+		setupActionBar(actionBar, viewPager);
+
 	}
 
 	private void setupViewPager(final ViewPager viewPager) {
+
 		final MainTabPagerAdapter adapter = new MainTabPagerAdapter(getSupportFragmentManager());
 		adapter.addFrag(new CaptueFragment());
 		adapter.addFrag(new ConnectionsFragment());
 		adapter.addFrag(new AnalysisFragment());
 		viewPager.setAdapter(adapter);
+
+		viewPager.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
+			@Override
+			public void onPageSelected(final int position) {
+				final ActionBar actionBar = getActionBar();
+				actionBar.setSelectedNavigationItem(position);
+			}
+		});
+
+	}
+
+	private void setupActionBar(final ActionBar actionBar, final ViewPager viewPager) {
+		// Enable Tabs on Action Bar
+		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+		final ActionBar.TabListener tabListener = new ActionBar.TabListener() {
+
+			@Override
+			public void onTabReselected(final android.app.ActionBar.Tab tab, final FragmentTransaction ft) {
+				// nothing todo
+			}
+
+			@Override
+			public void onTabSelected(final ActionBar.Tab tab, final FragmentTransaction ft) {
+				final int position = tab.getPosition();
+				viewPager.setCurrentItem(position);
+			}
+
+			@Override
+			public void onTabUnselected(final android.app.ActionBar.Tab tab, final FragmentTransaction ft) {
+				// nothing todo
+			}
+
+		};
+		// Add New Tab
+		for (int i = 0; i < TAB_ICON_IDS.length; i++) {
+			final Tab tab = actionBar.newTab();
+			// tab.setText(TAB_TILTE_IDS[i]);
+			tab.setIcon(TAB_ICON_IDS[i]);
+			// tab.setCustomView(R.layout.tab_layout);
+			// final View tabView = tab.getCustomView();
+			// final TextView textView = (TextView) tabView.findViewById(R.id.tabTitleTextView);
+			// textView.setText(TAB_TILTE_IDS[i]);
+			// final ImageView imageView = (ImageView) tabView.findViewById(R.id.tabIconImageView);
+			// imageView.setImageResource(TAB_ICON_IDS[i]);
+			actionBar.addTab(tab.setTabListener(tabListener));
+		}
 	}
 
 	@Override
