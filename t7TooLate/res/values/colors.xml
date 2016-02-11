@@ -3,5 +3,7 @@
     <color name="text">#000000</color>
     <color name="background">#FFFFFF</color>
     <color name="subtitle_background">#3F51B5</color>    
-    <color name="subtitle_text">#E8EAF6</color>    
+    <color name="subtitle_text">#E8EAF6</color>
+    <color name="btn_background">#303F9F</color>    
+    <color name="btn_text">#E8EAF6</color>       
 </resources>

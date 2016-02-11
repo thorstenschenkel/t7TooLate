@@ -1,9 +1,11 @@
 package de.t7soft.android.t7toolate.connections;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import de.t7soft.android.t7toolate.AbstractTabFragment;
@@ -33,4 +35,20 @@ public class ConnectionsFragment extends AbstractTabFragment {
 		inflater.inflate(R.menu.connections, menu);
 		super.onCreateOptionsMenu(menu, inflater);
 	}
+
+	@Override
+	public boolean onOptionsItemSelected(final MenuItem item) {
+		switch (item.getItemId()) {
+			case R.id.action_add:
+				showAddAction();
+				return true;
+		}
+		return super.onOptionsItemSelected(item);
+	}
+
+	private void showAddAction() {
+		final Intent intent = new Intent(this.getActivity(), AddConnectionActivity.class);
+		startActivity(intent);
+	}
+
 }

@@ -53,7 +53,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:ems="10"
-            android:hint="@string/connection_name_hint" >
+            android:hint="@string/connection_name_hint"
+            android:singleLine="true" >
 
             <requestFocus />
         </EditText>
@@ -88,7 +89,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:hint="@string/connection_stadion_hint" >
+                android:hint="@string/connection_stadion_hint"
+                android:singleLine="true" >
             </EditText>
         </LinearLayout>
 
@@ -114,20 +116,23 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:editable="false"
                 android:ems="10"
-                android:inputType="time" />
+                android:focusable="false"
+                android:inputType="time"
+                android:onClick="onStartTime"
+                android:singleLine="true"
+                android:textColor="@android:color/primary_text_light_nodisable" />
 
             <ImageButton
                 android:id="@+id/buttonConnectionStartTime"
                 style="?android:attr/buttonBarButtonStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@color/subtitle_background"
+                android:background="@color/btn_background"
                 android:contentDescription="@string/time_picker"
                 android:minHeight="24dip"
                 android:minWidth="24dip"
-                android:onClick="onTime"
+                android:onClick="onStartTime"
                 android:padding="7dp"
                 android:src="@drawable/ic_clock_small" />
         </LinearLayout>
@@ -162,7 +167,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
-                android:hint="@string/connection_stadion_hint" >
+                android:hint="@string/connection_stadion_hint"
+                android:singleLine="true" >
             </EditText>
         </LinearLayout>
 
@@ -188,20 +194,23 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:editable="false"
                 android:ems="10"
-                android:inputType="time" />
+                android:focusable="false"
+                android:inputType="time"
+                android:onClick="onEndTime"
+                android:singleLine="true"
+                android:textColor="@android:color/primary_text_light_nodisable" />
 
             <ImageButton
                 android:id="@+id/buttonConnectionEndTime"
                 style="?android:attr/buttonBarButtonStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@color/subtitle_background"
+                android:background="@color/btn_background"
                 android:contentDescription="@string/time_picker"
                 android:minHeight="24dip"
                 android:minWidth="24dip"
-                android:onClick="onTime"
+                android:onClick="onEndTime"
                 android:padding="7dp"
                 android:src="@drawable/ic_clock_small" />
         </LinearLayout>
@@ -223,22 +232,22 @@
             <CheckBox
                 android:id="@+id/checkBoxConnectionMoFr"
                 android:layout_width="0dp"
-                android:layout_weight="0.33"
                 android:layout_height="wrap_content"
+                android:layout_weight="0.33"
                 android:text="@string/connection_mo_fr" />
 
             <CheckBox
                 android:id="@+id/checkBoxConnectionSa"
                 android:layout_width="0dp"
-                android:layout_weight="0.33"
                 android:layout_height="wrap_content"
+                android:layout_weight="0.33"
                 android:text="@string/connection_sa" />
 
             <CheckBox
                 android:id="@+id/checkBoxConnectionSu"
                 android:layout_width="0dp"
-                android:layout_weight="0.33"
                 android:layout_height="wrap_content"
+                android:layout_weight="0.33"
                 android:text="@string/connection_su" />
         </LinearLayout>
 
@@ -260,10 +269,10 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.5"
-                android:background="@color/subtitle_background"
+                android:background="@color/btn_background"
                 android:onClick="onSave"
                 android:text="@string/save"
-                android:textColor="@color/subtitle_text" />
+                android:textColor="@color/btn_text" />
 
             <Space
                 android:layout_width="10dp"
@@ -275,10 +284,10 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.5"
-                android:background="@color/subtitle_background"
+                android:background="@color/btn_background"
                 android:onClick="onCancel"
                 android:text="@string/cancel"
-                android:textColor="@color/subtitle_text" />
+                android:textColor="@color/btn_text" />
         </LinearLayout>
     </LinearLayout>
 
