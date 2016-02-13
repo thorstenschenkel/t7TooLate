@@ -79,7 +79,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
-                android:labelFor="@+id/editTextConnectionStartStadtion"
+                android:labelFor="@+id/editTextConnectionStartStation"
                 android:minWidth="40dp"
                 android:text="@string/connection_stadion"
                 android:textAppearance="?android:attr/textAppearanceSmall" />
@@ -157,7 +157,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
-                android:labelFor="@+id/editTextConnectionEndStadtion"
+                android:labelFor="@+id/editTextConnectionEndStation"
                 android:minWidth="40dp"
                 android:text="@string/connection_stadion"
                 android:textAppearance="?android:attr/textAppearanceSmall" />

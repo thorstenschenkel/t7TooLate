@@ -33,6 +33,10 @@
     <string name="connection_mo_fr">Mon.-Frei.</string>
     <string name="connection_sa">Samstag</string>
     <string name="connection_su">Sonntag</string>
+    <string name="connection_error_no_name">Name fehlt!</string>
+    <string name="connection_error_no_start_station">Abfahrstort fehlt!</string>
+    <string name="connection_error_no_end_station">Anfahrstort fehlt!</string>
+    <string name="connection_error_no_weekday">Kein Wochentag wurde ausgewählt!</string>
     <!-- Analysis -->
     <string name="analysis_tab_tilte">Auswertung</string>
 

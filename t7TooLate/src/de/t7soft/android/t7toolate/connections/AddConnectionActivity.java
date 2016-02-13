@@ -1,12 +1,11 @@
 package de.t7soft.android.t7toolate.connections;
 
-import java.util.Calendar;
-
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import de.t7soft.android.t7toolate.R;
+import de.t7soft.android.t7toolate.model.Connection;
 
 public class AddConnectionActivity extends EditConnectionActivity {
 
@@ -24,18 +23,11 @@ public class AddConnectionActivity extends EditConnectionActivity {
 		final Button addButton = (Button) findViewById(R.id.buttonConnectionSave);
 		addButton.setText(R.string.add);
 
-		initActivity();
-
 	}
 
-	private void initActivity() {
-
-		final Calendar c = Calendar.getInstance();
-		TextView timeTextView = (TextView) findViewById(R.id.editTextConnectionStartTime);
-		timeTextView.setText(TIME_FORMAT.format(c.getTime()));
-		timeTextView = (TextView) findViewById(R.id.editTextConnectionEndTime);
-		timeTextView.setText(TIME_FORMAT.format(c.getTime()));
-
+	@Override
+	protected Connection createConnection() {
+		return new Connection();
 	}
 
 }
