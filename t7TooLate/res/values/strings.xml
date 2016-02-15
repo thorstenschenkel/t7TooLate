@@ -34,9 +34,13 @@
     <string name="connection_sa">Samstag</string>
     <string name="connection_su">Sonntag</string>
     <string name="connection_error_no_name">Name fehlt!</string>
-    <string name="connection_error_no_start_station">Abfahrstort fehlt!</string>
-    <string name="connection_error_no_end_station">Anfahrstort fehlt!</string>
+    <string name="connection_error_no_start_station">Abfahrtsort fehlt!</string>
+    <string name="connection_error_no_end_station">Ankunftsort fehlt!</string>
     <string name="connection_error_no_weekday">Kein Wochentag wurde ausgewählt!</string>
+    <string name="connection_error_no_start_time">Abfahrtszeit fehlt oder ist nicht korrekt!</string>
+    <string name="connection_error_no_end_time">Ankunftszeit fehlt oder ist nicht korrekt!</string>
+    <string name="connection_error_end_time">Ankunftzeit liegt nicht nach Abfahrtszeit!</string>
+    <string name="connection_error_msg_title">Fehler</string>
     <!-- Analysis -->
     <string name="analysis_tab_tilte">Auswertung</string>
 

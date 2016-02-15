@@ -6,9 +6,12 @@ import java.util.Calendar;
 import java.util.Date;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.TimePickerDialog;
 import android.app.TimePickerDialog.OnTimeSetListener;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.text.format.DateFormat;
 import android.view.View;
 import android.widget.CheckBox;
@@ -38,6 +41,8 @@ public class EditConnectionActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.edit_connection);
 
+		connection = createConnection();
+
 		initActivity();
 	}
 
@@ -50,21 +55,49 @@ public class EditConnectionActivity extends Activity {
 
 		nameEditText = (EditText) findViewById(R.id.editTextConnectionName);
 		nameEditText.setText(connection.getName());
+		nameEditText.addTextChangedListener(new TextWatcher() {
+			@Override
+			public void onTextChanged(CharSequence s, int start, int before, int count) {
+				validateName();
+			}
+
+			@Override
+			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+			}
+
+			@Override
+			public void afterTextChanged(Editable s) {
+			}
+		});
 
 		startStationEditText = (EditText) findViewById(R.id.editTextConnectionStartStation);
 		startStationEditText.setText(connection.getStartStation());
+		startStationEditText.addTextChangedListener(new TextWatcher() {
+			@Override
+			public void onTextChanged(CharSequence s, int start, int before, int count) {
+				validateStartStation();
+			}
+
+			@Override
+			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+			}
+
+			@Override
+			public void afterTextChanged(Editable s) {
+			}
+		});
 
 		final Calendar c = Calendar.getInstance();
 		c.setTime(connection.getStartTime());
-		endTimeTextView = (TextView) findViewById(R.id.editTextConnectionStartTime);
-		endTimeTextView.setText(TIME_FORMAT.format(c.getTime()));
+		startTimeTextView = (TextView) findViewById(R.id.editTextConnectionStartTime);
+		startTimeTextView.setText(TIME_FORMAT.format(c.getTime()));
 
-		EditText endStationEditText = (EditText) findViewById(R.id.editTextConnectionEndStation);
+		endStationEditText = (EditText) findViewById(R.id.editTextConnectionEndStation);
 		endStationEditText.setText(connection.getEndStation());
 
 		c.setTime(connection.getEndTime());
-		startTimeTextView = (TextView) findViewById(R.id.editTextConnectionEndTime);
-		startTimeTextView.setText(TIME_FORMAT.format(c.getTime()));
+		endTimeTextView = (TextView) findViewById(R.id.editTextConnectionEndTime);
+		endTimeTextView.setText(TIME_FORMAT.format(c.getTime()));
 
 		checkBoxConnectionMoFr = (CheckBox) findViewById(R.id.checkBoxConnectionMoFr);
 		checkBoxConnectionMoFr.setSelected(connection.isWeekdays());
@@ -80,26 +113,6 @@ public class EditConnectionActivity extends Activity {
 	}
 
 	public void onSave(final View view) {
-
-		connection.setName(nameEditText.getText().toString());
-
-		connection.setStartStation(startStationEditText.getText().toString());
-
-		String timeString = startTimeTextView.getText().toString();
-		try {
-			final Date time = TIME_FORMAT.parse(timeString);
-			connection.setStartTime(time);
-		} catch (final ParseException e) {
-		}
-
-		connection.setEndStation(endStationEditText.getText().toString());
-
-		timeString = endTimeTextView.getText().toString();
-		try {
-			final Date time = TIME_FORMAT.parse(timeString);
-			connection.setEndTime(time);
-		} catch (final ParseException e) {
-		}
 
 		connection.setWeekdays(checkBoxConnectionMoFr.isSelected());
 		connection.setSaturday(checkBoxConnectionSa.isSelected());
@@ -117,9 +130,119 @@ public class EditConnectionActivity extends Activity {
 
 		boolean ok = true;
 
+		if (!validateName()) {
+			ok = false;
+		}
+		if (!validateStartStation()) {
+			ok = false;
+		}
+		if (!validateEndStation()) {
+			ok = false;
+		}
+		if (ok) {
+			if (!validateTimes()) {
+				return false;
+			}
+		}
+
+		return ok;
+
+	}
+
+	private boolean validateName() {
+
+		connection.setName(nameEditText.getText().toString());
+
 		if (StringUtils.isEmpty(connection.getName())) {
 			nameEditText.setError(getString(R.string.connection_error_no_name));
+			return false;
+		} else {
+			nameEditText.setError(null);
+			return true;
+		}
+
+	}
+
+	private boolean validateStartStation() {
+
+		connection.setStartStation(startStationEditText.getText().toString());
+
+		if (StringUtils.isEmpty(connection.getStartStation())) {
+			startStationEditText.setError(getString(R.string.connection_error_no_start_station));
+			return false;
+		} else {
+			startStationEditText.setError(null);
+			return true;
+		}
+
+	}
+
+	private boolean validateEndStation() {
+
+		connection.setEndStation(endStationEditText.getText().toString());
+
+		if (StringUtils.isEmpty(connection.getEndStation())) {
+			endStationEditText.setError(getString(R.string.connection_error_no_end_station));
+			return false;
+		} else {
+			endStationEditText.setError(null);
+			return true;
+		}
+
+	}
+
+	private boolean validateTimes() {
+
+		boolean ok = true;
+		startTimeTextView.setError(null);
+		endTimeTextView.setError(null);
+
+		String errorMessage = "";
+
+		String timeString = startTimeTextView.getText().toString();
+		try {
+			final Date time = TIME_FORMAT.parse(timeString);
+			connection.setStartTime(time);
+		} catch (final ParseException e) {
+			// startTimeTextView.setError(getString(R.string.connection_error_no_start_time));
+			if (errorMessage.length() > 0) {
+				errorMessage += "\n";
+			}
+			errorMessage += getString(R.string.connection_error_no_start_time);
 			ok = false;
+		}
+
+		timeString = endTimeTextView.getText().toString();
+		try {
+			final Date time = TIME_FORMAT.parse(timeString);
+			connection.setEndTime(time);
+		} catch (final ParseException e) {
+			// endTimeTextView.setError(getString(R.string.connection_error_no_time));
+			if (errorMessage.length() > 0) {
+				errorMessage += "\n";
+			}
+			errorMessage += getString(R.string.connection_error_no_end_time);
+			ok = false;
+		}
+
+		if (ok) {
+			if (!connection.getEndTime().after(connection.getStartTime())) {
+				// endTimeTextView.setError(getString(R.string.connection_error_end_time));
+				if (errorMessage.length() > 0) {
+					errorMessage += "\n";
+				}
+				errorMessage += getString(R.string.connection_error_end_time);
+				ok = false;
+			}
+		}
+
+		if (!ok && !StringUtils.isEmpty(errorMessage)) {
+			AlertDialog.Builder builder = new AlertDialog.Builder(this);
+			builder.setMessage(errorMessage) //
+					// .setIcon(android.R.drawable.stat_notify_error)
+					.setTitle(R.string.connection_error_msg_title);
+			builder.create();
+			builder.show();
 		}
 
 		return ok;
