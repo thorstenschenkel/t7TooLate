@@ -1,9 +1,11 @@
 package de.t7soft.android.t7toolate.model;
 
 import java.util.Date;
+import java.util.UUID;
 
 public class Connection {
 
+	private final String id;
 	private String name;
 	private String startStation;
 	private Date startTime;
@@ -14,14 +16,19 @@ public class Connection {
 	private boolean sunday;
 
 	public Connection() {
-		name = "";
-		startTime = new Date();
-		startStation = "";
-		endTime = new Date();
-		endStation = "";
-		weekdays = true;
-		saturday = true;
-		sunday = true;
+		this(UUID.randomUUID().toString());
+	}
+
+	public Connection(String id) {
+		this.id = id;
+		this.name = "";
+		this.startTime = new Date();
+		this.startStation = "";
+		this.endTime = new Date();
+		this.endStation = "";
+		this.weekdays = true;
+		this.saturday = true;
+		this.sunday = true;
 	}
 
 	public String getName() {
@@ -86,6 +93,10 @@ public class Connection {
 
 	public void setSunday(boolean sunday) {
 		this.sunday = sunday;
+	}
+
+	public String getId() {
+		return id;
 	}
 
 }

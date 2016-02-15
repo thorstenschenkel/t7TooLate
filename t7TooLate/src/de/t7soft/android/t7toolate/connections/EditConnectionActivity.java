@@ -21,6 +21,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import de.t7soft.android.t7toolate.R;
+import de.t7soft.android.t7toolate.database.ToLateDatabaseAdapter;
 import de.t7soft.android.t7toolate.model.Connection;
 import de.t7soft.android.t7toolate.utils.StringUtils;
 
@@ -36,6 +37,7 @@ public class EditConnectionActivity extends Activity {
 	protected CheckBox checkBoxConnectionMoFr;
 	protected CheckBox checkBoxConnectionSa;
 	protected CheckBox checkBoxConnectionSu;
+	protected ToLateDatabaseAdapter dbAdapter;
 
 	@Override
 	protected void onCreate(final Bundle savedInstanceState) {
@@ -43,9 +45,25 @@ public class EditConnectionActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.edit_connection);
 
+		if (dbAdapter == null) {
+			dbAdapter = new ToLateDatabaseAdapter(this);
+		}
+
 		connection = createConnection();
 
 		initActivity();
+	}
+
+	@Override
+	protected void onResume() {
+		dbAdapter.open();
+		super.onResume();
+	}
+
+	@Override
+	protected void onPause() {
+		dbAdapter.close();
+		super.onPause();
 	}
 
 	protected Connection createConnection() {
@@ -124,8 +142,15 @@ public class EditConnectionActivity extends Activity {
 			return;
 		}
 
-		// TODO
+		if (save()) {
+			finish();
+		}
 
+	}
+
+	protected boolean save() {
+		// TODO Auto-generated method stub
+		return true;
 	}
 
 	private boolean validate() {
@@ -266,7 +291,7 @@ public class EditConnectionActivity extends Activity {
 
 	}
 
-	private void showErrorMsg(String errorMessage) {
+	protected void showErrorMsg(String errorMessage) {
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
 		builder.setMessage(errorMessage) //
 				// .setIcon(android.R.drawable.stat_notify_error)

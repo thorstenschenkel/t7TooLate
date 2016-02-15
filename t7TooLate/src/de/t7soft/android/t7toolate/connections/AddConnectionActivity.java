@@ -30,4 +30,15 @@ public class AddConnectionActivity extends EditConnectionActivity {
 		return new Connection();
 	}
 
+	@Override
+	protected boolean save() {
+		long rowId = dbAdapter.insertConnection(connection);
+		if (rowId == -1) {
+			String errorMsg = getString(R.string.connection_error_insert);
+			showErrorMsg(errorMsg);
+			return false;
+		}
+		return true;
+	}
+
 }
