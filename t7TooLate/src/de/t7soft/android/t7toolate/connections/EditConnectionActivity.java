@@ -9,6 +9,8 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.TimePickerDialog;
 import android.app.TimePickerDialog.OnTimeSetListener;
+import android.content.DialogInterface;
+import android.content.DialogInterface.OnClickListener;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -100,11 +102,11 @@ public class EditConnectionActivity extends Activity {
 		endTimeTextView.setText(TIME_FORMAT.format(c.getTime()));
 
 		checkBoxConnectionMoFr = (CheckBox) findViewById(R.id.checkBoxConnectionMoFr);
-		checkBoxConnectionMoFr.setSelected(connection.isWeekdays());
+		checkBoxConnectionMoFr.setChecked(connection.isWeekdays());
 		checkBoxConnectionSa = (CheckBox) findViewById(R.id.checkBoxConnectionSa);
-		checkBoxConnectionSa.setSelected(connection.isSaturday());
+		checkBoxConnectionSa.setChecked(connection.isSaturday());
 		checkBoxConnectionSu = (CheckBox) findViewById(R.id.checkBoxConnectionSu);
-		checkBoxConnectionSu.setSelected(connection.isSunday());
+		checkBoxConnectionSu.setChecked(connection.isSunday());
 
 	}
 
@@ -141,6 +143,9 @@ public class EditConnectionActivity extends Activity {
 		}
 		if (ok) {
 			if (!validateTimes()) {
+				return false;
+			}
+			if (!validateWeekdays()) {
 				return false;
 			}
 		}
@@ -237,16 +242,43 @@ public class EditConnectionActivity extends Activity {
 		}
 
 		if (!ok && !StringUtils.isEmpty(errorMessage)) {
-			AlertDialog.Builder builder = new AlertDialog.Builder(this);
-			builder.setMessage(errorMessage) //
-					// .setIcon(android.R.drawable.stat_notify_error)
-					.setTitle(R.string.connection_error_msg_title);
-			builder.create();
-			builder.show();
+			showErrorMsg(errorMessage);
 		}
 
 		return ok;
 
+	}
+
+	private boolean validateWeekdays() {
+
+		connection.setWeekdays(checkBoxConnectionMoFr.isChecked());
+		connection.setSaturday(checkBoxConnectionSa.isChecked());
+		connection.setSunday(checkBoxConnectionSu.isChecked());
+
+		if (connection.isWeekdays() || connection.isSaturday() || connection.isSunday()) {
+			return true;
+		}
+
+		String errorMessage = getString(R.string.connection_error_weekdays);
+		showErrorMsg(errorMessage);
+
+		return false;
+
+	}
+
+	private void showErrorMsg(String errorMessage) {
+		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		builder.setMessage(errorMessage) //
+				// .setIcon(android.R.drawable.stat_notify_error)
+				.setTitle(R.string.connection_error_msg_title);
+		builder.setPositiveButton(getString(R.string.ok), new OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				dialog.dismiss();
+			}
+		});
+		builder.create();
+		builder.show();
 	}
 
 	public void onStartTime(final View view) {
