@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/connection_padding_y"
+    android:paddingLeft="@dimen/connection_padding_x"
+    android:paddingRight="@dimen/connection_padding_x"
+    android:paddingTop="@dimen/connection_padding_y" >
+
+    <TextView
+        android:id="@+id/textViewRowConnectionName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/connection_dummy_name"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <LinearLayout
+        android:layout_marginTop="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:baselineAligned="false" >
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5" >
+
+            <TextView
+                android:id="@+id/textViewRowConnectionStartTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingRight="@dimen/connection_time_padding_right"
+                android:text="@string/connection_dummy_time"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="@android:color/secondary_text_light" />
+
+            <TextView
+                android:id="@+id/textViewRowConnectionStartStation"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/connection_dummy_station"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="@android:color/primary_text_light_nodisable"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5" >
+
+            <TextView
+                android:id="@+id/textViewRowConnectionEndTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="@dimen/connection_time_padding_left"
+                android:paddingRight="@dimen/connection_time_padding_right"
+                android:text="@string/connection_dummy_time"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="@android:color/secondary_text_light" />
+
+            <TextView
+                android:id="@+id/textViewRowConnectionEndStation"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/connection_dummy_station"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="@android:color/primary_text_light_nodisable"
+                android:textStyle="bold" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- <LinearLayout -->
+    <!-- android:layout_width="match_parent" -->
+    <!-- android:layout_height="wrap_content" -->
+    <!-- android:orientation="horizontal" > -->
+
+
+    <!-- <LinearLayout -->
+    <!-- android:layout_width="0dp" -->
+    <!-- android:layout_height="wrap_content" -->
+    <!-- android:layout_weight="0.5" -->
+    <!-- android:orientation="horizontal" > -->
+
+
+    <!-- <TextView -->
+    <!-- android:id="@+id/textViewRowConnectionStartTime" -->
+    <!-- android:layout_width="wrap_content" -->
+    <!-- android:layout_height="wrap_content" -->
+    <!-- android:paddingLeft="@dimen/connection_time_padding_left" -->
+    <!-- android:paddingRight="@dimen/connection_time_padding_right" -->
+    <!-- android:text="@string/connection_dummy_time" -->
+    <!-- android:textAppearance="?android:attr/textAppearanceSmall" -->
+    <!-- android:textColor="@android:color/secondary_text_light" /> -->
+
+
+    <!-- <TextView -->
+    <!-- android:id="@+id/textViewRowConnectionStartStation" -->
+    <!-- android:layout_width="wrap_content" -->
+    <!-- android:layout_height="wrap_content" -->
+    <!-- android:text="@string/connection_dummy_station" -->
+    <!-- android:textAppearance="?android:attr/textAppearanceSmall" -->
+    <!-- android:textColor="@android:color/primary_text_light_nodisable" -->
+    <!-- android:textStyle="bold" /> -->
+    <!-- </LinearLayout> -->
+
+
+    <!-- <LinearLayout -->
+    <!-- android:layout_width="0dp" -->
+    <!-- android:layout_height="wrap_content" -->
+    <!-- android:layout_weight="0.5" -->
+    <!-- android:orientation="horizontal" > -->
+
+
+    <!-- <TextView -->
+    <!-- android:id="@+id/textViewRowConnectionEndTime" -->
+    <!-- android:layout_width="wrap_content" -->
+    <!-- android:layout_height="wrap_content" -->
+    <!-- android:paddingLeft="@dimen/connection_time_padding_left" -->
+    <!-- android:paddingRight="@dimen/connection_time_padding_right" -->
+    <!-- android:text="@string/connection_dummy_time" -->
+    <!-- android:textAppearance="?android:attr/textAppearanceSmall" -->
+    <!-- android:textColor="@android:color/secondary_text_light" /> -->
+
+
+    <!-- <TextView -->
+    <!-- android:id="@+id/textViewRowConnectionEndStation" -->
+    <!-- android:layout_width="wrap_content" -->
+    <!-- android:layout_height="wrap_content" -->
+    <!-- android:text="@string/connection_dummy_station" -->
+    <!-- android:textAppearance="?android:attr/textAppearanceSmall" -->
+    <!-- android:textColor="@android:color/primary_text_light_nodisable" -->
+    <!-- android:textStyle="bold" /> -->
+    <!-- </LinearLayout> -->
+    <!-- </LinearLayout> -->
+
+</LinearLayout>

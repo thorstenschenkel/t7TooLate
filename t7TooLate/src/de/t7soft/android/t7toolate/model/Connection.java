@@ -19,7 +19,7 @@ public class Connection {
 		this(UUID.randomUUID().toString());
 	}
 
-	public Connection(String id) {
+	public Connection(final String id) {
 		this.id = id;
 		this.name = "";
 		this.startTime = new Date();
@@ -35,7 +35,7 @@ public class Connection {
 		return name;
 	}
 
-	public void setName(String name) {
+	public void setName(final String name) {
 		this.name = name;
 	}
 
@@ -43,7 +43,7 @@ public class Connection {
 		return startStation;
 	}
 
-	public void setStartStation(String startStation) {
+	public void setStartStation(final String startStation) {
 		this.startStation = startStation;
 	}
 
@@ -51,7 +51,7 @@ public class Connection {
 		return startTime;
 	}
 
-	public void setStartTime(Date startTime) {
+	public void setStartTime(final Date startTime) {
 		this.startTime = startTime;
 	}
 
@@ -59,7 +59,7 @@ public class Connection {
 		return endStation;
 	}
 
-	public void setEndStation(String endStation) {
+	public void setEndStation(final String endStation) {
 		this.endStation = endStation;
 	}
 
@@ -67,7 +67,7 @@ public class Connection {
 		return endTime;
 	}
 
-	public void setEndTime(Date endTime) {
+	public void setEndTime(final Date endTime) {
 		this.endTime = endTime;
 	}
 
@@ -75,7 +75,7 @@ public class Connection {
 		return weekdays;
 	}
 
-	public void setWeekdays(boolean weekdays) {
+	public void setWeekdays(final boolean weekdays) {
 		this.weekdays = weekdays;
 	}
 
@@ -83,7 +83,7 @@ public class Connection {
 		return saturday;
 	}
 
-	public void setSaturday(boolean saturday) {
+	public void setSaturday(final boolean saturday) {
 		this.saturday = saturday;
 	}
 
@@ -91,12 +91,17 @@ public class Connection {
 		return sunday;
 	}
 
-	public void setSunday(boolean sunday) {
+	public void setSunday(final boolean sunday) {
 		this.sunday = sunday;
 	}
 
 	public String getId() {
 		return id;
+	}
+
+	@Override
+	public String toString() {
+		return getName() + " (from " + getStartStation() + " to " + getEndStation() + ")";
 	}
 
 }

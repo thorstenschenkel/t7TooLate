@@ -9,7 +9,7 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 
 public class MainTabPagerAdapter extends FragmentStatePagerAdapter {
 
-	private final List<AbstractTabFragment> fragmentList = new ArrayList<AbstractTabFragment>();
+	private final List<Fragment> fragmentList = new ArrayList<Fragment>();
 
 	public MainTabPagerAdapter(final FragmentManager fm) {
 		super(fm);
@@ -27,10 +27,10 @@ public class MainTabPagerAdapter extends FragmentStatePagerAdapter {
 
 	@Override
 	public CharSequence getPageTitle(final int position) {
-		return fragmentList.get(position).getTabTitle();
+		return ((ITabFragment) fragmentList.get(position)).getTabTitle();
 	}
 
-	public void addFrag(final AbstractTabFragment fragment) {
+	public void addFrag(final Fragment fragment) {
 		fragmentList.add(fragment);
 	}
 
