@@ -15,6 +15,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ListView;
 import de.t7soft.android.t7toolate.ITabFragment;
 import de.t7soft.android.t7toolate.R;
 import de.t7soft.android.t7toolate.database.ToLateDatabaseAdapter;
@@ -29,12 +30,12 @@ public class ConnectionsFragment extends ListFragment implements ITabFragment {
 	@Override
 	public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
 
-		// final ListView listView = getListView();
-
 		listAdapter = createListAdapter(connections);
 		setListAdapter(listAdapter);
 
-		return super.onCreateView(inflater, container, savedInstanceState);
+		final View view = super.onCreateView(inflater, container, savedInstanceState);
+		return view;
+
 	}
 
 	private ConnectionsListAdapter createListAdapter(final List<Connection> connections) {
@@ -69,6 +70,21 @@ public class ConnectionsFragment extends ListFragment implements ITabFragment {
 		setHasOptionsMenu(true);
 	}
 
+	public void onAdd(final View view) {
+		// TODO
+		showAddAction();
+	}
+
+	@Override
+	public void onStart() {
+		super.onStart();
+
+		final ListView listView = getListView();
+		final View footer = getActivity().getLayoutInflater().inflate(R.layout.connection_footer, null);
+		listView.addFooterView(footer);
+
+	}
+
 	@Override
 	public void onResume() {
 		dbAdapter.open();
@@ -101,6 +117,22 @@ public class ConnectionsFragment extends ListFragment implements ITabFragment {
 	private void showAddAction() {
 		final Intent intent = new Intent(this.getActivity(), AddConnectionActivity.class);
 		startActivity(intent);
+	}
+
+	@Override
+	public void onListItemClick(final ListView l, final View v, final int position, final long id) {
+
+		final int itemPosition = position - getListView().getHeaderViewsCount();
+		if ((itemPosition >= 0) && (itemPosition < getListAdapter().getCount())) {
+
+			final Connection connection = (Connection) getListAdapter().getItem(itemPosition);
+
+			final Intent intent = new Intent(getActivity(), EditConnectionActivity.class);
+			intent.putExtra(EditConnectionActivity.CONNECTION_ID, connection.getId());
+			startActivity(intent);
+
+		}
+
 	}
 
 }

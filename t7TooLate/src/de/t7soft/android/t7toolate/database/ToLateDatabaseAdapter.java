@@ -98,7 +98,7 @@ public class ToLateDatabaseAdapter {
 		return connections;
 	}
 
-	private Connection createConnection(final Cursor cursor) {
+	private static Connection createConnection(final Cursor cursor) {
 		final String id = getString(cursor, ToLateDatabaseHelper.CONNECTION_ID_COL_NAME);
 		final Connection connection = new Connection(id);
 		connection.setName(getString(cursor, ToLateDatabaseHelper.CONNECTION_NAME_COL_NAME));
@@ -154,6 +154,60 @@ public class ToLateDatabaseAdapter {
 			value = false;
 		}
 		return value;
+	}
+
+	public Connection getConnection(final String id) {
+		return getConnection(database, id);
+	}
+
+	private static Connection getConnection(final SQLiteDatabase db, final String id) {
+
+		Connection connection = null;
+
+		final String selection = createConnectionSelection(id);
+		final Cursor cursor = db.query(ToLateDatabaseHelper.CONNECTIONS_TABLE_NAME, null, selection, null, null, null,
+				null);
+
+		if (cursor != null) {
+			if (cursor.moveToFirst()) {
+				connection = createConnection(cursor);
+			}
+			cursor.close();
+		}
+
+		return connection;
+
+	}
+
+	private static String createConnectionSelection(final String id) {
+		return ToLateDatabaseHelper.CONNECTION_ID_COL_NAME + "=" + "\"" + id + "\"";
+	}
+
+	public long updateConnection(final Connection connection) {
+		return updateConnection(database, connection);
+	}
+
+	private static long updateConnection(final SQLiteDatabase db, final Connection connection) {
+		final String selection = createConnectionSelection(connection.getId());
+		final ContentValues values = new ContentValues();
+		values.put(ToLateDatabaseHelper.CONNECTION_NAME_COL_NAME, connection.getName());
+		values.put(ToLateDatabaseHelper.CONNECTION_START_STATION_COL_NAME, connection.getStartStation());
+		if (connection.getStartTime() != null) {
+			values.put(ToLateDatabaseHelper.CONNECTION_START_TIME_COL_NAME,
+					TIME_FORMAT.format(connection.getStartTime()));
+		} else {
+			values.put(ToLateDatabaseHelper.CONNECTION_START_TIME_COL_NAME, "");
+		}
+		values.put(ToLateDatabaseHelper.CONNECTION_END_STATION_COL_NAME, connection.getEndStation());
+		if (connection.getEndTime() != null) {
+			values.put(ToLateDatabaseHelper.CONNECTION_END_TIME_COL_NAME, TIME_FORMAT.format(connection.getEndTime()));
+		} else {
+			values.put(ToLateDatabaseHelper.CONNECTION_END_TIME_COL_NAME, "");
+		}
+		values.put(ToLateDatabaseHelper.CONNECTION_WEEKDAYS_COL_NAME, connection.isWeekdays());
+		values.put(ToLateDatabaseHelper.CONNECTION_SATURDAY_COL_NAME, connection.isSaturday());
+		values.put(ToLateDatabaseHelper.CONNECTION_SUNDAY_COL_NAME, connection.isSunday());
+		return db.update(ToLateDatabaseHelper.CONNECTIONS_TABLE_NAME, values, selection, null);
 	}
 
 }

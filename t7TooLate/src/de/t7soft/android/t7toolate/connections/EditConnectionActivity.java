@@ -27,6 +27,7 @@ import de.t7soft.android.t7toolate.utils.StringUtils;
 
 public class EditConnectionActivity extends Activity {
 
+	public static final String CONNECTION_ID = "connectionId";
 	protected static final java.text.DateFormat TIME_FORMAT = new SimpleDateFormat("HH:mm");
 	protected Connection connection;
 	protected EditText nameEditText;
@@ -38,6 +39,7 @@ public class EditConnectionActivity extends Activity {
 	protected CheckBox checkBoxConnectionSa;
 	protected CheckBox checkBoxConnectionSu;
 	protected ToLateDatabaseAdapter dbAdapter;
+	private boolean save_called;
 
 	@Override
 	protected void onCreate(final Bundle savedInstanceState) {
@@ -49,14 +51,14 @@ public class EditConnectionActivity extends Activity {
 			dbAdapter = new ToLateDatabaseAdapter(this);
 		}
 
-		connection = createConnection();
-
-		initActivity();
 	}
 
 	@Override
 	protected void onResume() {
 		dbAdapter.open();
+		connection = createConnection();
+		initActivity();
+		save_called = false;
 		super.onResume();
 	}
 
@@ -67,8 +69,8 @@ public class EditConnectionActivity extends Activity {
 	}
 
 	protected Connection createConnection() {
-		// TODO
-		return null;
+		final String connectionId = getIntent().getExtras().getString(CONNECTION_ID);
+		return dbAdapter.getConnection(connectionId);
 	}
 
 	private void initActivity() {
@@ -77,16 +79,16 @@ public class EditConnectionActivity extends Activity {
 		nameEditText.setText(connection.getName());
 		nameEditText.addTextChangedListener(new TextWatcher() {
 			@Override
-			public void onTextChanged(CharSequence s, int start, int before, int count) {
+			public void onTextChanged(final CharSequence s, final int start, final int before, final int count) {
 				validateName();
 			}
 
 			@Override
-			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+			public void beforeTextChanged(final CharSequence s, final int start, final int count, final int after) {
 			}
 
 			@Override
-			public void afterTextChanged(Editable s) {
+			public void afterTextChanged(final Editable s) {
 			}
 		});
 
@@ -94,16 +96,16 @@ public class EditConnectionActivity extends Activity {
 		startStationEditText.setText(connection.getStartStation());
 		startStationEditText.addTextChangedListener(new TextWatcher() {
 			@Override
-			public void onTextChanged(CharSequence s, int start, int before, int count) {
+			public void onTextChanged(final CharSequence s, final int start, final int before, final int count) {
 				validateStartStation();
 			}
 
 			@Override
-			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+			public void beforeTextChanged(final CharSequence s, final int start, final int count, final int after) {
 			}
 
 			@Override
-			public void afterTextChanged(Editable s) {
+			public void afterTextChanged(final Editable s) {
 			}
 		});
 
@@ -138,6 +140,8 @@ public class EditConnectionActivity extends Activity {
 		connection.setSaturday(checkBoxConnectionSa.isSelected());
 		connection.setSunday(checkBoxConnectionSu.isSelected());
 
+		save_called = true;
+
 		if (!validate()) {
 			return;
 		}
@@ -149,7 +153,12 @@ public class EditConnectionActivity extends Activity {
 	}
 
 	protected boolean save() {
-		// TODO Auto-generated method stub
+		final long rowId = dbAdapter.updateConnection(connection);
+		if (rowId == -1) {
+			final String errorMsg = getString(R.string.connection_error_update);
+			showErrorMsg(errorMsg);
+			return false;
+		}
 		return true;
 	}
 
@@ -181,6 +190,10 @@ public class EditConnectionActivity extends Activity {
 
 	private boolean validateName() {
 
+		if (!save_called) {
+			return false;
+		}
+
 		connection.setName(nameEditText.getText().toString());
 
 		if (StringUtils.isEmpty(connection.getName())) {
@@ -195,6 +208,10 @@ public class EditConnectionActivity extends Activity {
 
 	private boolean validateStartStation() {
 
+		if (!save_called) {
+			return false;
+		}
+
 		connection.setStartStation(startStationEditText.getText().toString());
 
 		if (StringUtils.isEmpty(connection.getStartStation())) {
@@ -208,6 +225,10 @@ public class EditConnectionActivity extends Activity {
 	}
 
 	private boolean validateEndStation() {
+
+		if (!save_called) {
+			return false;
+		}
 
 		connection.setEndStation(endStationEditText.getText().toString());
 
@@ -284,21 +305,21 @@ public class EditConnectionActivity extends Activity {
 			return true;
 		}
 
-		String errorMessage = getString(R.string.connection_error_weekdays);
+		final String errorMessage = getString(R.string.connection_error_weekdays);
 		showErrorMsg(errorMessage);
 
 		return false;
 
 	}
 
-	protected void showErrorMsg(String errorMessage) {
-		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+	protected void showErrorMsg(final String errorMessage) {
+		final AlertDialog.Builder builder = new AlertDialog.Builder(this);
 		builder.setMessage(errorMessage) //
 				// .setIcon(android.R.drawable.stat_notify_error)
 				.setTitle(R.string.connection_error_msg_title);
 		builder.setPositiveButton(getString(R.string.ok), new OnClickListener() {
 			@Override
-			public void onClick(DialogInterface dialog, int which) {
+			public void onClick(final DialogInterface dialog, final int which) {
 				dialog.dismiss();
 			}
 		});
@@ -329,7 +350,8 @@ public class EditConnectionActivity extends Activity {
 		final int hour = c.get(Calendar.HOUR_OF_DAY);
 		final int minute = c.get(Calendar.MINUTE);
 
-		final TimePickerDialog dlg = new TimePickerDialog(this, timeListener, hour, minute, DateFormat.is24HourFormat(this));
+		final TimePickerDialog dlg = new TimePickerDialog(this, timeListener, hour, minute,
+				DateFormat.is24HourFormat(this));
 		dlg.show();
 
 	}

@@ -45,6 +45,7 @@
     <string name="connection_error_no_end_time">Ankunftszeit fehlt oder ist nicht korrekt!</string>
     <string name="connection_error_end_time">Ankunftzeit liegt nicht nach Abfahrtszeit!</string>
     <string name="connection_error_insert">Verbindung konnte nicht gespeichert werden!</string>
+    <string name="connection_error_update">Verbindung konnte nicht gespeichert werden!</string>
     <string name="connection_error_weekdays">Es muss mindestens ein Wochentag ausgewählt sein!</string>
     <string name="connection_error_msg_title">Fehler</string>
     <!-- Analysis -->
