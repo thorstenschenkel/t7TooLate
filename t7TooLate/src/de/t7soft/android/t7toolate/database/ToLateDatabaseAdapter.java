@@ -58,8 +58,7 @@ public class ToLateDatabaseAdapter {
 		values.put(ToLateDatabaseHelper.CONNECTION_NAME_COL_NAME, connection.getName());
 		values.put(ToLateDatabaseHelper.CONNECTION_START_STATION_COL_NAME, connection.getStartStation());
 		if (connection.getStartTime() != null) {
-			values.put(ToLateDatabaseHelper.CONNECTION_START_TIME_COL_NAME,
-					TIME_FORMAT.format(connection.getStartTime()));
+			values.put(ToLateDatabaseHelper.CONNECTION_START_TIME_COL_NAME, TIME_FORMAT.format(connection.getStartTime()));
 		} else {
 			values.put(ToLateDatabaseHelper.CONNECTION_START_TIME_COL_NAME, "");
 		}
@@ -165,8 +164,7 @@ public class ToLateDatabaseAdapter {
 		Connection connection = null;
 
 		final String selection = createConnectionSelection(id);
-		final Cursor cursor = db.query(ToLateDatabaseHelper.CONNECTIONS_TABLE_NAME, null, selection, null, null, null,
-				null);
+		final Cursor cursor = db.query(ToLateDatabaseHelper.CONNECTIONS_TABLE_NAME, null, selection, null, null, null, null);
 
 		if (cursor != null) {
 			if (cursor.moveToFirst()) {
@@ -193,8 +191,7 @@ public class ToLateDatabaseAdapter {
 		values.put(ToLateDatabaseHelper.CONNECTION_NAME_COL_NAME, connection.getName());
 		values.put(ToLateDatabaseHelper.CONNECTION_START_STATION_COL_NAME, connection.getStartStation());
 		if (connection.getStartTime() != null) {
-			values.put(ToLateDatabaseHelper.CONNECTION_START_TIME_COL_NAME,
-					TIME_FORMAT.format(connection.getStartTime()));
+			values.put(ToLateDatabaseHelper.CONNECTION_START_TIME_COL_NAME, TIME_FORMAT.format(connection.getStartTime()));
 		} else {
 			values.put(ToLateDatabaseHelper.CONNECTION_START_TIME_COL_NAME, "");
 		}
@@ -208,6 +205,15 @@ public class ToLateDatabaseAdapter {
 		values.put(ToLateDatabaseHelper.CONNECTION_SATURDAY_COL_NAME, connection.isSaturday());
 		values.put(ToLateDatabaseHelper.CONNECTION_SUNDAY_COL_NAME, connection.isSunday());
 		return db.update(ToLateDatabaseHelper.CONNECTIONS_TABLE_NAME, values, selection, null);
+	}
+
+	public int deleteConnection(Connection connection) {
+		return deleteConnection(database, connection);
+	}
+
+	public static int deleteConnection(final SQLiteDatabase db, Connection connection) {
+		final String selection = createConnectionSelection(connection.getId());
+		return db.delete(ToLateDatabaseHelper.CONNECTIONS_TABLE_NAME, selection, null);
 	}
 
 }

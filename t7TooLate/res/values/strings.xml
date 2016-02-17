@@ -9,6 +9,8 @@
     <!-- Common -->
     <string name="ok">OK</string>
     <string name="cancel">Abbrechen</string>
+    <string name="yes">Ja</string>
+    <string name="no">Nein</string>
     <string name="add">Hinzufügen</string>
     <string name="save">Speichern</string>
     <string name="time_picker">Zeitauswahl</string>
@@ -48,6 +50,8 @@
     <string name="connection_error_update">Verbindung konnte nicht gespeichert werden!</string>
     <string name="connection_error_weekdays">Es muss mindestens ein Wochentag ausgewählt sein!</string>
     <string name="connection_error_msg_title">Fehler</string>
+    <string name="connection_delete_msg_title">Löschen</string>
+    <string name="connection_delete_msg_text">Soll die Verbindung \"{0}\" gelöscht werden?</string>
     <!-- Analysis -->
     <string name="analysis_tab_tilte">Auswertung</string>
 

@@ -1,5 +1,6 @@
 package de.t7soft.android.t7toolate.connections;
 
+import java.text.MessageFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -15,6 +16,8 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.text.format.DateFormat;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -41,6 +44,10 @@ public class EditConnectionActivity extends Activity {
 	protected ToLateDatabaseAdapter dbAdapter;
 	private boolean save_called;
 
+	protected boolean isEdit() {
+		return true;
+	}
+
 	@Override
 	protected void onCreate(final Bundle savedInstanceState) {
 
@@ -66,6 +73,51 @@ public class EditConnectionActivity extends Activity {
 	protected void onPause() {
 		dbAdapter.close();
 		super.onPause();
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		if (isEdit()) {
+			getMenuInflater().inflate(R.menu.edit_connections, menu);
+		}
+		return super.onCreateOptionsMenu(menu);
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(final MenuItem item) {
+		if (isEdit()) {
+			switch (item.getItemId()) {
+				case R.id.action_delete:
+					deleteConnection();
+					return true;
+			}
+		}
+		return super.onOptionsItemSelected(item);
+	}
+
+	private void deleteConnection() {
+		String deleteMessage = getString(R.string.connection_delete_msg_text);
+		deleteMessage = MessageFormat.format(deleteMessage, connection.getName());
+		final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		builder.setMessage(deleteMessage) //
+				// .setIcon(android.R.drawable.stat_notify_error)
+				.setTitle(R.string.connection_delete_msg_title);
+		builder.setPositiveButton(getString(R.string.yes), new OnClickListener() {
+			@Override
+			public void onClick(final DialogInterface dialog, final int which) {
+				dbAdapter.deleteConnection(connection);
+				dialog.dismiss();
+				finish();
+			}
+		});
+		builder.setNegativeButton(getString(R.string.no), new OnClickListener() {
+			@Override
+			public void onClick(final DialogInterface dialog, final int which) {
+				dialog.dismiss();
+			}
+		});
+		builder.create();
+		builder.show();
 	}
 
 	protected Connection createConnection() {
@@ -116,6 +168,20 @@ public class EditConnectionActivity extends Activity {
 
 		endStationEditText = (EditText) findViewById(R.id.editTextConnectionEndStation);
 		endStationEditText.setText(connection.getEndStation());
+		endStationEditText.addTextChangedListener(new TextWatcher() {
+			@Override
+			public void onTextChanged(final CharSequence s, final int start, final int before, final int count) {
+				validateEndStation();
+			}
+
+			@Override
+			public void beforeTextChanged(final CharSequence s, final int start, final int count, final int after) {
+			}
+
+			@Override
+			public void afterTextChanged(final Editable s) {
+			}
+		});
 
 		c.setTime(connection.getEndTime());
 		endTimeTextView = (TextView) findViewById(R.id.editTextConnectionEndTime);
@@ -350,8 +416,7 @@ public class EditConnectionActivity extends Activity {
 		final int hour = c.get(Calendar.HOUR_OF_DAY);
 		final int minute = c.get(Calendar.MINUTE);
 
-		final TimePickerDialog dlg = new TimePickerDialog(this, timeListener, hour, minute,
-				DateFormat.is24HourFormat(this));
+		final TimePickerDialog dlg = new TimePickerDialog(this, timeListener, hour, minute, DateFormat.is24HourFormat(this));
 		dlg.show();
 
 	}

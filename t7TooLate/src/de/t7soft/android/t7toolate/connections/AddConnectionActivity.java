@@ -10,6 +10,11 @@ import de.t7soft.android.t7toolate.model.Connection;
 public class AddConnectionActivity extends EditConnectionActivity {
 
 	@Override
+	protected boolean isEdit() {
+		return false;
+	}
+
+	@Override
 	protected void onCreate(final Bundle savedInstanceState) {
 
 		super.onCreate(savedInstanceState);
