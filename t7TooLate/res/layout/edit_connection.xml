@@ -19,7 +19,7 @@
             android:src="@drawable/ic_edit" />
 
         <TextView
-            android:id="@+id/textViewEditConnectionSubTitle"
+            android:id="@+id/textViewEditConnectionSubTitle" 
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingBottom="@dimen/subtitle_paddingY"

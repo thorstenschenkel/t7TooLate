@@ -9,9 +9,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -30,11 +27,12 @@ public class ConnectionsFragment extends ListFragment implements ITabFragment {
 	@Override
 	public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
 
+		final View connectionsView = inflater.inflate(R.layout.connections, container, false);
+
 		listAdapter = createListAdapter(connections);
 		setListAdapter(listAdapter);
 
-		final View view = super.onCreateView(inflater, container, savedInstanceState);
-		return view;
+		return connectionsView;
 
 	}
 
@@ -71,18 +69,7 @@ public class ConnectionsFragment extends ListFragment implements ITabFragment {
 	}
 
 	public void onAdd(final View view) {
-		// TODO
 		showAddAction();
-	}
-
-	@Override
-	public void onStart() {
-		super.onStart();
-
-		final ListView listView = getListView();
-		final View footer = getActivity().getLayoutInflater().inflate(R.layout.connection_footer, null);
-		listView.addFooterView(footer);
-
 	}
 
 	@Override
@@ -96,22 +83,6 @@ public class ConnectionsFragment extends ListFragment implements ITabFragment {
 	public void onPause() {
 		dbAdapter.close();
 		super.onPause();
-	}
-
-	@Override
-	public void onCreateOptionsMenu(final Menu menu, final MenuInflater inflater) {
-		inflater.inflate(R.menu.connections, menu);
-		super.onCreateOptionsMenu(menu, inflater);
-	}
-
-	@Override
-	public boolean onOptionsItemSelected(final MenuItem item) {
-		switch (item.getItemId()) {
-			case R.id.action_add:
-				showAddAction();
-				return true;
-		}
-		return super.onOptionsItemSelected(item);
 	}
 
 	private void showAddAction() {
