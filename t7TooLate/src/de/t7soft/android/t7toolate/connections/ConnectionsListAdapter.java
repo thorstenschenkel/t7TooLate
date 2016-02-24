@@ -16,12 +16,10 @@ public class ConnectionsListAdapter extends BaseAdapter {
 
 	private static final java.text.DateFormat TIME_FORMAT = new SimpleDateFormat("HH:mm");
 
-	private final Context context;
 	private final List<Connection> listItems;
 	private final LayoutInflater inflater;
 
 	public ConnectionsListAdapter(final Context context, final List<Connection> listItems) {
-		this.context = context;
 		this.listItems = listItems;
 		inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 	}

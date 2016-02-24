@@ -26,6 +26,13 @@ import de.t7soft.android.t7toolate.analysis.AnalysisFragment;
 import de.t7soft.android.t7toolate.capture.CaptueFragment;
 import de.t7soft.android.t7toolate.connections.ConnectionsFragment;
 
+/**
+ * 
+ * http://android-holo-colors.com/
+ * 
+ * @author tsc
+ * 
+ */
 public class MainActivity extends FragmentActivity {
 
 	// private static int[] TAB_TILTE_IDS = {

@@ -25,15 +25,17 @@
     <string name="connection_dummy_name">Dummy-Name</string>
     <string name="connection_dummy_time">12:34</string>
     <string name="connection_dummy_station">Dummy-Station</string>
-    <!-- Edit Connections -->
+    <!-- Edit Connection -->
+    <string name="show_connection_sub_tilte">Verbindungsdetails</string>
+    <!-- Edit Connection -->
     <string name="add_connection_sub_tilte">Verbindung hinzufügen</string>
     <string name="edit_connection_sub_tilte">Verbindung ändern</string>
     <string name="connection_name">Name</string>
     <string name="connection_name_hint">z.B. Zugnummer RE 4456</string>
     <string name="connection_start">Abfahrt</string>
     <string name="connection_end">Ankunft</string>
-    <string name="connection_stadion">Ort</string>
-    <string name="connection_stadion_hint">Haltstelle</string>
+    <string name="connection_station">Ort</string>
+    <string name="connection_station_hint">Haltstelle</string>
     <string name="connection_time">Zeit</string>
     <string name="connection_weekdays">Wochentage</string>
     <string name="connection_mo_fr">Mon.-Frei.</string>
