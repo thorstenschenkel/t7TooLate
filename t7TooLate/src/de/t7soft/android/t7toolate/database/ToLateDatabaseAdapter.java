@@ -19,16 +19,14 @@ public class ToLateDatabaseAdapter {
 	private static final String LOGTAG = ToLateDatabaseAdapter.class.getSimpleName();
 	private static final DateFormat TIME_FORMAT = new SimpleDateFormat("HH:mm");
 
-	private final Context context;
-	private ToLateDatabaseHelper dbHelper;
+	private final ToLateDatabaseHelper dbHelper;
 	private SQLiteDatabase database;
 
 	public ToLateDatabaseAdapter(final Context context) {
-		this.context = context;
+		dbHelper = new ToLateDatabaseHelper(context);
 	}
 
 	public void open() throws SQLException {
-		dbHelper = new ToLateDatabaseHelper(context);
 		database = dbHelper.getWritableDatabase();
 	}
 
@@ -58,7 +56,8 @@ public class ToLateDatabaseAdapter {
 		values.put(ToLateDatabaseHelper.CONNECTION_NAME_COL_NAME, connection.getName());
 		values.put(ToLateDatabaseHelper.CONNECTION_START_STATION_COL_NAME, connection.getStartStation());
 		if (connection.getStartTime() != null) {
-			values.put(ToLateDatabaseHelper.CONNECTION_START_TIME_COL_NAME, TIME_FORMAT.format(connection.getStartTime()));
+			values.put(ToLateDatabaseHelper.CONNECTION_START_TIME_COL_NAME,
+					TIME_FORMAT.format(connection.getStartTime()));
 		} else {
 			values.put(ToLateDatabaseHelper.CONNECTION_START_TIME_COL_NAME, "");
 		}
@@ -164,7 +163,8 @@ public class ToLateDatabaseAdapter {
 		Connection connection = null;
 
 		final String selection = createConnectionSelection(id);
-		final Cursor cursor = db.query(ToLateDatabaseHelper.CONNECTIONS_TABLE_NAME, null, selection, null, null, null, null);
+		final Cursor cursor = db.query(ToLateDatabaseHelper.CONNECTIONS_TABLE_NAME, null, selection, null, null, null,
+				null);
 
 		if (cursor != null) {
 			if (cursor.moveToFirst()) {
@@ -191,7 +191,8 @@ public class ToLateDatabaseAdapter {
 		values.put(ToLateDatabaseHelper.CONNECTION_NAME_COL_NAME, connection.getName());
 		values.put(ToLateDatabaseHelper.CONNECTION_START_STATION_COL_NAME, connection.getStartStation());
 		if (connection.getStartTime() != null) {
-			values.put(ToLateDatabaseHelper.CONNECTION_START_TIME_COL_NAME, TIME_FORMAT.format(connection.getStartTime()));
+			values.put(ToLateDatabaseHelper.CONNECTION_START_TIME_COL_NAME,
+					TIME_FORMAT.format(connection.getStartTime()));
 		} else {
 			values.put(ToLateDatabaseHelper.CONNECTION_START_TIME_COL_NAME, "");
 		}
@@ -207,11 +208,11 @@ public class ToLateDatabaseAdapter {
 		return db.update(ToLateDatabaseHelper.CONNECTIONS_TABLE_NAME, values, selection, null);
 	}
 
-	public int deleteConnection(Connection connection) {
+	public int deleteConnection(final Connection connection) {
 		return deleteConnection(database, connection);
 	}
 
-	public static int deleteConnection(final SQLiteDatabase db, Connection connection) {
+	public static int deleteConnection(final SQLiteDatabase db, final Connection connection) {
 		final String selection = createConnectionSelection(connection.getId());
 		return db.delete(ToLateDatabaseHelper.CONNECTIONS_TABLE_NAME, selection, null);
 	}
