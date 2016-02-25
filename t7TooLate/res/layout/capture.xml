@@ -14,7 +14,8 @@
         android:layout_height="wrap_content"
         android:labelFor="@+id/numberPickerConnection"
         android:text="@string/capture_connection"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="@color/header_text" />
 
     <NumberPicker
         android:id="@+id/numberPickerConnection"
@@ -29,7 +30,8 @@
         android:layout_marginTop="12dp"
         android:labelFor="@+id/textViewPlanedEndValue"
         android:text="@string/capture_planed_end"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="@color/header_text" />
 
     <TextView
         android:id="@+id/textViewPlanedEndValue"
@@ -39,7 +41,8 @@
         android:layout_marginRight="10dp"
         android:layout_marginTop="10dp"
         android:text="@string/connection_station"
-        android:textAppearance="?android:attr/textAppearanceSmall" />
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="?android:textColorPrimary" />
 
     <TextView
         android:id="@+id/textViewCurrent"
@@ -48,7 +51,8 @@
         android:layout_marginTop="12dp"
         android:labelFor="@+id/textViewCurrentValue"
         android:text="@string/capture_current"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="@color/header_text" />
 
     <TextView
         android:id="@+id/textViewCurrentValue"
@@ -58,7 +62,8 @@
         android:layout_marginRight="10dp"
         android:layout_marginTop="10dp"
         android:text="@string/connection_station"
-        android:textAppearance="?android:attr/textAppearanceSmall" />
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textColor="?android:textColorPrimary" />
 
     <Space
         android:layout_width="match_parent"

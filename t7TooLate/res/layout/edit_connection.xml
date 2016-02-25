@@ -19,7 +19,7 @@
             android:src="@drawable/ic_edit" />
 
         <TextView
-            android:id="@+id/textViewEditConnectionSubTitle" 
+            android:id="@+id/textViewEditConnectionSubTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingBottom="@dimen/subtitle_paddingY"
@@ -45,7 +45,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/connection_name"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@color/header_text" />
 
         <EditText
             android:id="@+id/editTextConnectionName"
@@ -65,7 +66,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
             android:text="@string/connection_start"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@color/header_text" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -143,7 +145,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
             android:text="@string/connection_end"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@color/header_text" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -221,7 +224,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
             android:text="@string/connection_weekdays"
-            android:textAppearance="?android:attr/textAppearanceMedium" />
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@color/header_text" />
 
         <LinearLayout
             android:layout_width="match_parent"

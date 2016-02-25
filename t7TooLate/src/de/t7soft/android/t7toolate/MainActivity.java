@@ -25,6 +25,7 @@ import android.webkit.WebView;
 import de.t7soft.android.t7toolate.analysis.AnalysisFragment;
 import de.t7soft.android.t7toolate.capture.CaptueFragment;
 import de.t7soft.android.t7toolate.connections.ConnectionsFragment;
+import de.t7soft.android.t7toolate.database.ToLateDatabaseAdapter;
 
 /**
  * 
@@ -35,16 +36,16 @@ import de.t7soft.android.t7toolate.connections.ConnectionsFragment;
  */
 public class MainActivity extends FragmentActivity {
 
-	// private static int[] TAB_TILTE_IDS = {
-	// R.string.capture_tab_tilte, R.string.connections_tab_tilte, R.string.analysis_tab_tilte
-	// };
-	private static int[] TAB_ICON_IDS = {
-			R.drawable.ic_time, R.drawable.ic_train, R.drawable.ic_analysis
-	};
+	private static int[] TAB_ICON_IDS = { R.drawable.ic_time, R.drawable.ic_train, R.drawable.ic_analysis };
+	private ToLateDatabaseAdapter dbAdapter;
 	private ConnectionsFragment connectionFragment;
 
 	@Override
 	protected void onCreate(final Bundle savedInstanceState) {
+
+		if (dbAdapter == null) {
+			dbAdapter = new ToLateDatabaseAdapter(this);
+		}
 
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
@@ -55,6 +56,18 @@ public class MainActivity extends FragmentActivity {
 		final ActionBar actionBar = getActionBar();
 		setupActionBar(actionBar, viewPager);
 
+	}
+
+	@Override
+	protected void onStart() {
+		super.onStart();
+		dbAdapter.open();
+	}
+
+	@Override
+	protected void onStop() {
+		super.onStop();
+		dbAdapter.close();
 	}
 
 	private void setupViewPager(final ViewPager viewPager) {
@@ -182,6 +195,10 @@ public class MainActivity extends FragmentActivity {
 			Log.e(this.getClass().getSimpleName(), "No build time!", e);
 			return null;
 		}
+	}
+
+	public ToLateDatabaseAdapter getDbAdapter() {
+		return dbAdapter;
 	}
 
 }

@@ -14,13 +14,13 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 import de.t7soft.android.t7toolate.ITabFragment;
+import de.t7soft.android.t7toolate.MainActivity;
 import de.t7soft.android.t7toolate.R;
 import de.t7soft.android.t7toolate.database.ToLateDatabaseAdapter;
 import de.t7soft.android.t7toolate.model.Connection;
 
 public class ConnectionsFragment extends ListFragment implements ITabFragment {
 
-	private ToLateDatabaseAdapter dbAdapter;
 	private final List<Connection> connections = new ArrayList<Connection>();
 	private BaseAdapter listAdapter;
 
@@ -43,7 +43,7 @@ public class ConnectionsFragment extends ListFragment implements ITabFragment {
 	private void updateListAdapter() {
 
 		connections.clear();
-		connections.addAll(dbAdapter.getAllConnections());
+		connections.addAll(getDbAdapter().getAllConnections());
 		Collections.sort(connections, new Comparator<Connection>() {
 			@Override
 			public int compare(final Connection connection1, final Connection connection2) {
@@ -59,30 +59,14 @@ public class ConnectionsFragment extends ListFragment implements ITabFragment {
 		return getResources().getString(R.string.connections_tab_tilte);
 	}
 
-	@Override
-	public void onCreate(final Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		if (dbAdapter == null) {
-			dbAdapter = new ToLateDatabaseAdapter(getActivity());
-		}
-		setHasOptionsMenu(true);
-	}
-
 	public void onAdd(final View view) {
 		showAddAction();
 	}
 
 	@Override
 	public void onResume() {
-		dbAdapter.open();
 		updateListAdapter();
 		super.onResume();
-	}
-
-	@Override
-	public void onPause() {
-		dbAdapter.close();
-		super.onPause();
 	}
 
 	private void showAddAction() {
@@ -104,6 +88,10 @@ public class ConnectionsFragment extends ListFragment implements ITabFragment {
 
 		}
 
+	}
+
+	public ToLateDatabaseAdapter getDbAdapter() {
+		return ((MainActivity) getActivity()).getDbAdapter();
 	}
 
 }

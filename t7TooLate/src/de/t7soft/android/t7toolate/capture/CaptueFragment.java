@@ -8,10 +8,9 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.text.Html;
 import android.text.Spanned;
@@ -22,6 +21,7 @@ import android.widget.NumberPicker;
 import android.widget.NumberPicker.OnValueChangeListener;
 import android.widget.TextView;
 import de.t7soft.android.t7toolate.ITabFragment;
+import de.t7soft.android.t7toolate.MainActivity;
 import de.t7soft.android.t7toolate.R;
 import de.t7soft.android.t7toolate.database.ToLateDatabaseAdapter;
 import de.t7soft.android.t7toolate.model.Connection;
@@ -30,13 +30,12 @@ public class CaptueFragment extends Fragment implements ITabFragment {
 
 	protected static final java.text.DateFormat TIME_FORMAT = new SimpleDateFormat("HH:mm");
 
-	private ToLateDatabaseAdapter dbAdapter;
 	private NumberPicker numberPickerConnection;
 	private TextView textViewPlanedEndValue;
 	private TextView textViewCurrentValue;
 	private List<Connection> connections;
-	private Timer timer;
-	private TimerTask timerTask;
+	private Handler currentHandler;
+	private Runnable currentRunnable;
 
 	@Override
 	public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
@@ -50,7 +49,7 @@ public class CaptueFragment extends Fragment implements ITabFragment {
 			@Override
 			public void onValueChange(final NumberPicker picker, final int oldVal, final int newVal) {
 				updatePlanedEnd(newVal);
-				updateCurrent(newVal);
+				updateCurrent();
 			}
 
 		});
@@ -90,8 +89,9 @@ public class CaptueFragment extends Fragment implements ITabFragment {
 
 	}
 
-	private void updateCurrent(final int index) {
+	private void updateCurrent() {
 
+		final int index = numberPickerConnection.getValue();
 		final Date now = Calendar.getInstance().getTime();
 		final String nowTimeStrg = TIME_FORMAT.format(now);
 		final long nowSeconds = getSeconds(now);
@@ -124,7 +124,7 @@ public class CaptueFragment extends Fragment implements ITabFragment {
 		numberPickerConnection.setWrapSelectorWheel(false);
 		numberPickerConnection.setMinValue(0);
 
-		connections = dbAdapter.getAllConnections();
+		connections = getDbAdapter().getAllConnections();
 		if ((connections != null) && (connections.size() > 0)) {
 
 			Collections.sort(connections, new Comparator<Connection>() {
@@ -143,7 +143,7 @@ public class CaptueFragment extends Fragment implements ITabFragment {
 			});
 
 			numberPickerConnection.setMaxValue(connections.size() - 1);
-			final List<String> connectionNames = new LinkedList<>();
+			final List<String> connectionNames = new LinkedList<String>();
 			for (final Connection connection : connections) {
 				connectionNames.add(connection.getName());
 			}
@@ -151,10 +151,10 @@ public class CaptueFragment extends Fragment implements ITabFragment {
 			numberPickerConnection.setDisplayedValues(connectionNamesArray);
 			numberPickerConnection.setValue(0);
 			updatePlanedEnd(0);
-			updateCurrent(0);
 		} else {
 			// TODO
 		}
+		updateCurrent();
 
 	}
 
@@ -164,40 +164,34 @@ public class CaptueFragment extends Fragment implements ITabFragment {
 	}
 
 	@Override
-	public void onCreate(final Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		if (dbAdapter == null) {
-			dbAdapter = new ToLateDatabaseAdapter(getActivity());
-			dbAdapter.open();
-		}
-		setHasOptionsMenu(true);
-	}
-
-	@Override
 	public void onResume() {
-		dbAdapter.open();
 		updatePicker();
 		super.onResume();
-		try {
-			timer = new Timer();
-			timerTask = new TimerTask() {
+
+		if (currentHandler == null) {
+			currentHandler = new Handler();
+		}
+		if (currentRunnable == null) {
+			currentRunnable = new Runnable() {
 				@Override
 				public void run() {
-					final int index = numberPickerConnection.getValue();
-					updateCurrent(index);
+					updateCurrent();
+					currentHandler.postDelayed(currentRunnable, 10000);
 				}
+
 			};
-			// timer.schedule(timerTask, 100, 10000);
-		} catch (final IllegalStateException e) {
-			android.util.Log.i("Damn", "resume error");
 		}
+		currentHandler.postDelayed(currentRunnable, 10000);
 	}
 
 	@Override
 	public void onPause() {
-		dbAdapter.close();
 		super.onPause();
-		timer.cancel();
+		currentHandler.removeCallbacks(currentRunnable);
+	}
+
+	public ToLateDatabaseAdapter getDbAdapter() {
+		return ((MainActivity) getActivity()).getDbAdapter();
 	}
 
 }
