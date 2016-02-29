@@ -14,6 +14,7 @@ public class Connection {
 	private boolean weekdays;
 	private boolean saturday;
 	private boolean sunday;
+	private int connectionType;
 
 	public Connection() {
 		this(UUID.randomUUID().toString());
@@ -29,6 +30,7 @@ public class Connection {
 		this.weekdays = true;
 		this.saturday = true;
 		this.sunday = true;
+		this.connectionType = ConnectionTypes.UNKOWN;
 	}
 
 	public String getName() {
@@ -102,6 +104,17 @@ public class Connection {
 	@Override
 	public String toString() {
 		return getName() + " (from " + getStartStation() + " to " + getEndStation() + ")";
+	}
+
+	public int getConnectionType() {
+		return connectionType;
+	}
+
+	public void setConnectionType(final int connectionType) {
+		this.connectionType = connectionType;
+		if ((this.connectionType < 0) && (this.connectionType > ConnectionTypes.PLANE)) {
+			this.connectionType = ConnectionTypes.UNKOWN;
+		}
 	}
 
 }

@@ -20,17 +20,18 @@ public class ToLateDatabaseHelper extends SQLiteOpenHelper {
 	public static final String CONNECTION_WEEKDAYS_COL_NAME = "weekdays";
 	public static final String CONNECTION_SATURDAY_COL_NAME = "saturday";
 	public static final String CONNECTION_SUNDAY_COL_NAME = "sunday";
+	public static final String CONNECTION_TYPE_COL_NAME = "type";
 
 	public ToLateDatabaseHelper(final Context context) {
 		super(context, DATABASE_NAME, null, DATABASE_VERSION);
 	}
 
 	@Override
-	public void onCreate(SQLiteDatabase db) {
+	public void onCreate(final SQLiteDatabase db) {
 		createConnectionsTable(db);
 	}
 
-	private void createConnectionsTable(SQLiteDatabase db) {
+	private void createConnectionsTable(final SQLiteDatabase db) {
 		final StringBuffer sqlBuffer = new StringBuffer();
 		sqlBuffer.append("CREATE TABLE IF NOT EXISTS ");
 		sqlBuffer.append(CONNECTIONS_TABLE_NAME);
@@ -63,12 +64,15 @@ public class ToLateDatabaseHelper extends SQLiteOpenHelper {
 		sqlBuffer.append(", ");
 		sqlBuffer.append(CONNECTION_SUNDAY_COL_NAME);
 		sqlBuffer.append(" INTEGER");
+		sqlBuffer.append(", ");
+		sqlBuffer.append(CONNECTION_TYPE_COL_NAME);
+		sqlBuffer.append(" INTEGER");
 		sqlBuffer.append(");");
 		db.execSQL(sqlBuffer.toString());
 	}
 
 	@Override
-	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+	public void onUpgrade(final SQLiteDatabase db, final int oldVersion, final int newVersion) {
 		if (oldVersion < DATABASE_VERSION) {
 			db.execSQL("DROP TABLE IF EXISTS " + CONNECTIONS_TABLE_NAME);
 		}

@@ -70,6 +70,7 @@ public class ToLateDatabaseAdapter {
 		values.put(ToLateDatabaseHelper.CONNECTION_WEEKDAYS_COL_NAME, connection.isWeekdays());
 		values.put(ToLateDatabaseHelper.CONNECTION_SATURDAY_COL_NAME, connection.isSaturday());
 		values.put(ToLateDatabaseHelper.CONNECTION_SUNDAY_COL_NAME, connection.isSunday());
+		values.put(ToLateDatabaseHelper.CONNECTION_TYPE_COL_NAME, connection.getConnectionType());
 		return values;
 	}
 
@@ -107,6 +108,7 @@ public class ToLateDatabaseAdapter {
 		connection.setWeekdays(getBoolean(cursor, ToLateDatabaseHelper.CONNECTION_WEEKDAYS_COL_NAME));
 		connection.setSaturday(getBoolean(cursor, ToLateDatabaseHelper.CONNECTION_SATURDAY_COL_NAME));
 		connection.setSunday(getBoolean(cursor, ToLateDatabaseHelper.CONNECTION_SUNDAY_COL_NAME));
+		connection.setConnectionType(getInt(cursor, ToLateDatabaseHelper.CONNECTION_TYPE_COL_NAME));
 		return connection;
 	}
 
@@ -132,6 +134,23 @@ public class ToLateDatabaseAdapter {
 			value = cursor.getString(columnIndex);
 		} catch (final Exception e) {
 			value = null;
+		}
+		return value;
+	}
+
+	private static int getInt(final Cursor cursor, final String columnName) {
+		return getInt(cursor, cursor.getColumnIndex(columnName));
+	}
+
+	private static int getInt(final Cursor cursor, final int columnIndex) {
+		int value = -1;
+		if (columnIndex < 0) {
+			return -1;
+		}
+		try {
+			value = cursor.getInt(columnIndex);
+		} catch (final Exception e) {
+			value = -1;
 		}
 		return value;
 	}
@@ -205,6 +224,7 @@ public class ToLateDatabaseAdapter {
 		values.put(ToLateDatabaseHelper.CONNECTION_WEEKDAYS_COL_NAME, connection.isWeekdays());
 		values.put(ToLateDatabaseHelper.CONNECTION_SATURDAY_COL_NAME, connection.isSaturday());
 		values.put(ToLateDatabaseHelper.CONNECTION_SUNDAY_COL_NAME, connection.isSunday());
+		values.put(ToLateDatabaseHelper.CONNECTION_TYPE_COL_NAME, connection.getConnectionType());
 		return db.update(ToLateDatabaseHelper.CONNECTIONS_TABLE_NAME, values, selection, null);
 	}
 
