@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="connection_types_array">
+        <item>unbekannt</item>
+        <item>Zug</item>
+        <item>Bus</item>
+        <item>Straßenbahn</item>
+        <item>Flugzeug</item>
+    </string-array>
+
+</resources>

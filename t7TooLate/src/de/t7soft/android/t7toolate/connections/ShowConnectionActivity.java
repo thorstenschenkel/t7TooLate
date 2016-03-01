@@ -13,25 +13,28 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.CheckBox;
+import android.widget.ImageView;
 import android.widget.TextView;
 import de.t7soft.android.t7toolate.R;
 import de.t7soft.android.t7toolate.database.ToLateDatabaseAdapter;
 import de.t7soft.android.t7toolate.model.Connection;
+import de.t7soft.android.t7toolate.model.ConnectionTypes;
 
 public class ShowConnectionActivity extends Activity {
 
 	public static final String CONNECTION_ID = "connectionId";
-	protected static final java.text.DateFormat TIME_FORMAT = new SimpleDateFormat("HH:mm");
-	protected Connection connection;
-	protected TextView nameValueTextView;
-	protected TextView startStationValueTextView;
-	protected TextView startTimeValueTextView;
-	protected TextView endStationValueTextView;
-	protected TextView endTimeValueTextView;
-	protected CheckBox checkBoxConnectionMoFr;
-	protected CheckBox checkBoxConnectionSa;
-	protected CheckBox checkBoxConnectionSu;
-	protected ToLateDatabaseAdapter dbAdapter;
+	private static final java.text.DateFormat TIME_FORMAT = new SimpleDateFormat("HH:mm");
+	private Connection connection;
+	private TextView nameValueTextView;
+	private ImageView connectionTypeImageView;
+	private TextView startStationValueTextView;
+	private TextView startTimeValueTextView;
+	private TextView endStationValueTextView;
+	private TextView endTimeValueTextView;
+	private CheckBox checkBoxConnectionMoFr;
+	private CheckBox checkBoxConnectionSa;
+	private CheckBox checkBoxConnectionSu;
+	private ToLateDatabaseAdapter dbAdapter;
 
 	@Override
 	protected void onCreate(final Bundle savedInstanceState) {
@@ -118,6 +121,9 @@ public class ShowConnectionActivity extends Activity {
 
 		nameValueTextView = (TextView) findViewById(R.id.textViewConnectionNameValue);
 		nameValueTextView.setText(connection.getName());
+
+		connectionTypeImageView = (ImageView) findViewById(R.id.imageViewConnectionType);
+		connectionTypeImageView.setImageResource(ConnectionTypes.ICON_IDS[connection.getConnectionType()]);
 
 		startStationValueTextView = (TextView) findViewById(R.id.textViewConnectionStartStationValue);
 		startStationValueTextView.setText(connection.getStartStation());

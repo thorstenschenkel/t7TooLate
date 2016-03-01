@@ -40,6 +40,7 @@
     <string name="edit_connection_sub_tilte">Verbindung ändern</string>
     <string name="connection_name">Name</string>
     <string name="connection_name_hint">z.B. Zugnummer RE 4456</string>
+    <string name="connection_type_hint">Art der Verbindung</string>
     <string name="connection_start">Abfahrt</string>
     <string name="connection_end">Ankunft</string>
     <string name="connection_station">Ort</string>

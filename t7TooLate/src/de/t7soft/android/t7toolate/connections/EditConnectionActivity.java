@@ -18,6 +18,7 @@ import android.text.format.DateFormat;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import de.t7soft.android.t7toolate.R;
@@ -31,6 +32,7 @@ public class EditConnectionActivity extends Activity {
 	protected static final java.text.DateFormat TIME_FORMAT = new SimpleDateFormat("HH:mm");
 	protected Connection connection;
 	protected EditText nameEditText;
+	protected Spinner spinnerConnectionType;
 	protected EditText startStationEditText;
 	protected TextView startTimeTextView;
 	protected EditText endStationEditText;
@@ -96,6 +98,13 @@ public class EditConnectionActivity extends Activity {
 			}
 		});
 
+		spinnerConnectionType = (Spinner) findViewById(R.id.sipnnerConnectionType);
+		final ConnectionTypeSpinnerAdapter spinnerAdapter = new ConnectionTypeSpinnerAdapter(this);
+		final CharSequence[] typeStrings = getResources().getTextArray(R.array.connection_types_array);
+		spinnerAdapter.addAll(typeStrings);
+		spinnerConnectionType.setAdapter(spinnerAdapter);
+		spinnerConnectionType.setSelection(connection.getConnectionType());
+
 		startStationEditText = (EditText) findViewById(R.id.editTextConnectionStartStation);
 		startStationEditText.setText(connection.getStartStation());
 		startStationEditText.addTextChangedListener(new TextWatcher() {
@@ -157,6 +166,7 @@ public class EditConnectionActivity extends Activity {
 		connection.setWeekdays(checkBoxConnectionMoFr.isSelected());
 		connection.setSaturday(checkBoxConnectionSa.isSelected());
 		connection.setSunday(checkBoxConnectionSu.isSelected());
+		connection.setConnectionType(spinnerConnectionType.getSelectedItemPosition());
 
 		save_called = true;
 

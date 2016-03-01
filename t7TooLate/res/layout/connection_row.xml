@@ -13,6 +13,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/connection_dummy_name"
+        android:drawableLeft="@drawable/ct_plane"
+        android:drawablePadding="10dp"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <LinearLayout

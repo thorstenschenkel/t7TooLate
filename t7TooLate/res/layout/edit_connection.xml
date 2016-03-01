@@ -48,17 +48,32 @@
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="@color/header_text" />
 
-        <EditText
-            android:id="@+id/editTextConnectionName"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:ems="10"
-            android:hint="@string/connection_name_hint"
-            android:singleLine="true" >
+            android:minHeight="40dp"
+            android:orientation="horizontal" >
 
-            <requestFocus />
-        </EditText>
+            <EditText
+                android:id="@+id/editTextConnectionName"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:ems="10"
+                android:hint="@string/connection_name_hint"
+                android:singleLine="true" >
+
+                <requestFocus />
+            </EditText>
+
+            <Spinner
+                android:layout_marginLeft="12dp"
+                android:id="@+id/sipnnerConnectionType"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" >
+            </Spinner>
+            
+        </LinearLayout>
 
         <TextView
             android:id="@+id/textViewConnectionStart"

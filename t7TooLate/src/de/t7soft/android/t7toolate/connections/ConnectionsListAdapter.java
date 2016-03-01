@@ -11,6 +11,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 import de.t7soft.android.t7toolate.R;
 import de.t7soft.android.t7toolate.model.Connection;
+import de.t7soft.android.t7toolate.model.ConnectionTypes;
 
 public class ConnectionsListAdapter extends BaseAdapter {
 
@@ -56,6 +57,8 @@ public class ConnectionsListAdapter extends BaseAdapter {
 
 		final TextView textViewName = (TextView) rowView.findViewById(R.id.textViewRowConnectionName);
 		textViewName.setText(connection.getName());
+		final int drawableResId = ConnectionTypes.ICON_IDS[connection.getConnectionType()];
+		textViewName.setCompoundDrawablesWithIntrinsicBounds(drawableResId, 0, 0, 0);
 
 		final TextView textViewStartStation = (TextView) rowView.findViewById(R.id.textViewRowConnectionStartStation);
 		textViewStartStation.setText(connection.getStartStation());
