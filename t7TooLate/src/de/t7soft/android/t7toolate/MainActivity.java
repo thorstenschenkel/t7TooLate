@@ -21,6 +21,7 @@ import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.webkit.WebView;
 import de.t7soft.android.t7toolate.analysis.AnalysisFragment;
 import de.t7soft.android.t7toolate.capture.CaptueFragment;
@@ -41,6 +42,7 @@ public class MainActivity extends FragmentActivity {
 	};
 	private ToLateDatabaseAdapter dbAdapter;
 	private CaptueFragment captueFragment;
+	private ConnectionsFragment connectionsFragment;
 
 	@Override
 	protected void onCreate(final Bundle savedInstanceState) {
@@ -72,12 +74,21 @@ public class MainActivity extends FragmentActivity {
 		dbAdapter.close();
 	}
 
+	public void onCapture(final View view) {
+		captueFragment.onCapture(view);
+	}
+
+	public void onAddConnection(final View view) {
+		connectionsFragment.onAdd(view);
+	}
+
 	private void setupViewPager(final ViewPager viewPager) {
 
 		final MainTabPagerAdapter adapter = new MainTabPagerAdapter(getSupportFragmentManager());
 		captueFragment = new CaptueFragment();
 		adapter.addFrag(captueFragment);
-		adapter.addFrag(new ConnectionsFragment());
+		connectionsFragment = new ConnectionsFragment();
+		adapter.addFrag(connectionsFragment);
 		adapter.addFrag(new AnalysisFragment());
 		viewPager.setAdapter(adapter);
 

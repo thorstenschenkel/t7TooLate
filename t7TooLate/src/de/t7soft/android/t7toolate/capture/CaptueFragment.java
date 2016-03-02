@@ -245,4 +245,8 @@ public class CaptueFragment extends Fragment implements ITabFragment {
 		selectionHandler.removeCallbacks(selectionRunnable);
 	}
 
+	public void onCapture(final View view) {
+		// TODO Auto-generated method stub
+	}
+
 }
