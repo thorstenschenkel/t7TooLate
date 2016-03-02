@@ -1,6 +1,7 @@
 package de.t7soft.android.t7toolate.capture;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -11,7 +12,6 @@ import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.widget.EditText;
 import android.widget.NumberPicker;
-import de.t7soft.android.t7toolate.model.ConnectionTypes;
 
 public class ConnectionPicker extends NumberPicker {
 
@@ -57,8 +57,8 @@ public class ConnectionPicker extends NumberPicker {
 
 						@Override
 						public void afterTextChanged(final Editable s) {
-							final int drawableResId = ConnectionTypes.ICON_IDS[1];
-							pickerInputText.setCompoundDrawablesWithIntrinsicBounds(drawableResId, 0, 0, 0);
+							// final int drawableResId = ConnectionTypes.ICON_IDS[1];
+							// pickerInputText.setCompoundDrawablesWithIntrinsicBounds(drawableResId, 0, 0, 0);
 						}
 					});
 					break;
@@ -84,4 +84,15 @@ public class ConnectionPicker extends NumberPicker {
 
 		return fields;
 	}
+
+	public void setValueInternal(final int current, final boolean notifyChange) {
+		try {
+			final Method m = getClass().getSuperclass().getDeclaredMethod("setValueInternal", int.class, boolean.class);
+			m.setAccessible(true);
+			m.invoke(this, current, notifyChange);
+		} catch (final Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 }

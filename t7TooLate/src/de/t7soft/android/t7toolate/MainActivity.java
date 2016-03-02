@@ -15,12 +15,12 @@ import android.content.DialogInterface;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.webkit.WebView;
 import de.t7soft.android.t7toolate.analysis.AnalysisFragment;
 import de.t7soft.android.t7toolate.capture.CaptueFragment;
@@ -36,9 +36,11 @@ import de.t7soft.android.t7toolate.database.ToLateDatabaseAdapter;
  */
 public class MainActivity extends FragmentActivity {
 
-	private static int[] TAB_ICON_IDS = { R.drawable.ic_time, R.drawable.ic_train, R.drawable.ic_analysis };
+	private static int[] TAB_ICON_IDS = {
+			R.drawable.ic_time, R.drawable.ic_train, R.drawable.ic_analysis
+	};
 	private ToLateDatabaseAdapter dbAdapter;
-	private ConnectionsFragment connectionFragment;
+	private CaptueFragment captueFragment;
 
 	@Override
 	protected void onCreate(final Bundle savedInstanceState) {
@@ -73,9 +75,9 @@ public class MainActivity extends FragmentActivity {
 	private void setupViewPager(final ViewPager viewPager) {
 
 		final MainTabPagerAdapter adapter = new MainTabPagerAdapter(getSupportFragmentManager());
-		adapter.addFrag(new CaptueFragment());
-		connectionFragment = new ConnectionsFragment();
-		adapter.addFrag(connectionFragment);
+		captueFragment = new CaptueFragment();
+		adapter.addFrag(captueFragment);
+		adapter.addFrag(new ConnectionsFragment());
 		adapter.addFrag(new AnalysisFragment());
 		viewPager.setAdapter(adapter);
 
@@ -84,6 +86,12 @@ public class MainActivity extends FragmentActivity {
 			public void onPageSelected(final int position) {
 				final ActionBar actionBar = getActionBar();
 				actionBar.setSelectedNavigationItem(position);
+				final Fragment selectedFragment = adapter.getItem(position);
+				if (selectedFragment == captueFragment) {
+					captueFragment.startUpdates();
+				} else {
+					captueFragment.stopUpdates();
+				}
 			}
 		});
 
@@ -141,10 +149,6 @@ public class MainActivity extends FragmentActivity {
 				return true;
 		}
 		return super.onOptionsItemSelected(item);
-	}
-
-	public void onAddConnection(final View view) {
-		connectionFragment.onAdd(view);
 	}
 
 	private void showAboutDlg() {

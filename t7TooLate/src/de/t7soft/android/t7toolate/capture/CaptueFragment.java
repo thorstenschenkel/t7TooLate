@@ -36,6 +36,8 @@ public class CaptueFragment extends Fragment implements ITabFragment {
 	private List<Connection> connections;
 	private Handler currentHandler;
 	private Runnable currentRunnable;
+	private Handler selectionHandler;
+	private Runnable selectionRunnable;
 
 	@Override
 	public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
@@ -48,13 +50,12 @@ public class CaptueFragment extends Fragment implements ITabFragment {
 		numberPickerConnection.setOnValueChangedListener(new OnValueChangeListener() {
 			@Override
 			public void onValueChange(final NumberPicker picker, final int oldVal, final int newVal) {
+				selectionHandler.removeCallbacks(selectionRunnable);
 				updatePlanedEnd(newVal);
 				updateCurrent();
 			}
 
 		});
-
-		updatePicker();
 
 		return captureView;
 	}
@@ -119,6 +120,40 @@ public class CaptueFragment extends Fragment implements ITabFragment {
 
 	}
 
+	private void updatePickerSelection() {
+
+		final Date now = Calendar.getInstance().getTime();
+		final long nowSeconds = getSeconds(now);
+		long minDiff = Long.MAX_VALUE;
+		int minIndex = -1;
+
+		for (int i = 0; i < connections.size(); i++) {
+			final Connection connection = connections.get(i);
+			final long endSeconds = getSeconds(connection.getEndTime());
+			final long diff = nowSeconds - endSeconds;
+			if ((diff >= 0) && (diff < minDiff)) {
+				minDiff = diff;
+				minIndex = i;
+			} else if ((Math.abs(diff) > 3600) && (Math.abs(diff) < minDiff)) {
+				minDiff = Math.abs(diff);
+				minIndex = i;
+			}
+		}
+
+		if (minIndex >= 0) {
+			setPickerValueInternal(minIndex, false);
+		}
+
+	}
+
+	private void setPickerValueInternal(final int value, final boolean updateAllways) {
+		if (value != numberPickerConnection.getValue()) {
+			numberPickerConnection.setValueInternal(value, false);
+			updatePlanedEnd(value);
+			updateCurrent();
+		}
+	}
+
 	private void updatePicker() {
 
 		numberPickerConnection.setWrapSelectorWheel(false);
@@ -149,12 +184,11 @@ public class CaptueFragment extends Fragment implements ITabFragment {
 			}
 			final String[] connectionNamesArray = connectionNames.toArray(new String[connectionNames.size()]);
 			numberPickerConnection.setDisplayedValues(connectionNamesArray);
-			numberPickerConnection.setValue(0);
-			updatePlanedEnd(0);
+			setPickerValueInternal(0, true);
 		} else {
 			// TODO
+			updateCurrent(); // ?
 		}
-		updateCurrent();
 
 	}
 
@@ -170,8 +204,6 @@ public class CaptueFragment extends Fragment implements ITabFragment {
 
 		if (currentHandler == null) {
 			currentHandler = new Handler();
-		}
-		if (currentRunnable == null) {
 			currentRunnable = new Runnable() {
 				@Override
 				public void run() {
@@ -181,17 +213,36 @@ public class CaptueFragment extends Fragment implements ITabFragment {
 
 			};
 		}
-		currentHandler.postDelayed(currentRunnable, 10000);
-	}
 
-	@Override
-	public void onPause() {
-		super.onPause();
-		currentHandler.removeCallbacks(currentRunnable);
+		if (selectionHandler == null) {
+			selectionHandler = new Handler();
+			selectionRunnable = new Runnable() {
+				@Override
+				public void run() {
+					updatePickerSelection();
+					selectionHandler.postDelayed(selectionRunnable, 10000);
+				}
+
+			};
+		}
+
+		startUpdates();
+
 	}
 
 	public ToLateDatabaseAdapter getDbAdapter() {
 		return ((MainActivity) getActivity()).getDbAdapter();
+	}
+
+	public void startUpdates() {
+		stopUpdates();
+		selectionHandler.postDelayed(selectionRunnable, 10);
+		currentHandler.postDelayed(currentRunnable, 10000);
+	}
+
+	public void stopUpdates() {
+		currentHandler.removeCallbacks(currentRunnable);
+		selectionHandler.removeCallbacks(selectionRunnable);
 	}
 
 }
