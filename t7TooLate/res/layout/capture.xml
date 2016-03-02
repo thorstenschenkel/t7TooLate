@@ -17,7 +17,7 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:textColor="@color/header_text" />
 
-    <NumberPicker
+    <de.t7soft.android.t7toolate.capture.ConnectionPicker
         android:id="@+id/numberPickerConnection"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

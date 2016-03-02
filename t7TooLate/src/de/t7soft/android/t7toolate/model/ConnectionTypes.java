@@ -11,7 +11,7 @@ public final class ConnectionTypes {
 	public static final int PLANE = 4;
 
 	public static int[] ICON_IDS = {
-			R.drawable.ct_unkown, R.drawable.ct_train, R.drawable.ct_bus, R.drawable.ct_tram, R.drawable.ct_plane
+			R.drawable.ct_unkown, R.drawable.ct_train, R.drawable.ct_bus3, R.drawable.ct_tram, R.drawable.ct_plane
 	};
 
 	private ConnectionTypes() {

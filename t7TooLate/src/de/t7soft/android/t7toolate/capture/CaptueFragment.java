@@ -30,7 +30,7 @@ public class CaptueFragment extends Fragment implements ITabFragment {
 
 	protected static final java.text.DateFormat TIME_FORMAT = new SimpleDateFormat("HH:mm");
 
-	private NumberPicker numberPickerConnection;
+	private ConnectionPicker numberPickerConnection;
 	private TextView textViewPlanedEndValue;
 	private TextView textViewCurrentValue;
 	private List<Connection> connections;
@@ -44,7 +44,7 @@ public class CaptueFragment extends Fragment implements ITabFragment {
 		textViewPlanedEndValue = (TextView) captureView.findViewById(R.id.textViewPlanedEndValue);
 		textViewCurrentValue = (TextView) captureView.findViewById(R.id.textViewCurrentValue);
 
-		numberPickerConnection = (NumberPicker) captureView.findViewById(R.id.numberPickerConnection);
+		numberPickerConnection = (ConnectionPicker) captureView.findViewById(R.id.numberPickerConnection);
 		numberPickerConnection.setOnValueChangedListener(new OnValueChangeListener() {
 			@Override
 			public void onValueChange(final NumberPicker picker, final int oldVal, final int newVal) {
