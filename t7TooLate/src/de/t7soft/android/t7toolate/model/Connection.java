@@ -3,7 +3,7 @@ package de.t7soft.android.t7toolate.model;
 import java.util.Date;
 import java.util.UUID;
 
-public class Connection {
+public class Connection implements Cloneable {
 
 	private final String id;
 	private String name;
@@ -115,6 +115,23 @@ public class Connection {
 		if ((this.connectionType < 0) && (this.connectionType > ConnectionTypes.PLANE)) {
 			this.connectionType = ConnectionTypes.UNKOWN;
 		}
+	}
+
+	@Override
+	public Object clone() throws CloneNotSupportedException {
+
+		final Connection clone = new Connection(getId());
+		clone.setName(getName());
+		clone.setStartStation(getStartStation());
+		clone.setStartTime(getStartTime());
+		clone.setEndStation(getEndStation());
+		clone.setEndTime(getEndTime());
+		clone.setWeekdays(isWeekdays());
+		clone.setSaturday(isSaturday());
+		clone.setSunday(isSunday());
+		clone.setConnectionType(getConnectionType());
+		return clone;
+
 	}
 
 }

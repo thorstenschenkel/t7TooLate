@@ -7,10 +7,13 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class ToLateDatabaseHelper extends SQLiteOpenHelper {
 
 	private static final String DATABASE_NAME = "tolate.db";
-	private static final int DATABASE_VERSION = 1;
+	private static final int DATABASE_VERSION = 2;
+
+	// old
+	private static final String OLD_CONNECTIONS_TABLE_NAME = "locations";
 
 	// connection cols
-	public static final String CONNECTIONS_TABLE_NAME = "locations";
+	public static final String CONNECTIONS_TABLE_NAME = "connections";
 	public static final String CONNECTION_ID_COL_NAME = "connectionId";
 	public static final String CONNECTION_NAME_COL_NAME = "connectionName";
 	public static final String CONNECTION_START_STATION_COL_NAME = "startStation";
@@ -22,6 +25,18 @@ public class ToLateDatabaseHelper extends SQLiteOpenHelper {
 	public static final String CONNECTION_SUNDAY_COL_NAME = "sunday";
 	public static final String CONNECTION_TYPE_COL_NAME = "type";
 
+	// capture cols
+	public static final String CAPTURES_TABLE_NAME = "captures";
+	public static final String CAPTURE_ID_COL_NAME = "captureId";
+	public static final String CAPTURE_CONNECTION_NAME_COL_NAME = "connectionName";
+	public static final String CAPTURE_CONNECTION_START_STATION_COL_NAME = "startStation";
+	public static final String CAPTURE_CONNECTION_START_TIME_COL_NAME = "startTime";
+	public static final String CAPTURE_CONNECTION_END_STATION_COL_NAME = "endStation";
+	public static final String CAPTURE_CONNECTION_END_TIME_COL_NAME = "endTime";
+	public static final String CAPTURE_CONNECTION_TYPE_COL_NAME = "type";
+	public static final String CAPTURE_DATE_TIME_COL_NAME = "dateTime";
+	public static final String CAPTURE_COMMENT_COL_NAME = "comment";
+
 	public ToLateDatabaseHelper(final Context context) {
 		super(context, DATABASE_NAME, null, DATABASE_VERSION);
 	}
@@ -29,6 +44,7 @@ public class ToLateDatabaseHelper extends SQLiteOpenHelper {
 	@Override
 	public void onCreate(final SQLiteDatabase db) {
 		createConnectionsTable(db);
+		createCaptursTable(db);
 	}
 
 	private void createConnectionsTable(final SQLiteDatabase db) {
@@ -71,10 +87,49 @@ public class ToLateDatabaseHelper extends SQLiteOpenHelper {
 		db.execSQL(sqlBuffer.toString());
 	}
 
+	private void createCaptursTable(final SQLiteDatabase db) {
+		final StringBuffer sqlBuffer = new StringBuffer();
+		sqlBuffer.append("CREATE TABLE IF NOT EXISTS ");
+		sqlBuffer.append(CAPTURES_TABLE_NAME);
+		sqlBuffer.append("(");
+		sqlBuffer.append("_id INTEGER PRIMARY KEY AUTOINCREMENT");
+		sqlBuffer.append(", ");
+		sqlBuffer.append(CAPTURE_ID_COL_NAME);
+		sqlBuffer.append(" TEXT");
+		sqlBuffer.append(", ");
+		sqlBuffer.append(CAPTURE_CONNECTION_NAME_COL_NAME);
+		sqlBuffer.append(" TEXT");
+		sqlBuffer.append(", ");
+		sqlBuffer.append(CAPTURE_CONNECTION_START_STATION_COL_NAME);
+		sqlBuffer.append(" TEXT");
+		sqlBuffer.append(", ");
+		sqlBuffer.append(CAPTURE_CONNECTION_START_TIME_COL_NAME);
+		sqlBuffer.append(" TEXT");
+		sqlBuffer.append(", ");
+		sqlBuffer.append(CAPTURE_CONNECTION_END_STATION_COL_NAME);
+		sqlBuffer.append(" TEXT");
+		sqlBuffer.append(", ");
+		sqlBuffer.append(CAPTURE_CONNECTION_END_TIME_COL_NAME);
+		sqlBuffer.append(" TEXT");
+		sqlBuffer.append(", ");
+		sqlBuffer.append(CAPTURE_CONNECTION_TYPE_COL_NAME);
+		sqlBuffer.append(" INTEGER");
+		sqlBuffer.append(", ");
+		sqlBuffer.append(CAPTURE_DATE_TIME_COL_NAME);
+		sqlBuffer.append(" TEXT");
+		sqlBuffer.append(", ");
+		sqlBuffer.append(CAPTURE_COMMENT_COL_NAME);
+		sqlBuffer.append(" TEXT");
+		sqlBuffer.append(");");
+		db.execSQL(sqlBuffer.toString());
+	}
+
 	@Override
 	public void onUpgrade(final SQLiteDatabase db, final int oldVersion, final int newVersion) {
 		if (oldVersion < DATABASE_VERSION) {
+			db.execSQL("DROP TABLE IF EXISTS " + OLD_CONNECTIONS_TABLE_NAME);
 			db.execSQL("DROP TABLE IF EXISTS " + CONNECTIONS_TABLE_NAME);
+			db.execSQL("DROP TABLE IF EXISTS " + CAPTURES_TABLE_NAME);
 		}
 		onCreate(db);
 	}
