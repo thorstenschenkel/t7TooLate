@@ -186,7 +186,9 @@ public class CaptueFragment extends Fragment implements ITabFragment {
 			}
 			final String[] connectionNamesArray = connectionNames.toArray(new String[connectionNames.size()]);
 			numberPickerConnection.setDisplayedValues(connectionNamesArray);
-			setPickerValueInternal(0, true);
+			setPickerValueInternal(0, false);
+			updatePlanedEnd(0);
+			updateCurrent();
 		} else {
 			// TODO
 			updateCurrent(); // ?
@@ -201,6 +203,7 @@ public class CaptueFragment extends Fragment implements ITabFragment {
 
 	@Override
 	public void onResume() {
+		stopUpdates();
 		updatePicker();
 		super.onResume();
 
@@ -237,7 +240,6 @@ public class CaptueFragment extends Fragment implements ITabFragment {
 	}
 
 	public void startUpdates() {
-		stopUpdates();
 		selectionHandler.postDelayed(selectionRunnable, 10);
 		currentHandler.postDelayed(currentRunnable, 10000);
 	}
