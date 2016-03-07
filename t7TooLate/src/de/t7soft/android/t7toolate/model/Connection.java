@@ -118,7 +118,7 @@ public class Connection implements Cloneable {
 	}
 
 	@Override
-	public Object clone() throws CloneNotSupportedException {
+	public Connection clone() throws CloneNotSupportedException {
 
 		final Connection clone = new Connection(getId());
 		clone.setName(getName());

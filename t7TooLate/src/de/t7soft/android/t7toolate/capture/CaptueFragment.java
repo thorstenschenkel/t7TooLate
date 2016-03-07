@@ -20,10 +20,12 @@ import android.view.ViewGroup;
 import android.widget.NumberPicker;
 import android.widget.NumberPicker.OnValueChangeListener;
 import android.widget.TextView;
+import android.widget.Toast;
 import de.t7soft.android.t7toolate.ITabFragment;
 import de.t7soft.android.t7toolate.MainActivity;
 import de.t7soft.android.t7toolate.R;
 import de.t7soft.android.t7toolate.database.ToLateDatabaseAdapter;
+import de.t7soft.android.t7toolate.model.Capture;
 import de.t7soft.android.t7toolate.model.Connection;
 
 public class CaptueFragment extends Fragment implements ITabFragment {
@@ -246,7 +248,24 @@ public class CaptueFragment extends Fragment implements ITabFragment {
 	}
 
 	public void onCapture(final View view) {
-		// TODO Auto-generated method stub
+
+		Connection selectedConnection = null;
+		final int selIndex = numberPickerConnection.getValue();
+		connections = getDbAdapter().getAllConnections();
+		if ((connections != null) && (connections.size() > 0) && (selIndex < connections.size())) {
+			selectedConnection = connections.get(selIndex);
+		}
+		if (selectedConnection != null) {
+			final Capture capture = new Capture();
+			try {
+				capture.setConnection(selectedConnection.clone());
+				getDbAdapter().insertCapture(capture);
+				Toast.makeText(getActivity(), R.string.capture_saved, Toast.LENGTH_SHORT).show();
+			} catch (final CloneNotSupportedException e) {
+				e.printStackTrace();
+			}
+		}
+
 	}
 
 }

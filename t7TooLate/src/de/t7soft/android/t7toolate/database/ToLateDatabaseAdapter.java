@@ -12,12 +12,14 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
+import de.t7soft.android.t7toolate.model.Capture;
 import de.t7soft.android.t7toolate.model.Connection;
 
 public class ToLateDatabaseAdapter {
 
 	private static final String LOGTAG = ToLateDatabaseAdapter.class.getSimpleName();
 	private static final DateFormat TIME_FORMAT = new SimpleDateFormat("HH:mm");
+	private static final DateFormat DATE_TIME_FORMAT = new SimpleDateFormat("dd.MM.yyyy HH:mm");
 
 	private final ToLateDatabaseHelper dbHelper;
 	private SQLiteDatabase database;
@@ -39,6 +41,44 @@ public class ToLateDatabaseAdapter {
 			return database.isOpen() && !database.isReadOnly() && !database.isDbLockedByCurrentThread();
 		}
 		return false;
+	}
+
+	public long insertCapture(final Capture capture) {
+		return insertCapture(database, capture);
+	}
+
+	private long insertCapture(final SQLiteDatabase db, final Capture capture) {
+		final ContentValues initialValues = createContentValues(capture);
+		return db.insert(ToLateDatabaseHelper.CAPTURES_TABLE_NAME, null, initialValues);
+	}
+
+	private ContentValues createContentValues(final Capture capture) {
+		final ContentValues values = new ContentValues();
+		values.put(ToLateDatabaseHelper.CAPTURE_ID_COL_NAME, capture.getId());
+		final Connection connection = capture.getConnection();
+		values.put(ToLateDatabaseHelper.CAPTURE_CONNECTION_NAME_COL_NAME, connection.getName());
+		values.put(ToLateDatabaseHelper.CAPTURE_CONNECTION_START_STATION_COL_NAME, connection.getStartStation());
+		if (connection.getStartTime() != null) {
+			values.put(ToLateDatabaseHelper.CAPTURE_CONNECTION_START_TIME_COL_NAME,
+					TIME_FORMAT.format(connection.getStartTime()));
+		} else {
+			values.put(ToLateDatabaseHelper.CAPTURE_CONNECTION_START_TIME_COL_NAME, "");
+		}
+		values.put(ToLateDatabaseHelper.CAPTURE_CONNECTION_END_STATION_COL_NAME, connection.getEndStation());
+		if (connection.getEndTime() != null) {
+			values.put(ToLateDatabaseHelper.CAPTURE_CONNECTION_END_TIME_COL_NAME,
+					TIME_FORMAT.format(connection.getEndTime()));
+		} else {
+			values.put(ToLateDatabaseHelper.CAPTURE_CONNECTION_END_TIME_COL_NAME, "");
+		}
+		values.put(ToLateDatabaseHelper.CAPTURE_CONNECTION_TYPE_COL_NAME, connection.getConnectionType());
+		if (capture.getCaptureDateTime() != null) {
+			values.put(ToLateDatabaseHelper.CAPTURE_DATE_TIME_COL_NAME,
+					DATE_TIME_FORMAT.format(capture.getCaptureDateTime()));
+		} else {
+			values.put(ToLateDatabaseHelper.CAPTURE_DATE_TIME_COL_NAME, "");
+		}
+		return values;
 	}
 
 	public long insertConnection(final Connection connection) {
@@ -72,6 +112,43 @@ public class ToLateDatabaseAdapter {
 		values.put(ToLateDatabaseHelper.CONNECTION_SUNDAY_COL_NAME, connection.isSunday());
 		values.put(ToLateDatabaseHelper.CONNECTION_TYPE_COL_NAME, connection.getConnectionType());
 		return values;
+	}
+
+	public List<Capture> getAllCaptures() {
+		return getAllCapture(database);
+	}
+
+	public List<Capture> getAllCapture(final SQLiteDatabase db) {
+
+		final List<Capture> captures = new ArrayList<Capture>();
+
+		final Cursor cursor = db.query(ToLateDatabaseHelper.CONNECTIONS_TABLE_NAME, null, null, null, null, null, null);
+
+		if (cursor != null) {
+			if (cursor.moveToFirst()) {
+				while (!cursor.isAfterLast()) {
+					final Capture capture = createCapture(cursor);
+					captures.add(capture);
+					cursor.moveToNext();
+				}
+			}
+			cursor.close();
+		}
+		return captures;
+	}
+
+	private static Capture createCapture(final Cursor cursor) {
+		final String id = getString(cursor, ToLateDatabaseHelper.CAPTURE_ID_COL_NAME);
+		final Capture capture = new Capture(id);
+		final Connection connection = capture.getConnection();
+		connection.setName(getString(cursor, ToLateDatabaseHelper.CAPTURE_CONNECTION_NAME_COL_NAME));
+		connection.setStartStation(getString(cursor, ToLateDatabaseHelper.CAPTURE_CONNECTION_START_STATION_COL_NAME));
+		connection.setStartTime(getTime(cursor, ToLateDatabaseHelper.CAPTURE_CONNECTION_START_TIME_COL_NAME));
+		connection.setEndStation(getString(cursor, ToLateDatabaseHelper.CAPTURE_CONNECTION_END_STATION_COL_NAME));
+		connection.setEndTime(getTime(cursor, ToLateDatabaseHelper.CAPTURE_CONNECTION_END_TIME_COL_NAME));
+		connection.setConnectionType(getInt(cursor, ToLateDatabaseHelper.CAPTURE_CONNECTION_TYPE_COL_NAME));
+		capture.setCaptureDateTime(getDateTime(cursor, ToLateDatabaseHelper.CAPTURE_DATE_TIME_COL_NAME));
+		return capture;
 	}
 
 	public List<Connection> getAllConnections() {
@@ -110,6 +187,15 @@ public class ToLateDatabaseAdapter {
 		connection.setSunday(getBoolean(cursor, ToLateDatabaseHelper.CONNECTION_SUNDAY_COL_NAME));
 		connection.setConnectionType(getInt(cursor, ToLateDatabaseHelper.CONNECTION_TYPE_COL_NAME));
 		return connection;
+	}
+
+	private static Date getDateTime(final Cursor cursor, final String columnName) {
+		final String strg = getString(cursor, cursor.getColumnIndex(columnName));
+		try {
+			return DATE_TIME_FORMAT.parse(strg);
+		} catch (final ParseException e) {
+			return null;
+		}
 	}
 
 	private static Date getTime(final Cursor cursor, final String columnName) {
