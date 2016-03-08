@@ -78,6 +78,7 @@ public class ToLateDatabaseAdapter {
 		} else {
 			values.put(ToLateDatabaseHelper.CAPTURE_DATE_TIME_COL_NAME, "");
 		}
+		values.put(ToLateDatabaseHelper.CAPTURE_COMMENT_COL_NAME, capture.getComment());
 		return values;
 	}
 
@@ -148,6 +149,7 @@ public class ToLateDatabaseAdapter {
 		connection.setEndTime(getTime(cursor, ToLateDatabaseHelper.CAPTURE_CONNECTION_END_TIME_COL_NAME));
 		connection.setConnectionType(getInt(cursor, ToLateDatabaseHelper.CAPTURE_CONNECTION_TYPE_COL_NAME));
 		capture.setCaptureDateTime(getDateTime(cursor, ToLateDatabaseHelper.CAPTURE_DATE_TIME_COL_NAME));
+		capture.setComment(getString(cursor, ToLateDatabaseHelper.CAPTURE_COMMENT_COL_NAME));
 		return capture;
 	}
 
