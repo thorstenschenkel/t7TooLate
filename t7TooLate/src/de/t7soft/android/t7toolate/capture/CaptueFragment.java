@@ -245,8 +245,12 @@ public class CaptueFragment extends Fragment implements ITabFragment {
 	}
 
 	public void stopUpdates() {
-		currentHandler.removeCallbacks(currentRunnable);
-		selectionHandler.removeCallbacks(selectionRunnable);
+		if (currentHandler != null) {
+			currentHandler.removeCallbacks(currentRunnable);
+		}
+		if (selectionHandler != null) {
+			selectionHandler.removeCallbacks(selectionRunnable);
+		}
 	}
 
 	public void onCapture(final View view) {

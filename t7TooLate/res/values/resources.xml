@@ -8,5 +8,11 @@
         <item>Straßenbahn</item>
         <item>Flugzeug</item>
     </string-array>
-
+    
+    <string-array name="analysis_types_array">
+        <item>Alle</item>
+        <item>Woche</item>
+        <item>Monat</item>
+    </string-array>
+    
 </resources>
