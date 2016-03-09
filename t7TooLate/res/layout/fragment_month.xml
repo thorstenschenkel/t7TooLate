@@ -8,6 +8,6 @@
         android:id="@+id/textView1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/analysis_tab_month" />
+        android:text="@string/analysis_tab_tilte" />
 
 </LinearLayout>

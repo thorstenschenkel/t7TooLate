@@ -123,7 +123,7 @@ public class ToLateDatabaseAdapter {
 
 		final List<Capture> captures = new ArrayList<Capture>();
 
-		final Cursor cursor = db.query(ToLateDatabaseHelper.CONNECTIONS_TABLE_NAME, null, null, null, null, null, null);
+		final Cursor cursor = db.query(ToLateDatabaseHelper.CAPTURES_TABLE_NAME, null, null, null, null, null, null);
 
 		if (cursor != null) {
 			if (cursor.moveToFirst()) {

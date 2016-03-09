@@ -10,6 +10,6 @@
     <dimen name="connection_padding_x">5dp</dimen>
     <dimen name="connection_padding_y">5dp</dimen>
     <dimen name="connection_time_padding_left">10dp</dimen>
-    <dimen name="connection_time_padding_right">10dp</dimen>
+    <dimen name="connection_time_padding_right">5dp</dimen>
     
 </resources>
