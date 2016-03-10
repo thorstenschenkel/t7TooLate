@@ -44,7 +44,7 @@ public class AllListFragment extends ListFragment {
 		Collections.sort(captures, new Comparator<Capture>() {
 			@Override
 			public int compare(final Capture capture1, final Capture capture2) {
-				return capture1.getCaptureDateTime().compareTo(capture2.getCaptureDateTime());
+				return capture2.getCaptureDateTime().compareTo(capture1.getCaptureDateTime());
 			}
 		});
 		listAdapter.notifyDataSetChanged();

@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- https://www.google.com/design/spec/style/color.html -->
 <resources>
     <color name="text">#000000</color>
     <color name="background">#FFFFFF</color>
@@ -7,4 +8,9 @@
     <color name="header_text">#3F51B5</color>
     <color name="btn_background">#303F9F</color>    
     <color name="btn_text">#E8EAF6</color>       
+    <color name="text_color_on_time">#2E7D32</color>       
+    <color name="text_color_slight">#EF6C00</color>       
+    <color name="text_color_late">#B71C1C</color>       
+    <color name="text_color_extrem">#FFEBEE</color>       
+    <color name="bg_color_extrem">#B71C1C</color>       
 </resources>

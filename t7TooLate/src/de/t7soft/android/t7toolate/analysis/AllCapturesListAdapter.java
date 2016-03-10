@@ -7,11 +7,13 @@ import java.util.Date;
 import java.util.List;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
+import de.t7soft.android.t7toolate.MainActivity;
 import de.t7soft.android.t7toolate.R;
 import de.t7soft.android.t7toolate.model.Capture;
 import de.t7soft.android.t7toolate.model.Connection;
@@ -20,13 +22,15 @@ import de.t7soft.android.t7toolate.model.ConnectionTypes;
 public class AllCapturesListAdapter extends BaseAdapter {
 
 	private static final java.text.DateFormat TIME_FORMAT = new SimpleDateFormat("HH:mm");
-	private static final DateFormat DATE_TIME_FORMAT = new SimpleDateFormat("dd.MM.yyyy HH:mm");
+	private static final DateFormat DATE_TIME_FORMAT = new SimpleDateFormat("EEE, dd.MM.yyyy HH:mm");
 
+	private final Context context;
 	private final List<Capture> listItems;
 	private final LayoutInflater inflater;
 
 	public AllCapturesListAdapter(final Context context, final List<Capture> listItems) {
 		this.listItems = listItems;
+		this.context = context;
 		inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 	}
 
@@ -100,8 +104,31 @@ public class AllCapturesListAdapter extends BaseAdapter {
 		} else {
 			delayText += minutes;
 		}
-		delayText += " min"; // TODO
+		delayText += " min";
 		textViewDelay.setText(delayText);
+
+		int textColor = android.R.color.primary_text_light;
+		int bgColor = android.R.color.transparent;
+		int borderColor = textColor;
+		if (minutes < getPrefOnTime()) {
+			textColor = R.color.text_color_on_time;
+			borderColor = textColor;
+		} else if (minutes < getPrefSlight()) {
+			textColor = R.color.text_color_slight;
+			borderColor = textColor;
+		} else if (minutes < getPrefLate()) {
+			textColor = R.color.text_color_late;
+			borderColor = textColor;
+		} else {
+			textColor = R.color.text_color_extrem;
+			bgColor = R.color.bg_color_extrem;
+			borderColor = bgColor;
+		}
+		textViewDelay.setTextColor(context.getResources().getColor(textColor));
+		textViewDelay.setBackgroundColor(context.getResources().getColor(bgColor));
+
+		final View viewLeftBorder = rowView.findViewById(R.id.viewLeftBorder);
+		viewLeftBorder.setBackgroundColor(context.getResources().getColor(borderColor));
 
 	}
 
@@ -116,6 +143,21 @@ public class AllCapturesListAdapter extends BaseAdapter {
 
 		return seconds;
 
+	}
+
+	private int getPrefOnTime() {
+		final SharedPreferences settings = context.getSharedPreferences(MainActivity.PREFS_NAME, 0);
+		return settings.getInt(MainActivity.PREF_ON_TIME, 5);
+	}
+
+	private int getPrefSlight() {
+		final SharedPreferences settings = context.getSharedPreferences(MainActivity.PREFS_NAME, 0);
+		return settings.getInt(MainActivity.PREF_SLIGHT, 10);
+	}
+
+	private int getPrefLate() {
+		final SharedPreferences settings = context.getSharedPreferences(MainActivity.PREFS_NAME, 0);
+		return settings.getInt(MainActivity.PREF_LATE, 60);
 	}
 
 }

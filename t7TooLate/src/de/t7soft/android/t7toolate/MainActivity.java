@@ -37,7 +37,12 @@ import de.t7soft.android.t7toolate.database.ToLateDatabaseAdapter;
  */
 public class MainActivity extends FragmentActivity {
 
-	private static int[] TAB_ICON_IDS = {
+	public static final String PREFS_NAME = "ToLatePrefsFile";
+	public static final String PREF_ON_TIME = "onTime";
+	public static final String PREF_SLIGHT = "slight";
+	public static final String PREF_LATE = "late";
+
+	private static final int[] TAB_ICON_IDS = {
 			R.drawable.ic_time, R.drawable.ic_train, R.drawable.ic_analysis
 	};
 	private ToLateDatabaseAdapter dbAdapter;
