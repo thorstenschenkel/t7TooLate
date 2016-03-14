@@ -261,6 +261,33 @@ public class ToLateDatabaseAdapter {
 		return value;
 	}
 
+	public Capture getCapture(final String id) {
+		return getCapture(database, id);
+	}
+
+	private static Capture getCapture(final SQLiteDatabase db, final String id) {
+
+		Capture capture = null;
+
+		final String selection = createCaptureSelection(id);
+		final Cursor cursor = db.query(ToLateDatabaseHelper.CAPTURES_TABLE_NAME, null, selection, null, null, null,
+				null);
+
+		if (cursor != null) {
+			if (cursor.moveToFirst()) {
+				capture = createCapture(cursor);
+			}
+			cursor.close();
+		}
+
+		return capture;
+
+	}
+
+	private static String createCaptureSelection(final String id) {
+		return ToLateDatabaseHelper.CAPTURE_ID_COL_NAME + "=" + "\"" + id + "\"";
+	}
+
 	public Connection getConnection(final String id) {
 		return getConnection(database, id);
 	}
@@ -325,4 +352,12 @@ public class ToLateDatabaseAdapter {
 		return db.delete(ToLateDatabaseHelper.CONNECTIONS_TABLE_NAME, selection, null);
 	}
 
+	public int deleteCapture(final Capture capture) {
+		return deleteCapture(database, capture);
+	}
+
+	public static int deleteCapture(final SQLiteDatabase db, final Capture capture) {
+		final String selection = createCaptureSelection(capture.getId());
+		return db.delete(ToLateDatabaseHelper.CAPTURES_TABLE_NAME, selection, null);
+	}
 }

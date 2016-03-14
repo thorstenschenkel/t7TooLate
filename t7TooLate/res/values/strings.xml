@@ -68,5 +68,8 @@
     <string name="analysis_tab_tilte">Auswertung</string>
     <string name="analysis_dummy_date_time">09.03.2016 14:20</string>
     <string name="analysis_dummy_delay">+ 1 min</string>
-
+    <string name="capture_comment">Anmerkung</string>
+    <string name="capture_delete_msg_title">Löschen</string>
+    <string name="capture_delete_msg_text">Soll die Aufzeichnung vom \"{0}\" gelöscht werden?</string>
+    
 </resources>

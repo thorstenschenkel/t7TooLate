@@ -83,7 +83,7 @@ public class ConnectionsFragment extends ListFragment implements ITabFragment {
 			final Connection connection = (Connection) getListAdapter().getItem(itemPosition);
 
 			final Intent intent = new Intent(getActivity(), ShowConnectionActivity.class);
-			intent.putExtra(EditConnectionActivity.CONNECTION_ID, connection.getId());
+			intent.putExtra(ShowConnectionActivity.CONNECTION_ID, connection.getId());
 			startActivity(intent);
 
 		}
