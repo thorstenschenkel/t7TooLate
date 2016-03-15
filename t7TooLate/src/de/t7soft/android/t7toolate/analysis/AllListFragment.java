@@ -53,10 +53,15 @@ public class AllListFragment extends ListFragment {
 	public boolean onOptionsItemSelected(final MenuItem item) {
 		switch (item.getItemId()) {
 			case R.id.action_filter:
-				// TODO
+				showFilter();
 				return true;
 		}
 		return super.onOptionsItemSelected(item);
+	}
+
+	private void showFilter() {
+		final Intent intent = new Intent(getActivity(), FilterActivity.class);
+		startActivity(intent);
 	}
 
 	private void updateListAdapter() {

@@ -365,7 +365,7 @@ public class EditConnectionActivity extends Activity {
 
 	private void onTime(final int timeFieldId) {
 
-		final TextView timeTextView = (TextView) EditConnectionActivity.this.findViewById(timeFieldId);
+		final TextView timeTextView = (TextView) findViewById(timeFieldId);
 		final TimeListener timeListener = new TimeListener(timeTextView);
 
 		final CharSequence timeString = timeTextView.getText();

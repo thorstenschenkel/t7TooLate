@@ -7,6 +7,7 @@
     <string name="about_menu_item">Info</string>
     <string name="tooLate_info_msg" formatted="false"><![CDATA[<table border="0"><tr><td>Version:</td><td>{0}</tr><tr><td>Date:</td><td>{1}</td></tr><tr><td>Author:</td><td>Thorsten Schenkel</td></tr><tr><td>Homepage:</td><td><a href="http://www.t7soft.de/html/joomla_t7soft/index.php">www.t7soft.de</td></tr><tr><td>&nbsp;</td><td>&nbsp;</td></tr><tr><td>third-party:</td><td><a href="https://icons8.com/">Icons8</td></tr></table>]]></string>
     <!-- Common -->
+    <string name="empty"></string>
     <string name="ok">OK</string>
     <string name="cancel">Abbrechen</string>
     <string name="yes">Ja</string>
@@ -72,5 +73,17 @@
     <string name="capture_comment">Anmerkung</string>
     <string name="capture_delete_msg_title">Löschen</string>
     <string name="capture_delete_msg_text">Soll die Aufzeichnung vom \"{0}\" gelöscht werden?</string>
-    
+    <string name="filter_sub_tilte">Filter</string>
+    <string name="filter_">Filter</string>
+    <string name="filter_on">an</string>
+    <string name="filter_off">aus</string>
+    <string name="filter_period">Zeitraum</string>
+    <string name="filter_from">von</string>
+    <string name="filter_to">bis</string>
+    <string name="filter_delay">Verspätung</string>
+    <string name="filter_delay_on_time">pünktlich</string>
+    <string name="filter_delay_slight">leicht verspätet</string>
+    <string name="filter_delay_late">verspätet</string>
+    <string name="filter_delay_extrem">extrem verspätet</string>
+
 </resources>
