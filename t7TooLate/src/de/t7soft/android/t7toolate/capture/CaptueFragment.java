@@ -43,6 +43,9 @@ public class CaptueFragment extends Fragment implements ITabFragment {
 
 	@Override
 	public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
+
+		setHasOptionsMenu(false);
+
 		final View captureView = inflater.inflate(R.layout.capture, container, false);
 
 		textViewPlanedEndValue = (TextView) captureView.findViewById(R.id.textViewPlanedEndValue);
