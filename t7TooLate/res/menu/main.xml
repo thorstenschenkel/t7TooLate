@@ -3,6 +3,14 @@
     tools:context="de.t7soft.android.t7TooLate.MainActivity" >
     
     <item
+        android:id="@+id/action_filter"
+        android:icon="@drawable/ic_filter"
+        android:enabled="true"
+        android:showAsAction="ifRoom"
+        android:visible="false"
+        android:title="@string/filter_menu_item"/>    
+    
+    <item
         android:id="@+id/action_about"
         android:icon="@drawable/ic_dark_about"
         android:enabled="true"

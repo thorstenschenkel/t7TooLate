@@ -27,8 +27,6 @@ public class ConnectionsFragment extends ListFragment implements ITabFragment {
 	@Override
 	public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
 
-		setHasOptionsMenu(false);
-
 		final View connectionsView = inflater.inflate(R.layout.connections, container, false);
 
 		listAdapter = createListAdapter(connections);

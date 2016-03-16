@@ -13,8 +13,6 @@ public class WeekFragment extends Fragment {
 
 	@Override
 	public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
-		setHasOptionsMenu(false);
-
 		allView = inflater.inflate(R.layout.fragment_week, container, false);
 		return allView;
 	}

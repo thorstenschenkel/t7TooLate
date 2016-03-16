@@ -1,10 +1,13 @@
 package de.t7soft.android.t7toolate.analysis;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -17,10 +20,13 @@ import de.t7soft.android.t7toolate.R;
 public class AnalysisFragment extends Fragment implements ITabFragment {
 
 	private View analysisView;
+	private Menu menu;
 	private FragmentManager fragmentManager;
 
 	@Override
 	public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
+
+		setHasOptionsMenu(true);
 
 		analysisView = inflater.inflate(R.layout.analysis, container, false);
 
@@ -57,7 +63,7 @@ public class AnalysisFragment extends Fragment implements ITabFragment {
 				}
 				transaction.replace(R.id.fragment, newFragment);
 				transaction.addToBackStack(null);
-				transaction.commit();
+				transaction.commit(); // ?
 
 			}
 
@@ -66,6 +72,31 @@ public class AnalysisFragment extends Fragment implements ITabFragment {
 			}
 		});
 		return analysisView;
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(final MenuItem item) {
+		switch (item.getItemId()) {
+			case R.id.action_filter:
+				showFilter();
+				return true;
+		}
+		return super.onOptionsItemSelected(item);
+	}
+
+	@Override
+	public void onPrepareOptionsMenu(final Menu menu) {
+		super.onPrepareOptionsMenu(menu);
+		final MenuItem menuItem = menu.findItem(R.id.action_filter);
+		if (menuItem != null) {
+			menuItem.setVisible(getUserVisibleHint());
+			getActivity().invalidateOptionsMenu();
+		}
+	}
+
+	private void showFilter() {
+		final Intent intent = new Intent(getActivity(), FilterActivity.class);
+		startActivity(intent);
 	}
 
 	@Override

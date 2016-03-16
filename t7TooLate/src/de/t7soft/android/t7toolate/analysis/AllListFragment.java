@@ -9,9 +9,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -30,7 +27,6 @@ public class AllListFragment extends ListFragment {
 	@Override
 	public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
 
-		setHasOptionsMenu(true);
 		allView = inflater.inflate(R.layout.fragment_all, container, false);
 
 		listAdapter = createListAdapter(captures);
@@ -41,27 +37,6 @@ public class AllListFragment extends ListFragment {
 
 	private AllCapturesListAdapter createListAdapter(final List<Capture> captures) {
 		return new AllCapturesListAdapter(this.getActivity(), captures);
-	}
-
-	@Override
-	public void onCreateOptionsMenu(final Menu menu, final MenuInflater inflater) {
-		inflater.inflate(R.menu.analysis, menu);
-		super.onCreateOptionsMenu(menu, inflater);
-	}
-
-	@Override
-	public boolean onOptionsItemSelected(final MenuItem item) {
-		switch (item.getItemId()) {
-			case R.id.action_filter:
-				showFilter();
-				return true;
-		}
-		return super.onOptionsItemSelected(item);
-	}
-
-	private void showFilter() {
-		final Intent intent = new Intent(getActivity(), FilterActivity.class);
-		startActivity(intent);
 	}
 
 	private void updateListAdapter() {

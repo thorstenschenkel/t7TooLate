@@ -14,6 +14,7 @@ import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.text.Html;
 import android.text.Spanned;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,13 +39,9 @@ public class CaptueFragment extends Fragment implements ITabFragment {
 	private List<Connection> connections;
 	private Handler currentHandler;
 	private Runnable currentRunnable;
-	private Handler selectionHandler;
-	private Runnable selectionRunnable;
 
 	@Override
 	public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
-
-		setHasOptionsMenu(false);
 
 		final View captureView = inflater.inflate(R.layout.capture, container, false);
 
@@ -55,7 +52,6 @@ public class CaptueFragment extends Fragment implements ITabFragment {
 		numberPickerConnection.setOnValueChangedListener(new OnValueChangeListener() {
 			@Override
 			public void onValueChange(final NumberPicker picker, final int oldVal, final int newVal) {
-				selectionHandler.removeCallbacks(selectionRunnable);
 				updatePlanedEnd(newVal);
 				updateCurrent();
 			}
@@ -127,6 +123,10 @@ public class CaptueFragment extends Fragment implements ITabFragment {
 
 	private void updatePickerSelection() {
 
+		if (connections == null) {
+			return;
+		}
+
 		final Date now = Calendar.getInstance().getTime();
 		final long nowSeconds = getSeconds(now);
 		long minDiff = Long.MAX_VALUE;
@@ -136,10 +136,7 @@ public class CaptueFragment extends Fragment implements ITabFragment {
 			final Connection connection = connections.get(i);
 			final long endSeconds = getSeconds(connection.getEndTime());
 			final long diff = nowSeconds - endSeconds;
-			if ((diff >= 0) && (diff < minDiff)) {
-				minDiff = diff;
-				minIndex = i;
-			} else if ((Math.abs(diff) > 3600) && (Math.abs(diff) < minDiff)) {
+			if (Math.abs(diff) < minDiff) {
 				minDiff = Math.abs(diff);
 				minIndex = i;
 			}
@@ -222,20 +219,18 @@ public class CaptueFragment extends Fragment implements ITabFragment {
 			};
 		}
 
-		if (selectionHandler == null) {
-			selectionHandler = new Handler();
-			selectionRunnable = new Runnable() {
-				@Override
-				public void run() {
-					updatePickerSelection();
-					selectionHandler.postDelayed(selectionRunnable, 10000);
-				}
-
-			};
-		}
-
 		startUpdates();
+		updatePickerSelection();
 
+	}
+
+	@Override
+	public void setUserVisibleHint(final boolean isVisibleToUser) {
+		super.setUserVisibleHint(isVisibleToUser);
+		if (isVisibleToUser) {
+			updatePickerSelection();
+		}
+		Log.d(this.getClass().getSimpleName(), "Fragment is visible: " + isVisibleToUser);
 	}
 
 	public ToLateDatabaseAdapter getDbAdapter() {
@@ -243,16 +238,12 @@ public class CaptueFragment extends Fragment implements ITabFragment {
 	}
 
 	public void startUpdates() {
-		selectionHandler.postDelayed(selectionRunnable, 10);
 		currentHandler.postDelayed(currentRunnable, 10000);
 	}
 
 	public void stopUpdates() {
 		if (currentHandler != null) {
 			currentHandler.removeCallbacks(currentRunnable);
-		}
-		if (selectionHandler != null) {
-			selectionHandler.removeCallbacks(selectionRunnable);
 		}
 	}
 
