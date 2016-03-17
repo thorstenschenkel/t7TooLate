@@ -1,0 +1,7 @@
+Icon Sizes
+
+ ldpi          mdpi          hdpi          xhdpi          xxhdpi          PREFIX          TYPE
+ 
+ ??            48            72            96             144             ic_             launcher
+ ??            32            48            64             96              ic_             menu / toolbar
+ ??            24            32            48             64              ct_             "connection type"

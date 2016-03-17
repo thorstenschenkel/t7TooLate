@@ -15,6 +15,7 @@
     <string name="add">Hinzufügen</string>
     <string name="save">Speichern</string>
     <string name="time_picker">Zeitauswahl</string>
+    <string name="date_picker">Datumauswahl</string>
     <!-- Tabs -->
     <!-- Capture -->
     <string name="capture_tab_tilte">Erfassen</string>

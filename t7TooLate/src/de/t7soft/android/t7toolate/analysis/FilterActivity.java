@@ -6,18 +6,17 @@ import java.util.Calendar;
 import java.util.Date;
 
 import android.app.Activity;
-import android.app.TimePickerDialog;
-import android.app.TimePickerDialog.OnTimeSetListener;
+import android.app.DatePickerDialog;
+import android.app.DatePickerDialog.OnDateSetListener;
 import android.os.Bundle;
-import android.text.format.DateFormat;
 import android.view.View;
+import android.widget.DatePicker;
 import android.widget.TextView;
-import android.widget.TimePicker;
 import de.t7soft.android.t7toolate.R;
 
 public class FilterActivity extends Activity {
 
-	protected static final java.text.DateFormat TIME_FORMAT = new SimpleDateFormat("HH:mm");
+	private static final java.text.DateFormat DATE_FORMAT = new SimpleDateFormat("dd.MM.yyyy");
 
 	@Override
 	protected void onCreate(final Bundle savedInstanceState) {
@@ -32,49 +31,50 @@ public class FilterActivity extends Activity {
 		finish();
 	}
 
-	public void onStartTime(final View view) {
-		onTime(R.id.editTextFilterFrom);
+	public void onStartDate(final View view) {
+		onDate(R.id.editTextFilterFrom);
 	}
 
-	public void onEndTime(final View view) {
-		onTime(R.id.editTextFilterTo);
+	public void onEndDate(final View view) {
+		onDate(R.id.editTextFilterTo);
 	}
 
-	private void onTime(final int timeFieldId) {
+	private void onDate(final int dateFieldId) {
 
-		final TextView timeTextView = (TextView) findViewById(timeFieldId);
-		final TimeListener timeListener = new TimeListener(timeTextView);
+		final TextView dateTextView = (TextView) findViewById(dateFieldId);
+		final DateListener dateListener = new DateListener(dateTextView);
 
-		final CharSequence timeString = timeTextView.getText();
+		final CharSequence dateString = dateTextView.getText();
 		final Calendar c = Calendar.getInstance();
 		try {
-			final Date time = TIME_FORMAT.parse(timeString.toString());
-			c.setTime(time);
+			final Date date = DATE_FORMAT.parse(dateString.toString());
+			c.setTime(date);
 		} catch (final ParseException e) {
 		}
-		final int hour = c.get(Calendar.HOUR_OF_DAY);
-		final int minute = c.get(Calendar.MINUTE);
+		final int day = c.get(Calendar.DAY_OF_MONTH);
+		final int month = c.get(Calendar.MONTH);
+		final int year = c.get(Calendar.YEAR);
 
-		final TimePickerDialog dlg = new TimePickerDialog(this, timeListener, hour, minute,
-				DateFormat.is24HourFormat(this));
+		final DatePickerDialog dlg = new DatePickerDialog(this, dateListener, year, month, day);
 		dlg.show();
 
 	}
 
-	private class TimeListener implements OnTimeSetListener {
+	private class DateListener implements OnDateSetListener {
 
-		final TextView timeTextView;
+		final TextView dateTextView;
 
-		public TimeListener(final TextView timeField) {
-			this.timeTextView = timeField;
+		public DateListener(final TextView dateField) {
+			this.dateTextView = dateField;
 		}
 
 		@Override
-		public void onTimeSet(final TimePicker view, final int hourOfDay, final int minute) {
+		public void onDateSet(final DatePicker view, final int year, final int month, final int day) {
 			final Calendar c = Calendar.getInstance();
-			c.set(Calendar.HOUR_OF_DAY, hourOfDay);
-			c.set(Calendar.MINUTE, minute);
-			timeTextView.setText(TIME_FORMAT.format(c.getTime()));
+			c.set(Calendar.DAY_OF_MONTH, day);
+			c.set(Calendar.MONTH, month);
+			c.set(Calendar.YEAR, year);
+			dateTextView.setText(DATE_FORMAT.format(c.getTime()));
 		}
 
 	}

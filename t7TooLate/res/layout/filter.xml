@@ -88,8 +88,8 @@
                 android:layout_weight="1"
                 android:ems="10"
                 android:focusable="false"
-                android:inputType="time"
-                android:onClick="onStartTime"
+                android:inputType="date"
+                android:onClick="onStartDate"
                 android:singleLine="true"
                 android:textColor="@android:color/primary_text_light_nodisable" />
 
@@ -99,12 +99,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@color/btn_background"
-                android:contentDescription="@string/time_picker"
+                android:contentDescription="@string/date_picker"
                 android:minHeight="24dip"
                 android:minWidth="24dip"
-                android:onClick="onStartTime"
+                android:onClick="onStartDate"
                 android:padding="7dp"
-                android:src="@drawable/ic_clock_small" />
+                android:src="@drawable/ic_calendar_small" />
         </LinearLayout>
 
         <LinearLayout
@@ -131,8 +131,8 @@
                 android:layout_weight="1"
                 android:ems="10"
                 android:focusable="false"
-                android:inputType="time"
-                android:onClick="onEndTime"
+                android:inputType="date"
+                android:onClick="onEndDate"
                 android:singleLine="true"
                 android:textColor="@android:color/primary_text_light_nodisable" />
 
@@ -142,12 +142,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@color/btn_background"
-                android:contentDescription="@string/time_picker"
+                android:contentDescription="@string/date_picker"
                 android:minHeight="24dip"
                 android:minWidth="24dip"
-                android:onClick="onEndTime"
+                android:onClick="onEndDate"
                 android:padding="7dp"
-                android:src="@drawable/ic_clock_small" />
+                android:src="@drawable/ic_calendar_small" />
         </LinearLayout>
 
         <LinearLayout
