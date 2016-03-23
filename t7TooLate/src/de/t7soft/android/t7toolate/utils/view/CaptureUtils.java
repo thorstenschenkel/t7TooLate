@@ -28,11 +28,15 @@ public class CaptureUtils {
 	}
 
 	public static int fillTextViewDelay(final Capture capture, final TextView textViewDelay) {
+		final int minutes = getDelayMinutes(capture);
+		return fillTextViewDelay(minutes, textViewDelay);
+	}
+
+	public static int fillTextViewDelay(final int minutes, final TextView textViewDelay) {
 
 		final Context context = textViewDelay.getContext();
 
 		String delayText = "";
-		final int minutes = getDelayMinutes(capture);
 		if (minutes > 0) {
 			delayText += " +";
 			delayText += minutes;

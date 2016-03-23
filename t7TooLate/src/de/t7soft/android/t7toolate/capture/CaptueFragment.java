@@ -28,6 +28,7 @@ import de.t7soft.android.t7toolate.R;
 import de.t7soft.android.t7toolate.database.ToLateDatabaseAdapter;
 import de.t7soft.android.t7toolate.model.Capture;
 import de.t7soft.android.t7toolate.model.Connection;
+import de.t7soft.android.t7toolate.utils.view.CaptureUtils;
 
 public class CaptueFragment extends Fragment implements ITabFragment {
 
@@ -36,6 +37,7 @@ public class CaptueFragment extends Fragment implements ITabFragment {
 	private ConnectionPicker numberPickerConnection;
 	private TextView textViewPlanedEndValue;
 	private TextView textViewCurrentValue;
+	private TextView textViewDelayValue;
 	private List<Connection> connections;
 	private Handler currentHandler;
 	private Runnable currentRunnable;
@@ -47,6 +49,7 @@ public class CaptueFragment extends Fragment implements ITabFragment {
 
 		textViewPlanedEndValue = (TextView) captureView.findViewById(R.id.textViewPlanedEndValue);
 		textViewCurrentValue = (TextView) captureView.findViewById(R.id.textViewCurrentValue);
+		textViewDelayValue = (TextView) captureView.findViewById(R.id.textViewDelayValue);
 
 		numberPickerConnection = (ConnectionPicker) captureView.findViewById(R.id.numberPickerConnection);
 		numberPickerConnection.setOnValueChangedListener(new OnValueChangeListener() {
@@ -93,31 +96,32 @@ public class CaptueFragment extends Fragment implements ITabFragment {
 
 	private void updateCurrent() {
 
-		final int index = numberPickerConnection.getValue();
 		final Date now = Calendar.getInstance().getTime();
 		final String nowTimeStrg = TIME_FORMAT.format(now);
-		final long nowSeconds = getSeconds(now);
 
 		String currentHtml;
 		try {
-			final Connection connection = connections.get(index);
-			final long endSeconds = getSeconds(connection.getEndTime());
-			final long diff = nowSeconds - endSeconds;
-			final long minutes = diff / 60;
-			if (minutes > 0) {
-				currentHtml = getString(R.string.capture_current_late_value);
-				currentHtml = MessageFormat.format(currentHtml, nowTimeStrg, minutes);
-			} else {
-				currentHtml = getString(R.string.capture_current_value);
-				currentHtml = MessageFormat.format(currentHtml, nowTimeStrg);
-			}
-		} catch (final Exception e) {
 			currentHtml = getString(R.string.capture_current_value);
 			currentHtml = MessageFormat.format(currentHtml, nowTimeStrg);
+		} catch (final Exception e) {
+			currentHtml = getString(R.string.capture_no_current);
 		}
+		final Spanned currentText = Html.fromHtml(currentHtml);
+		textViewCurrentValue.setText(currentText);
 
-		final Spanned connectionText = Html.fromHtml(currentHtml);
-		textViewCurrentValue.setText(connectionText);
+		final int index = numberPickerConnection.getValue();
+		final long nowSeconds = getSeconds(now);
+
+		final Connection connection = connections.get(index);
+		final long endSeconds = getSeconds(connection.getEndTime());
+		final long diff = nowSeconds - endSeconds;
+		final long minutes = diff / 60;
+		if (minutes > 0) {
+			CaptureUtils.fillTextViewDelay((int) minutes, textViewDelayValue);
+		} else {
+			CaptureUtils.fillTextViewDelay((int) minutes, textViewDelayValue);
+			textViewDelayValue.setText("");
+		}
 
 	}
 

@@ -26,7 +26,7 @@
     <string name="capture_planed_end_value"><![CDATA[<b>{0}</b>&nbsp;&nbsp;in&nbsp;&nbsp;<b>{1}</b>]]></string>
     <string name="capture_no_connection"><![CDATA[<i>Keine Daten zur Ankunft!<i>]]></string>
     <string name="capture_current_value"><![CDATA[<b>{0}</b>]]></string>
-    <string name="capture_current_late_value"><![CDATA[<b>{0}</b>&nbsp;&nbsp;<font color="#c0392b"><b>+{1} min</b></font>]]></string>
+    <string name="capture_no_current"><![CDATA[<i>--:--<i>]]></string>
     <string name="capture_saved">Ankunft gespeichert</string>
     <!-- Connections -->
     <string name="connections_tab_tilte">Verbindungen</string>
