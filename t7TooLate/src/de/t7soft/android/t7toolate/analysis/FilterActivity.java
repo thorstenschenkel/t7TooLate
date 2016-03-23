@@ -10,7 +10,11 @@ import android.app.DatePickerDialog;
 import android.app.DatePickerDialog.OnDateSetListener;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.DatePicker;
+import android.widget.Switch;
 import android.widget.TextView;
 import de.t7soft.android.t7toolate.R;
 
@@ -23,6 +27,34 @@ public class FilterActivity extends Activity {
 
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.filter);
+
+		final ViewGroup layoutPeriodFrom = (ViewGroup) findViewById(R.id.layoutPeriodFrom);
+		final ViewGroup layoutPeriodTo = (ViewGroup) findViewById(R.id.layoutPeriodTo);
+
+		final Switch switchPeriod = (Switch) findViewById(R.id.switchPeriod);
+		switchPeriod.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+			@Override
+			public void onCheckedChanged(final CompoundButton buttonView, final boolean isChecked) {
+				disableEnableControls(isChecked, layoutPeriodFrom);
+				disableEnableControls(isChecked, layoutPeriodTo);
+			}
+		});
+
+		final View checkBoxOnTime = findViewById(R.id.checkBoxOnTime);
+		final View checkBoxSlight = findViewById(R.id.checkBoxSlight);
+		final View checkBoxLate = findViewById(R.id.checkBoxLate);
+		final View checkBoxExterm = findViewById(R.id.checkBoxExterm);
+
+		final Switch switchDelay = (Switch) findViewById(R.id.switchDelay);
+		switchDelay.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+			@Override
+			public void onCheckedChanged(final CompoundButton buttonView, final boolean isChecked) {
+				checkBoxOnTime.setEnabled(isChecked);
+				checkBoxSlight.setEnabled(isChecked);
+				checkBoxLate.setEnabled(isChecked);
+				checkBoxExterm.setEnabled(isChecked);
+			}
+		});
 
 	}
 
@@ -77,6 +109,16 @@ public class FilterActivity extends Activity {
 			dateTextView.setText(DATE_FORMAT.format(c.getTime()));
 		}
 
+	}
+
+	private void disableEnableControls(final boolean enable, final ViewGroup vg) {
+		for (int i = 0; i < vg.getChildCount(); i++) {
+			final View child = vg.getChildAt(i);
+			child.setEnabled(enable);
+			if (child instanceof ViewGroup) {
+				disableEnableControls(enable, (ViewGroup) child);
+			}
+		}
 	}
 
 }

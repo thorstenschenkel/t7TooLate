@@ -1,17 +1,12 @@
 package de.t7soft.android.t7toolate.analysis;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.ListView;
 import de.t7soft.android.t7toolate.MainActivity;
 import de.t7soft.android.t7toolate.R;
@@ -21,36 +16,23 @@ import de.t7soft.android.t7toolate.model.Capture;
 public class AllListFragment extends ListFragment {
 
 	private View allView;
-	private final List<Capture> captures = new ArrayList<Capture>();
-	private BaseAdapter listAdapter;
+	private AllCapturesCursorAdapter capturesAdapter;
 
 	@Override
 	public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
 
 		allView = inflater.inflate(R.layout.fragment_all, container, false);
 
-		listAdapter = createListAdapter(captures);
-		setListAdapter(listAdapter);
+		final Cursor cursor = getDbAdapter().getAllCapturesCursor();
+		capturesAdapter = new AllCapturesCursorAdapter(getActivity(), cursor);
+		setListAdapter(capturesAdapter);
 
 		return allView;
 	}
 
-	private AllCapturesListAdapter createListAdapter(final List<Capture> captures) {
-		return new AllCapturesListAdapter(this.getActivity(), captures);
-	}
-
 	private void updateListAdapter() {
-
-		captures.clear();
-		captures.addAll(getDbAdapter().getAllCaptures());
-		Collections.sort(captures, new Comparator<Capture>() {
-			@Override
-			public int compare(final Capture capture1, final Capture capture2) {
-				return capture2.getCaptureDateTime().compareTo(capture1.getCaptureDateTime());
-			}
-		});
-		listAdapter.notifyDataSetChanged();
-
+		final Cursor cursor = getDbAdapter().getAllCapturesCursor();
+		capturesAdapter.changeCursor(cursor);
 	}
 
 	@Override
@@ -66,10 +48,11 @@ public class AllListFragment extends ListFragment {
 		if ((itemPosition >= 0) && (itemPosition < getListAdapter().getCount())) {
 
 			final Capture capture = (Capture) getListAdapter().getItem(itemPosition);
-
-			final Intent intent = new Intent(getActivity(), ShowCaptureActivity.class);
-			intent.putExtra(ShowCaptureActivity.CAPTURE_ID, capture.getId());
-			startActivity(intent);
+			if (capture != null) {
+				final Intent intent = new Intent(getActivity(), ShowCaptureActivity.class);
+				intent.putExtra(ShowCaptureActivity.CAPTURE_ID, capture.getId());
+				startActivity(intent);
+			}
 
 		}
 

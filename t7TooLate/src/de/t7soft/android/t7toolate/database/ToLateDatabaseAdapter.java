@@ -116,14 +116,14 @@ public class ToLateDatabaseAdapter {
 	}
 
 	public List<Capture> getAllCaptures() {
-		return getAllCapture(database);
+		return getAllCaptures(database);
 	}
 
-	public List<Capture> getAllCapture(final SQLiteDatabase db) {
+	public List<Capture> getAllCaptures(final SQLiteDatabase db) {
 
 		final List<Capture> captures = new ArrayList<Capture>();
 
-		final Cursor cursor = db.query(ToLateDatabaseHelper.CAPTURES_TABLE_NAME, null, null, null, null, null, null);
+		final Cursor cursor = getAllCapturesCursor(db);
 
 		if (cursor != null) {
 			if (cursor.moveToFirst()) {
@@ -138,7 +138,16 @@ public class ToLateDatabaseAdapter {
 		return captures;
 	}
 
-	private static Capture createCapture(final Cursor cursor) {
+	public Cursor getAllCapturesCursor() {
+		return getAllCapturesCursor(database);
+	}
+
+	private Cursor getAllCapturesCursor(final SQLiteDatabase db) {
+		final Cursor cursor = db.query(ToLateDatabaseHelper.CAPTURES_TABLE_NAME, null, null, null, null, null, null);
+		return cursor;
+	}
+
+	public static Capture createCapture(final Cursor cursor) {
 		final String id = getString(cursor, ToLateDatabaseHelper.CAPTURE_ID_COL_NAME);
 		final Capture capture = new Capture(id);
 		final Connection connection = capture.getConnection();
