@@ -1,16 +1,16 @@
 package de.t7soft.android.t7toolate.database;
 
+import java.util.List;
+
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import de.t7soft.android.t7toolate.model.Capture;
 
 public class ToLateDatabaseHelper extends SQLiteOpenHelper {
 
 	private static final String DATABASE_NAME = "tolate.db";
-	private static final int DATABASE_VERSION = 2;
-
-	// old
-	private static final String OLD_CONNECTIONS_TABLE_NAME = "locations";
+	private static final int DATABASE_VERSION = 3;
 
 	// connection cols
 	public static final String CONNECTIONS_TABLE_NAME = "connections";
@@ -36,6 +36,7 @@ public class ToLateDatabaseHelper extends SQLiteOpenHelper {
 	public static final String CAPTURE_CONNECTION_TYPE_COL_NAME = "type";
 	public static final String CAPTURE_DATE_TIME_COL_NAME = "dateTime";
 	public static final String CAPTURE_COMMENT_COL_NAME = "comment";
+	public static final String CAPTURE_DELAY_COL_NAME = "delay";
 
 	public ToLateDatabaseHelper(final Context context) {
 		super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -120,18 +121,36 @@ public class ToLateDatabaseHelper extends SQLiteOpenHelper {
 		sqlBuffer.append(", ");
 		sqlBuffer.append(CAPTURE_COMMENT_COL_NAME);
 		sqlBuffer.append(" TEXT");
+		sqlBuffer.append(", ");
+		sqlBuffer.append(CAPTURE_DELAY_COL_NAME);
+		sqlBuffer.append(" INTEGER");
 		sqlBuffer.append(");");
 		db.execSQL(sqlBuffer.toString());
 	}
 
 	@Override
 	public void onUpgrade(final SQLiteDatabase db, final int oldVersion, final int newVersion) {
-		if (oldVersion < DATABASE_VERSION) {
-			db.execSQL("DROP TABLE IF EXISTS " + OLD_CONNECTIONS_TABLE_NAME);
+		// if (oldVersion < DATABASE_VERSION) {
+		// db.execSQL("DROP TABLE IF EXISTS " + OLD_CONNECTIONS_TABLE_NAME);
+		// db.execSQL("DROP TABLE IF EXISTS " + CONNECTIONS_TABLE_NAME);
+		// db.execSQL("DROP TABLE IF EXISTS " + CAPTURES_TABLE_NAME);
+		// }
+		// onCreate(db);
+
+		if (oldVersion == 2) {
+			final List<Capture> captures = ToLateDatabaseAdapter.getOldAllCaptures(db);
+
+			db.execSQL("DROP TABLE IF EXISTS " + CAPTURES_TABLE_NAME);
+			createCaptursTable(db);
+
+			for (final Capture capture : captures) {
+				ToLateDatabaseAdapter.insertCapture(db, capture);
+			}
+		} else if (oldVersion < DATABASE_VERSION) {
 			db.execSQL("DROP TABLE IF EXISTS " + CONNECTIONS_TABLE_NAME);
 			db.execSQL("DROP TABLE IF EXISTS " + CAPTURES_TABLE_NAME);
+			onCreate(db);
 		}
-		onCreate(db);
-	}
 
+	}
 }

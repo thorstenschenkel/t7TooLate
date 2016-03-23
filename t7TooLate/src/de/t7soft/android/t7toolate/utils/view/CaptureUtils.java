@@ -17,17 +17,22 @@ public class CaptureUtils {
 		// utility class
 	}
 
-	public static int fillTextViewDelay(final Capture capture, final TextView textViewDelay) {
+	public static int getDelayMinutes(final Capture capture) {
 
 		final Connection connection = capture.getConnection();
-		final Context context = textViewDelay.getContext();
-
-		String delayText = "";
 		final long captrueSeconds = getSeconds(capture.getCaptureDateTime());
 		final long endSeconds = getSeconds(connection.getEndTime());
 		final long diff = captrueSeconds - endSeconds;
 		final long minutes = diff / 60;
+		return (int) minutes;
+	}
 
+	public static int fillTextViewDelay(final Capture capture, final TextView textViewDelay) {
+
+		final Context context = textViewDelay.getContext();
+
+		String delayText = "";
+		final int minutes = getDelayMinutes(capture);
 		if (minutes > 0) {
 			delayText += " +";
 			delayText += minutes;
