@@ -147,7 +147,8 @@ public class ToLateDatabaseAdapter {
 	}
 
 	private static Cursor getAllCapturesCursor(final SQLiteDatabase db) {
-		final Cursor cursor = db.query(ToLateDatabaseHelper.CAPTURES_TABLE_NAME, null, null, null, null, null, null);
+		final String orderBy = ToLateDatabaseHelper.CAPTURE_DATE_TIME_COL_NAME + " DESC";
+		final Cursor cursor = db.query(ToLateDatabaseHelper.CAPTURES_TABLE_NAME, null, null, null, null, null, orderBy);
 		return cursor;
 	}
 
