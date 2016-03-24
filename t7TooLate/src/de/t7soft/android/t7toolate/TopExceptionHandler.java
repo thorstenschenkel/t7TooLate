@@ -7,6 +7,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.lang.Thread.UncaughtExceptionHandler;
+import java.util.GregorianCalendar;
 
 import android.app.Activity;
 import android.content.Context;
@@ -31,6 +32,7 @@ public class TopExceptionHandler implements UncaughtExceptionHandler {
 		StackTraceElement[] arr = ex.getStackTrace();
 		String report = ex.toString() + "\n\n";
 		report += "--------- Stack trace ---------\n\n";
+		report += "DATE: " + GregorianCalendar.getInstance().getTime().toString() + "\n";
 		for (final StackTraceElement stackTraceElement : arr) {
 			report += "    " + stackTraceElement.toString() + "\n";
 		}

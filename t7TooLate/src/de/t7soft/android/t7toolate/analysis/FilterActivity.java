@@ -14,13 +14,20 @@ import android.view.ViewGroup;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.Switch;
 import android.widget.TextView;
 import de.t7soft.android.t7toolate.R;
+import de.t7soft.android.t7toolate.model.PeriodFilter;
+import de.t7soft.android.t7toolate.utils.StringUtils;
+import de.t7soft.android.t7toolate.utils.view.FilterUtils;
 
 public class FilterActivity extends Activity {
 
 	private static final java.text.DateFormat DATE_FORMAT = new SimpleDateFormat("dd.MM.yyyy");
+	private Switch switchPeriod;
+	private EditText editTextFilterFrom;
+	private EditText editTextFilterTo;
 
 	@Override
 	protected void onCreate(final Bundle savedInstanceState) {
@@ -31,7 +38,7 @@ public class FilterActivity extends Activity {
 		final ViewGroup layoutPeriodFrom = (ViewGroup) findViewById(R.id.layoutPeriodFrom);
 		final ViewGroup layoutPeriodTo = (ViewGroup) findViewById(R.id.layoutPeriodTo);
 
-		final Switch switchPeriod = (Switch) findViewById(R.id.switchPeriod);
+		switchPeriod = (Switch) findViewById(R.id.switchPeriod);
 		switchPeriod.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 			@Override
 			public void onCheckedChanged(final CompoundButton buttonView, final boolean isChecked) {
@@ -56,10 +63,58 @@ public class FilterActivity extends Activity {
 			}
 		});
 
+		editTextFilterFrom = (EditText) findViewById(R.id.editTextFilterFrom);
+		editTextFilterTo = (EditText) findViewById(R.id.editTextFilterTo);
+
 	}
 
-	public void onCancel(final View view) {
-		// TODO
+	@Override
+	protected void onResume() {
+		super.onResume();
+		final PeriodFilter periodFilter = FilterUtils.createPeriodFilter(this);
+		switchPeriod.setChecked(periodFilter.isActive());
+		if (periodFilter.getFrom() == null) {
+			editTextFilterFrom.setText("");
+		} else {
+			editTextFilterFrom.setText(DATE_FORMAT.format(periodFilter.getFrom()));
+		}
+		if (periodFilter.getTo() == null) {
+			editTextFilterTo.setText("");
+		} else {
+			editTextFilterTo.setText(DATE_FORMAT.format(periodFilter.getTo()));
+		}
+
+	}
+
+	public void onOk(final View view) {
+
+		// period
+		final PeriodFilter periodFilter = new PeriodFilter();
+		periodFilter.setActive(switchPeriod.isChecked());
+		String dateString = editTextFilterFrom.getText().toString();
+		if (StringUtils.isEmpty(dateString)) {
+			periodFilter.setFrom(null);
+		} else {
+			try {
+				final Date date = DATE_FORMAT.parse(dateString);
+				periodFilter.setFrom(date);
+			} catch (final ParseException e) {
+				// TODO
+			}
+		}
+		dateString = editTextFilterTo.getText().toString();
+		if (StringUtils.isEmpty(dateString)) {
+			periodFilter.setTo(null);
+		} else {
+			try {
+				final Date date = DATE_FORMAT.parse(dateString);
+				periodFilter.setTo(date);
+			} catch (final ParseException e) {
+				// TODO
+			}
+		}
+		FilterUtils.storePeriodFilter(this, periodFilter);
+
 		finish();
 	}
 
