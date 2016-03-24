@@ -52,7 +52,9 @@ public class MainActivity extends FragmentActivity {
 	@Override
 	protected void onCreate(final Bundle savedInstanceState) {
 
-		Thread.setDefaultUncaughtExceptionHandler(new TopExceptionHandler(this));
+		final TopExceptionHandler handler = new TopExceptionHandler(this);
+		Thread.setDefaultUncaughtExceptionHandler(handler);
+		handler.logStackTrace();
 
 		if (dbAdapter == null) {
 			dbAdapter = new ToLateDatabaseAdapter(this);
