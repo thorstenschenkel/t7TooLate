@@ -16,6 +16,7 @@ import de.t7soft.android.t7toolate.model.Connection;
 import de.t7soft.android.t7toolate.model.ConnectionTypes;
 import de.t7soft.android.t7toolate.utils.view.CaptureUtils;
 
+@Deprecated
 public class AllCapturesListAdapter extends BaseAdapter {
 
 	private static final java.text.DateFormat TIME_FORMAT = new SimpleDateFormat("HH:mm");

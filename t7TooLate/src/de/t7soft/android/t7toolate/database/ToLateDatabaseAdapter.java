@@ -14,20 +14,25 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import de.t7soft.android.t7toolate.model.Capture;
 import de.t7soft.android.t7toolate.model.Connection;
+import de.t7soft.android.t7toolate.model.PeriodFilter;
 import de.t7soft.android.t7toolate.utils.view.CaptureUtils;
+import de.t7soft.android.t7toolate.utils.view.FilterUtils;
 
 public class ToLateDatabaseAdapter {
 
 	private static final String LOGTAG = ToLateDatabaseAdapter.class.getSimpleName();
 	private static final DateFormat TIME_FORMAT = new SimpleDateFormat("HH:mm");
+	private static final DateFormat INTERNAL_DATE_TIME_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
 	private static final DateFormat DATE_TIME_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 	private static final DateFormat OLD_DATE_TIME_FORMAT = new SimpleDateFormat("dd.MM.yyyy HH:mm");
 
 	private final ToLateDatabaseHelper dbHelper;
+	private final Context context;
 	private SQLiteDatabase database;
 
 	public ToLateDatabaseAdapter(final Context context) {
 		dbHelper = new ToLateDatabaseHelper(context);
+		this.context = context;
 	}
 
 	public void open() throws SQLException {
@@ -127,7 +132,7 @@ public class ToLateDatabaseAdapter {
 
 		final List<Capture> captures = new ArrayList<Capture>();
 
-		final Cursor cursor = getAllCapturesCursor(db);
+		final Cursor cursor = getAllCapturesCursor(db, context);
 
 		if (cursor != null) {
 			if (cursor.moveToFirst()) {
@@ -143,13 +148,49 @@ public class ToLateDatabaseAdapter {
 	}
 
 	public Cursor getAllCapturesCursor() {
-		return getAllCapturesCursor(database);
+		return getAllCapturesCursor(database, context);
 	}
 
-	private static Cursor getAllCapturesCursor(final SQLiteDatabase db) {
+	private static Cursor getAllCapturesCursor(final SQLiteDatabase db, final Context context) {
 		final String orderBy = ToLateDatabaseHelper.CAPTURE_DATE_TIME_COL_NAME + " DESC";
-		final Cursor cursor = db.query(ToLateDatabaseHelper.CAPTURES_TABLE_NAME, null, null, null, null, null, orderBy);
+		final Selection selection = createFilterSelection(context);
+		final Cursor cursor = db.query(ToLateDatabaseHelper.CAPTURES_TABLE_NAME, null, selection.getSelection(),
+				selection.getSelectionArgs(), null, null, orderBy);
 		return cursor;
+	}
+
+	private static Selection createFilterSelection(final Context context) {
+
+		final Selection selection = new Selection();
+		if (context != null) {
+			final PeriodFilter filter = FilterUtils.createPeriodFilter(context);
+			if ((filter != null) && filter.isActive()) {
+				if ((filter.getFrom() != null) && (filter.getTo() != null)) {
+					final String selString = ToLateDatabaseHelper.CAPTURE_DATE_TIME_COL_NAME + " BETWEEN ? AND ?";
+					selection.setSelection(selString);
+					final String[] args = new String[2];
+					args[0] = INTERNAL_DATE_TIME_FORMAT.format(filter.getFrom()) + " 00:00";
+					args[1] = INTERNAL_DATE_TIME_FORMAT.format(filter.getTo()) + " 23:59";
+					selection.setSelectionArgs(args);
+				} else if ((filter.getFrom() != null)) {
+					// TODO
+					final String selString = ToLateDatabaseHelper.CAPTURE_DATE_TIME_COL_NAME + " BETWEEN ? AND ?";
+					selection.setSelection(selString);
+					final String[] args = new String[1];
+					args[0] = INTERNAL_DATE_TIME_FORMAT.format(filter.getFrom()) + " 00:00";
+					selection.setSelectionArgs(args);
+				} else if ((filter.getTo() != null)) {
+					// TODO
+					final String selString = ToLateDatabaseHelper.CAPTURE_DATE_TIME_COL_NAME + " BETWEEN ? AND ?";
+					selection.setSelection(selString);
+					final String[] args = new String[1];
+					args[0] = INTERNAL_DATE_TIME_FORMAT.format(filter.getTo()) + " 23:59";
+					selection.setSelectionArgs(args);
+				}
+			}
+		}
+
+		return selection;
 	}
 
 	public static Capture createCapture(final Cursor cursor) {
@@ -381,7 +422,7 @@ public class ToLateDatabaseAdapter {
 
 		final List<Capture> captures = new ArrayList<Capture>();
 
-		final Cursor cursor = getAllCapturesCursor(db);
+		final Cursor cursor = getAllCapturesCursor(db, null);
 
 		if (cursor != null) {
 			if (cursor.moveToFirst()) {
@@ -418,6 +459,29 @@ public class ToLateDatabaseAdapter {
 		} catch (final ParseException e) {
 			return null;
 		}
+	}
+
+	private static class Selection {
+
+		private String selection;
+		private String[] selectionArgs;
+
+		public String getSelection() {
+			return selection;
+		}
+
+		public void setSelection(final String selection) {
+			this.selection = selection;
+		}
+
+		public String[] getSelectionArgs() {
+			return selectionArgs;
+		}
+
+		public void setSelectionArgs(final String[] selectionArgs) {
+			this.selectionArgs = selectionArgs;
+		}
+
 	}
 
 }
