@@ -14,7 +14,9 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import de.t7soft.android.t7toolate.model.Capture;
 import de.t7soft.android.t7toolate.model.Connection;
+import de.t7soft.android.t7toolate.model.DelayFilter;
 import de.t7soft.android.t7toolate.model.PeriodFilter;
+import de.t7soft.android.t7toolate.utils.StringUtils;
 import de.t7soft.android.t7toolate.utils.view.CaptureUtils;
 import de.t7soft.android.t7toolate.utils.view.FilterUtils;
 
@@ -106,8 +108,7 @@ public class ToLateDatabaseAdapter {
 		values.put(ToLateDatabaseHelper.CONNECTION_NAME_COL_NAME, connection.getName());
 		values.put(ToLateDatabaseHelper.CONNECTION_START_STATION_COL_NAME, connection.getStartStation());
 		if (connection.getStartTime() != null) {
-			values.put(ToLateDatabaseHelper.CONNECTION_START_TIME_COL_NAME,
-					TIME_FORMAT.format(connection.getStartTime()));
+			values.put(ToLateDatabaseHelper.CONNECTION_START_TIME_COL_NAME, TIME_FORMAT.format(connection.getStartTime()));
 		} else {
 			values.put(ToLateDatabaseHelper.CONNECTION_START_TIME_COL_NAME, "");
 		}
@@ -162,34 +163,31 @@ public class ToLateDatabaseAdapter {
 	private static Selection createFilterSelection(final Context context) {
 
 		final Selection selection = new Selection();
-		if (context != null) {
-			final PeriodFilter filter = FilterUtils.createPeriodFilter(context);
-			if ((filter != null) && filter.isActive()) {
-				if ((filter.getFrom() != null) && (filter.getTo() != null)) {
-					final String selString = ToLateDatabaseHelper.CAPTURE_DATE_TIME_COL_NAME + " BETWEEN ? AND ?";
-					selection.setSelection(selString);
-					final String[] args = new String[2];
-					args[0] = INTERNAL_DATE_TIME_FORMAT.format(filter.getFrom()) + " 00:00";
-					args[1] = INTERNAL_DATE_TIME_FORMAT.format(filter.getTo()) + " 23:59";
-					selection.setSelectionArgs(args);
-				} else if ((filter.getFrom() != null)) {
-					// TODO
-					final String selString = ToLateDatabaseHelper.CAPTURE_DATE_TIME_COL_NAME + " BETWEEN ? AND ?";
-					selection.setSelection(selString);
-					final String[] args = new String[1];
-					args[0] = INTERNAL_DATE_TIME_FORMAT.format(filter.getFrom()) + " 00:00";
-					selection.setSelectionArgs(args);
-				} else if ((filter.getTo() != null)) {
-					// TODO
-					final String selString = ToLateDatabaseHelper.CAPTURE_DATE_TIME_COL_NAME + " BETWEEN ? AND ?";
-					selection.setSelection(selString);
-					final String[] args = new String[1];
-					args[0] = INTERNAL_DATE_TIME_FORMAT.format(filter.getTo()) + " 23:59";
-					selection.setSelectionArgs(args);
-				}
-			}
-		}
 
+		if (context != null) {
+
+			final PeriodFilter periodFilter = FilterUtils.createPeriodFilter(context);
+			if ((periodFilter != null) && periodFilter.isActive()) {
+				Selection periodSelection = new Selection();
+				Date fromDate = periodFilter.getFrom() != null ? periodFilter.getFrom() : new Date(0);
+				Date toDate = periodFilter.getTo() != null ? periodFilter.getTo() : new Date();
+				final String selString = ToLateDatabaseHelper.CAPTURE_DATE_TIME_COL_NAME + " BETWEEN ? AND ?";
+				periodSelection.setSelection(selString);
+				final String[] args = new String[2];
+				args[0] = INTERNAL_DATE_TIME_FORMAT.format(fromDate) + " 00:00";
+				args[1] = INTERNAL_DATE_TIME_FORMAT.format(toDate) + " 23:59";
+				periodSelection.setSelectionArgs(args);
+				selection.join(periodSelection);
+			}
+
+			final DelayFilter delayFilter = new DelayFilter(); // TODO
+			if ((delayFilter != null) && delayFilter.isActive()) {
+				Selection delaySelection = new Selection();
+				// TODO
+				selection.join(delaySelection);
+			}
+
+		}
 		return selection;
 	}
 
@@ -325,8 +323,7 @@ public class ToLateDatabaseAdapter {
 		Capture capture = null;
 
 		final String selection = createCaptureSelection(id);
-		final Cursor cursor = db.query(ToLateDatabaseHelper.CAPTURES_TABLE_NAME, null, selection, null, null, null,
-				null);
+		final Cursor cursor = db.query(ToLateDatabaseHelper.CAPTURES_TABLE_NAME, null, selection, null, null, null, null);
 
 		if (cursor != null) {
 			if (cursor.moveToFirst()) {
@@ -352,8 +349,7 @@ public class ToLateDatabaseAdapter {
 		Connection connection = null;
 
 		final String selection = createConnectionSelection(id);
-		final Cursor cursor = db.query(ToLateDatabaseHelper.CONNECTIONS_TABLE_NAME, null, selection, null, null, null,
-				null);
+		final Cursor cursor = db.query(ToLateDatabaseHelper.CONNECTIONS_TABLE_NAME, null, selection, null, null, null, null);
 
 		if (cursor != null) {
 			if (cursor.moveToFirst()) {
@@ -380,8 +376,7 @@ public class ToLateDatabaseAdapter {
 		values.put(ToLateDatabaseHelper.CONNECTION_NAME_COL_NAME, connection.getName());
 		values.put(ToLateDatabaseHelper.CONNECTION_START_STATION_COL_NAME, connection.getStartStation());
 		if (connection.getStartTime() != null) {
-			values.put(ToLateDatabaseHelper.CONNECTION_START_TIME_COL_NAME,
-					TIME_FORMAT.format(connection.getStartTime()));
+			values.put(ToLateDatabaseHelper.CONNECTION_START_TIME_COL_NAME, TIME_FORMAT.format(connection.getStartTime()));
 		} else {
 			values.put(ToLateDatabaseHelper.CONNECTION_START_TIME_COL_NAME, "");
 		}
@@ -480,6 +475,51 @@ public class ToLateDatabaseAdapter {
 
 		public void setSelectionArgs(final String[] selectionArgs) {
 			this.selectionArgs = selectionArgs;
+		}
+
+		public boolean isSelectionEmpty() {
+			return StringUtils.isEmpty(selection);
+		}
+
+		public boolean isSelectionArgsEmpty() {
+			return (selectionArgs == null || selectionArgs.length == 0);
+		}
+
+		public Selection join(Selection otherSelection) {
+
+			if (otherSelection == null) {
+				return this;
+			}
+			if (isSelectionEmpty() && otherSelection.isSelectionEmpty()) {
+				return this;
+			}
+
+			// string
+			if (isSelectionEmpty()) {
+				setSelection(otherSelection.getSelection());
+			} else {
+				if (!otherSelection.isSelectionEmpty()) {
+					String jointString = selection + " AND " + otherSelection.getSelection();
+					setSelection(jointString);
+				}
+			}
+
+			// args
+			if (isSelectionArgsEmpty()) {
+				setSelectionArgs(otherSelection.getSelectionArgs());
+			} else {
+				if (!otherSelection.isSelectionArgsEmpty()) {
+					int length = selectionArgs.length;
+					int otherlength = otherSelection.getSelectionArgs().length;
+					String[] jointArgs = new String[length + otherlength];
+					System.arraycopy(selectionArgs, 0, jointArgs, 0, length);
+					System.arraycopy(otherSelection.getSelectionArgs(), 0, jointArgs, length, otherlength);
+					setSelectionArgs(jointArgs);
+				}
+			}
+
+			return this;
+
 		}
 
 	}
