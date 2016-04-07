@@ -18,6 +18,7 @@ import android.widget.EditText;
 import android.widget.Switch;
 import android.widget.TextView;
 import de.t7soft.android.t7toolate.R;
+import de.t7soft.android.t7toolate.model.DelayFilter;
 import de.t7soft.android.t7toolate.model.PeriodFilter;
 import de.t7soft.android.t7toolate.utils.StringUtils;
 import de.t7soft.android.t7toolate.utils.view.FilterUtils;
@@ -28,6 +29,7 @@ public class FilterActivity extends Activity {
 	private Switch switchPeriod;
 	private EditText editTextFilterFrom;
 	private EditText editTextFilterTo;
+	private Switch switchDelay;
 
 	@Override
 	protected void onCreate(final Bundle savedInstanceState) {
@@ -52,7 +54,7 @@ public class FilterActivity extends Activity {
 		final View checkBoxLate = findViewById(R.id.checkBoxLate);
 		final View checkBoxExterm = findViewById(R.id.checkBoxExterm);
 
-		final Switch switchDelay = (Switch) findViewById(R.id.switchDelay);
+		switchDelay = (Switch) findViewById(R.id.switchDelay);
 		switchDelay.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 			@Override
 			public void onCheckedChanged(final CompoundButton buttonView, final boolean isChecked) {
@@ -83,6 +85,8 @@ public class FilterActivity extends Activity {
 		} else {
 			editTextFilterTo.setText(DATE_FORMAT.format(periodFilter.getTo()));
 		}
+		final DelayFilter delayFilter = FilterUtils.createDelayFilter(this);
+		switchDelay.setChecked(delayFilter.isActive());
 
 	}
 
@@ -114,6 +118,11 @@ public class FilterActivity extends Activity {
 			}
 		}
 		FilterUtils.storePeriodFilter(this, periodFilter);
+
+		// period
+		final DelayFilter delayFilter = new DelayFilter();
+		delayFilter.setActive(switchDelay.isChecked());
+		FilterUtils.storeDelayFilter(this, delayFilter);
 
 		finish();
 	}

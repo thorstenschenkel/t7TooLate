@@ -52,8 +52,15 @@ public class ToLateDatabaseAdapter {
 		return false;
 	}
 
+	private SQLiteDatabase getDatabase() {
+		if (database == null) {
+			open();
+		}
+		return database;
+	}
+
 	public long insertCapture(final Capture capture) {
-		return insertCapture(database, capture);
+		return insertCapture(getDatabase(), capture);
 	}
 
 	/* private */static long insertCapture(final SQLiteDatabase db, final Capture capture) {
@@ -94,7 +101,7 @@ public class ToLateDatabaseAdapter {
 	}
 
 	public long insertConnection(final Connection connection) {
-		return insertConnection(database, connection);
+		return insertConnection(getDatabase(), connection);
 	}
 
 	private long insertConnection(final SQLiteDatabase db, final Connection connection) {
@@ -108,7 +115,8 @@ public class ToLateDatabaseAdapter {
 		values.put(ToLateDatabaseHelper.CONNECTION_NAME_COL_NAME, connection.getName());
 		values.put(ToLateDatabaseHelper.CONNECTION_START_STATION_COL_NAME, connection.getStartStation());
 		if (connection.getStartTime() != null) {
-			values.put(ToLateDatabaseHelper.CONNECTION_START_TIME_COL_NAME, TIME_FORMAT.format(connection.getStartTime()));
+			values.put(ToLateDatabaseHelper.CONNECTION_START_TIME_COL_NAME,
+					TIME_FORMAT.format(connection.getStartTime()));
 		} else {
 			values.put(ToLateDatabaseHelper.CONNECTION_START_TIME_COL_NAME, "");
 		}
@@ -126,7 +134,7 @@ public class ToLateDatabaseAdapter {
 	}
 
 	public List<Capture> getAllCaptures() {
-		return getAllCaptures(database);
+		return getAllCaptures(getDatabase());
 	}
 
 	public List<Capture> getAllCaptures(final SQLiteDatabase db) {
@@ -149,12 +157,13 @@ public class ToLateDatabaseAdapter {
 	}
 
 	public Cursor getAllCapturesCursor() {
-		return getAllCapturesCursor(database, context);
+		return getAllCapturesCursor(getDatabase(), context);
 	}
 
 	private static Cursor getAllCapturesCursor(final SQLiteDatabase db, final Context context) {
 		final String orderBy = ToLateDatabaseHelper.CAPTURE_DATE_TIME_COL_NAME + " DESC";
 		final Selection selection = createFilterSelection(context);
+		// Maybe db is null !!! TODO
 		final Cursor cursor = db.query(ToLateDatabaseHelper.CAPTURES_TABLE_NAME, null, selection.getSelection(),
 				selection.getSelectionArgs(), null, null, orderBy);
 		return cursor;
@@ -168,9 +177,9 @@ public class ToLateDatabaseAdapter {
 
 			final PeriodFilter periodFilter = FilterUtils.createPeriodFilter(context);
 			if ((periodFilter != null) && periodFilter.isActive()) {
-				Selection periodSelection = new Selection();
-				Date fromDate = periodFilter.getFrom() != null ? periodFilter.getFrom() : new Date(0);
-				Date toDate = periodFilter.getTo() != null ? periodFilter.getTo() : new Date();
+				final Selection periodSelection = new Selection();
+				final Date fromDate = periodFilter.getFrom() != null ? periodFilter.getFrom() : new Date(0);
+				final Date toDate = periodFilter.getTo() != null ? periodFilter.getTo() : new Date();
 				final String selString = ToLateDatabaseHelper.CAPTURE_DATE_TIME_COL_NAME + " BETWEEN ? AND ?";
 				periodSelection.setSelection(selString);
 				final String[] args = new String[2];
@@ -182,7 +191,7 @@ public class ToLateDatabaseAdapter {
 
 			final DelayFilter delayFilter = new DelayFilter(); // TODO
 			if ((delayFilter != null) && delayFilter.isActive()) {
-				Selection delaySelection = new Selection();
+				final Selection delaySelection = new Selection();
 				// TODO
 				selection.join(delaySelection);
 			}
@@ -207,7 +216,7 @@ public class ToLateDatabaseAdapter {
 	}
 
 	public List<Connection> getAllConnections() {
-		return getAllConnections(database);
+		return getAllConnections(getDatabase());
 	}
 
 	public List<Connection> getAllConnections(final SQLiteDatabase db) {
@@ -315,7 +324,7 @@ public class ToLateDatabaseAdapter {
 	}
 
 	public Capture getCapture(final String id) {
-		return getCapture(database, id);
+		return getCapture(getDatabase(), id);
 	}
 
 	private static Capture getCapture(final SQLiteDatabase db, final String id) {
@@ -323,7 +332,8 @@ public class ToLateDatabaseAdapter {
 		Capture capture = null;
 
 		final String selection = createCaptureSelection(id);
-		final Cursor cursor = db.query(ToLateDatabaseHelper.CAPTURES_TABLE_NAME, null, selection, null, null, null, null);
+		final Cursor cursor = db.query(ToLateDatabaseHelper.CAPTURES_TABLE_NAME, null, selection, null, null, null,
+				null);
 
 		if (cursor != null) {
 			if (cursor.moveToFirst()) {
@@ -341,7 +351,7 @@ public class ToLateDatabaseAdapter {
 	}
 
 	public Connection getConnection(final String id) {
-		return getConnection(database, id);
+		return getConnection(getDatabase(), id);
 	}
 
 	private static Connection getConnection(final SQLiteDatabase db, final String id) {
@@ -349,7 +359,8 @@ public class ToLateDatabaseAdapter {
 		Connection connection = null;
 
 		final String selection = createConnectionSelection(id);
-		final Cursor cursor = db.query(ToLateDatabaseHelper.CONNECTIONS_TABLE_NAME, null, selection, null, null, null, null);
+		final Cursor cursor = db.query(ToLateDatabaseHelper.CONNECTIONS_TABLE_NAME, null, selection, null, null, null,
+				null);
 
 		if (cursor != null) {
 			if (cursor.moveToFirst()) {
@@ -367,7 +378,7 @@ public class ToLateDatabaseAdapter {
 	}
 
 	public long updateConnection(final Connection connection) {
-		return updateConnection(database, connection);
+		return updateConnection(getDatabase(), connection);
 	}
 
 	private static long updateConnection(final SQLiteDatabase db, final Connection connection) {
@@ -376,7 +387,8 @@ public class ToLateDatabaseAdapter {
 		values.put(ToLateDatabaseHelper.CONNECTION_NAME_COL_NAME, connection.getName());
 		values.put(ToLateDatabaseHelper.CONNECTION_START_STATION_COL_NAME, connection.getStartStation());
 		if (connection.getStartTime() != null) {
-			values.put(ToLateDatabaseHelper.CONNECTION_START_TIME_COL_NAME, TIME_FORMAT.format(connection.getStartTime()));
+			values.put(ToLateDatabaseHelper.CONNECTION_START_TIME_COL_NAME,
+					TIME_FORMAT.format(connection.getStartTime()));
 		} else {
 			values.put(ToLateDatabaseHelper.CONNECTION_START_TIME_COL_NAME, "");
 		}
@@ -394,7 +406,7 @@ public class ToLateDatabaseAdapter {
 	}
 
 	public int deleteConnection(final Connection connection) {
-		return deleteConnection(database, connection);
+		return deleteConnection(getDatabase(), connection);
 	}
 
 	public static int deleteConnection(final SQLiteDatabase db, final Connection connection) {
@@ -403,7 +415,7 @@ public class ToLateDatabaseAdapter {
 	}
 
 	public int deleteCapture(final Capture capture) {
-		return deleteCapture(database, capture);
+		return deleteCapture(getDatabase(), capture);
 	}
 
 	public static int deleteCapture(final SQLiteDatabase db, final Capture capture) {
@@ -482,10 +494,10 @@ public class ToLateDatabaseAdapter {
 		}
 
 		public boolean isSelectionArgsEmpty() {
-			return (selectionArgs == null || selectionArgs.length == 0);
+			return ((selectionArgs == null) || (selectionArgs.length == 0));
 		}
 
-		public Selection join(Selection otherSelection) {
+		public Selection join(final Selection otherSelection) {
 
 			if (otherSelection == null) {
 				return this;
@@ -499,7 +511,7 @@ public class ToLateDatabaseAdapter {
 				setSelection(otherSelection.getSelection());
 			} else {
 				if (!otherSelection.isSelectionEmpty()) {
-					String jointString = selection + " AND " + otherSelection.getSelection();
+					final String jointString = selection + " AND " + otherSelection.getSelection();
 					setSelection(jointString);
 				}
 			}
@@ -509,9 +521,9 @@ public class ToLateDatabaseAdapter {
 				setSelectionArgs(otherSelection.getSelectionArgs());
 			} else {
 				if (!otherSelection.isSelectionArgsEmpty()) {
-					int length = selectionArgs.length;
-					int otherlength = otherSelection.getSelectionArgs().length;
-					String[] jointArgs = new String[length + otherlength];
+					final int length = selectionArgs.length;
+					final int otherlength = otherSelection.getSelectionArgs().length;
+					final String[] jointArgs = new String[length + otherlength];
 					System.arraycopy(selectionArgs, 0, jointArgs, 0, length);
 					System.arraycopy(otherSelection.getSelectionArgs(), 0, jointArgs, length, otherlength);
 					setSelectionArgs(jointArgs);
