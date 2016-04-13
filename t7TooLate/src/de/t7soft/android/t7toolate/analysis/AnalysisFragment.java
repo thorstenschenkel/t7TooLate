@@ -16,12 +16,14 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import de.t7soft.android.t7toolate.ITabFragment;
 import de.t7soft.android.t7toolate.R;
+import de.t7soft.android.t7toolate.utils.FilterUtils;
 
 public class AnalysisFragment extends Fragment implements ITabFragment {
 
 	private View analysisView;
 	private Menu menu;
 	private FragmentManager fragmentManager;
+	private MenuItem menuItemFilter;
 
 	@Override
 	public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
@@ -75,6 +77,12 @@ public class AnalysisFragment extends Fragment implements ITabFragment {
 	}
 
 	@Override
+	public void onResume() {
+		super.onResume();
+		updateMenuItems();
+	}
+
+	@Override
 	public boolean onOptionsItemSelected(final MenuItem item) {
 		switch (item.getItemId()) {
 			case R.id.action_filter:
@@ -87,9 +95,18 @@ public class AnalysisFragment extends Fragment implements ITabFragment {
 	@Override
 	public void onPrepareOptionsMenu(final Menu menu) {
 		super.onPrepareOptionsMenu(menu);
-		final MenuItem menuItem = menu.findItem(R.id.action_filter);
-		if (menuItem != null) {
-			menuItem.setVisible(getUserVisibleHint());
+		menuItemFilter = menu.findItem(R.id.action_filter);
+		updateMenuItems();
+	}
+
+	private void updateMenuItems() {
+		if (menuItemFilter != null) {
+			menuItemFilter.setVisible(getUserVisibleHint());
+			if (FilterUtils.isOneFilterActive(getActivity())) {
+				menuItemFilter.setIcon(R.drawable.ic_filter);
+			} else {
+				menuItemFilter.setIcon(R.drawable.ic_empty_filter);
+			}
 			getActivity().invalidateOptionsMenu();
 		}
 	}

@@ -28,7 +28,7 @@ import de.t7soft.android.t7toolate.R;
 import de.t7soft.android.t7toolate.database.ToLateDatabaseAdapter;
 import de.t7soft.android.t7toolate.model.Capture;
 import de.t7soft.android.t7toolate.model.Connection;
-import de.t7soft.android.t7toolate.utils.view.CaptureUtils;
+import de.t7soft.android.t7toolate.utils.CaptureUtils;
 
 public class CaptueFragment extends Fragment implements ITabFragment {
 
@@ -253,6 +253,7 @@ public class CaptueFragment extends Fragment implements ITabFragment {
 
 	public void onCapture(final View view) {
 
+		Toast.makeText(getActivity(), "debug: #onCapture", Toast.LENGTH_SHORT).show();
 		Connection selectedConnection = null;
 		final int selIndex = numberPickerConnection.getValue();
 		connections = getDbAdapter().getAllConnections();

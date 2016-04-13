@@ -18,7 +18,7 @@ import de.t7soft.android.t7toolate.R;
 import de.t7soft.android.t7toolate.database.ToLateDatabaseAdapter;
 import de.t7soft.android.t7toolate.model.Capture;
 import de.t7soft.android.t7toolate.model.ConnectionTypes;
-import de.t7soft.android.t7toolate.utils.view.CaptureUtils;
+import de.t7soft.android.t7toolate.utils.CaptureUtils;
 
 public class ShowCaptureActivity extends Activity {
 

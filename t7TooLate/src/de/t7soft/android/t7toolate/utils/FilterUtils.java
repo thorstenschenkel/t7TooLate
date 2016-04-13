@@ -1,4 +1,4 @@
-package de.t7soft.android.t7toolate.utils.view;
+package de.t7soft.android.t7toolate.utils;
 
 import java.util.Date;
 
@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import de.t7soft.android.t7toolate.MainActivity;
+import de.t7soft.android.t7toolate.model.AbstractFilter;
 import de.t7soft.android.t7toolate.model.DelayFilter;
 import de.t7soft.android.t7toolate.model.PeriodFilter;
 
@@ -75,6 +76,21 @@ public class FilterUtils {
 		final DelayFilter filter = new DelayFilter();
 		filter.setActive(preferences.getBoolean(PREF_DELAY_ACTIVE, false));
 		return filter;
+
+	}
+
+	public static boolean isOneFilterActive(final Context context) {
+
+		AbstractFilter filter = createPeriodFilter(context);
+		if (filter.isActive()) {
+			return true;
+		}
+		filter = createDelayFilter(context);
+		if (filter.isActive()) {
+			return true;
+		}
+
+		return false;
 
 	}
 

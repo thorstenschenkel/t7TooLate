@@ -1,4 +1,4 @@
-package de.t7soft.android.t7toolate.utils.view;
+package de.t7soft.android.t7toolate.utils;
 
 import java.util.Calendar;
 import java.util.Date;
