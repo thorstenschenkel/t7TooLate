@@ -92,14 +92,13 @@
                 android:inputType="date"
                 android:onClick="onStartDate"
                 android:singleLine="true"
-                android:textColor="@android:color/primary_text_light_nodisable" />
+                android:textColor="@android:color/primary_text_light" />
 
             <ImageButton
                 android:id="@+id/buttonFilterFrom"
-                style="?android:attr/buttonBarButtonStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@color/btn_background"
+                android:background="@drawable/button_bar_button"
                 android:contentDescription="@string/date_picker"
                 android:minHeight="24dip"
                 android:minWidth="24dip"
@@ -136,14 +135,13 @@
                 android:inputType="date"
                 android:onClick="onEndDate"
                 android:singleLine="true"
-                android:textColor="@android:color/primary_text_light_nodisable" />
+                android:textColor="@android:color/primary_text_light" />
 
             <ImageButton
                 android:id="@+id/buttonFilterTo"
-                style="?android:attr/buttonBarButtonStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@color/btn_background"
+                android:background="@drawable/button_bar_button"
                 android:contentDescription="@string/date_picker"
                 android:minHeight="24dip"
                 android:minWidth="24dip"
@@ -212,7 +210,6 @@
             android:layout_weight="1" />
 
         <LinearLayout
-            style="?android:attr/buttonBarStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
@@ -220,10 +217,9 @@
 
             <Button
                 android:id="@+id/buttonConnectionCancel"
-                style="?android:attr/buttonBarButtonStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/btn_background"
+                android:background="@drawable/button_bar_button"
                 android:onClick="onOk"
                 android:text="@string/ok"
                 android:textColor="@color/btn_text" />

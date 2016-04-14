@@ -248,7 +248,6 @@
             android:layout_weight="1" />
 
         <LinearLayout
-            style="?android:attr/buttonBarStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
@@ -256,10 +255,9 @@
 
             <Button
                 android:id="@+id/buttonConnectionCancel"
-                style="?android:attr/buttonBarButtonStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/btn_background"
+                android:background="@drawable/button_bar_button"
                 android:onClick="onCancel"
                 android:text="@string/ok"
                 android:textColor="@color/btn_text" />

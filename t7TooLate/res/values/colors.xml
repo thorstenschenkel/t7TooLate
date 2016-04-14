@@ -7,6 +7,8 @@
     <color name="subtitle_text">#E8EAF6</color>
     <color name="header_text">#3F51B5</color>
     <color name="btn_background">#303F9F</color>    
+    <color name="btn_pressed_background">#283593</color>    
+    <color name="btn_disabled_background">#9FA8DA</color>    
     <color name="btn_text">#E8EAF6</color>       
     <color name="text_color_on_time">#2E7D32</color>       
     <color name="text_color_slight">#EF6C00</color>       

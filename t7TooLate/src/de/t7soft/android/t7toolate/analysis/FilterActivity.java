@@ -37,31 +37,19 @@ public class FilterActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.filter);
 
-		final ViewGroup layoutPeriodFrom = (ViewGroup) findViewById(R.id.layoutPeriodFrom);
-		final ViewGroup layoutPeriodTo = (ViewGroup) findViewById(R.id.layoutPeriodTo);
-
 		switchPeriod = (Switch) findViewById(R.id.switchPeriod);
 		switchPeriod.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 			@Override
 			public void onCheckedChanged(final CompoundButton buttonView, final boolean isChecked) {
-				disableEnableControls(isChecked, layoutPeriodFrom);
-				disableEnableControls(isChecked, layoutPeriodTo);
+				enablePeriodPanel(isChecked);
 			}
 		});
-
-		final View checkBoxOnTime = findViewById(R.id.checkBoxOnTime);
-		final View checkBoxSlight = findViewById(R.id.checkBoxSlight);
-		final View checkBoxLate = findViewById(R.id.checkBoxLate);
-		final View checkBoxExterm = findViewById(R.id.checkBoxExterm);
 
 		switchDelay = (Switch) findViewById(R.id.switchDelay);
 		switchDelay.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 			@Override
 			public void onCheckedChanged(final CompoundButton buttonView, final boolean isChecked) {
-				checkBoxOnTime.setEnabled(isChecked);
-				checkBoxSlight.setEnabled(isChecked);
-				checkBoxLate.setEnabled(isChecked);
-				checkBoxExterm.setEnabled(isChecked);
+				enableDelayPanel(isChecked);
 			}
 		});
 
@@ -70,11 +58,30 @@ public class FilterActivity extends Activity {
 
 	}
 
+	private void enablePeriodPanel(final boolean isChecked) {
+		final ViewGroup layoutPeriodFrom = (ViewGroup) findViewById(R.id.layoutPeriodFrom);
+		final ViewGroup layoutPeriodTo = (ViewGroup) findViewById(R.id.layoutPeriodTo);
+		disableEnableControls(isChecked, layoutPeriodFrom);
+		disableEnableControls(isChecked, layoutPeriodTo);
+	}
+
+	private void enableDelayPanel(final boolean isChecked) {
+		final View checkBoxOnTime = findViewById(R.id.checkBoxOnTime);
+		final View checkBoxSlight = findViewById(R.id.checkBoxSlight);
+		final View checkBoxLate = findViewById(R.id.checkBoxLate);
+		final View checkBoxExterm = findViewById(R.id.checkBoxExterm);
+		checkBoxOnTime.setEnabled(isChecked);
+		checkBoxSlight.setEnabled(isChecked);
+		checkBoxLate.setEnabled(isChecked);
+		checkBoxExterm.setEnabled(isChecked);
+	}
+
 	@Override
 	protected void onResume() {
 		super.onResume();
 		final PeriodFilter periodFilter = FilterUtils.createPeriodFilter(this);
 		switchPeriod.setChecked(periodFilter.isActive());
+		enablePeriodPanel(switchPeriod.isChecked());
 		if (periodFilter.getFrom() == null) {
 			editTextFilterFrom.setText("");
 		} else {
@@ -87,7 +94,7 @@ public class FilterActivity extends Activity {
 		}
 		final DelayFilter delayFilter = FilterUtils.createDelayFilter(this);
 		switchDelay.setChecked(delayFilter.isActive());
-
+		enableDelayPanel(switchDelay.isChecked());
 	}
 
 	public void onOk(final View view) {

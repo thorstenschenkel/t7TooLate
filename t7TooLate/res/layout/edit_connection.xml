@@ -60,6 +60,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:ems="10"
+                android:textColor="@android:color/primary_text_light"
                 android:hint="@string/connection_name_hint"
                 android:singleLine="true" >
 
@@ -67,12 +68,11 @@
             </EditText>
 
             <Spinner
-                android:layout_marginLeft="12dp"
                 android:id="@+id/sipnnerConnectionType"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" >
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="12dp" >
             </Spinner>
-            
         </LinearLayout>
 
         <TextView
@@ -106,6 +106,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
+                android:textColor="@android:color/primary_text_light"
                 android:hint="@string/connection_station_hint"
                 android:singleLine="true" >
             </EditText>
@@ -138,14 +139,14 @@
                 android:inputType="time"
                 android:onClick="onStartTime"
                 android:singleLine="true"
-                android:textColor="@android:color/primary_text_light_nodisable" />
+                android:textColor="@android:color/primary_text_light"
+                 />
 
             <ImageButton
                 android:id="@+id/buttonConnectionStartTime"
-                style="?android:attr/buttonBarButtonStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@color/btn_background"
+                android:background="@drawable/button_bar_button"
                 android:contentDescription="@string/time_picker"
                 android:minHeight="24dip"
                 android:minWidth="24dip"
@@ -185,6 +186,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ems="10"
+                android:textColor="@android:color/primary_text_light"
                 android:hint="@string/connection_station_hint"
                 android:singleLine="true" >
             </EditText>
@@ -217,14 +219,14 @@
                 android:inputType="time"
                 android:onClick="onEndTime"
                 android:singleLine="true"
-                android:textColor="@android:color/primary_text_light_nodisable" />
+                android:textColor="@android:color/primary_text_light"
+                 />
 
             <ImageButton
                 android:id="@+id/buttonConnectionEndTime"
-                style="?android:attr/buttonBarButtonStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@color/btn_background"
+                android:background="@drawable/button_bar_button"
                 android:contentDescription="@string/time_picker"
                 android:minHeight="24dip"
                 android:minWidth="24dip"
@@ -276,7 +278,6 @@
             android:layout_weight="1" />
 
         <LinearLayout
-            style="?android:attr/buttonBarStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
@@ -284,11 +285,10 @@
 
             <Button
                 android:id="@+id/buttonConnectionSave"
-                style="?android:attr/buttonBarButtonStyle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.5"
-                android:background="@color/btn_background"
+                android:background="@drawable/button_bar_button"
                 android:onClick="onSave"
                 android:text="@string/save"
                 android:textColor="@color/btn_text" />
@@ -299,11 +299,10 @@
 
             <Button
                 android:id="@+id/buttonConnectionCancel"
-                style="?android:attr/buttonBarButtonStyle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.5"
-                android:background="@color/btn_background"
+                android:background="@drawable/button_bar_button"
                 android:onClick="onCancel"
                 android:text="@string/cancel"
                 android:textColor="@color/btn_text" />

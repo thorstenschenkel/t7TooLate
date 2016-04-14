@@ -210,22 +210,8 @@ public class CaptueFragment extends Fragment implements ITabFragment {
 		stopUpdates();
 		updatePicker();
 		super.onResume();
-
-		if (currentHandler == null) {
-			currentHandler = new Handler();
-			currentRunnable = new Runnable() {
-				@Override
-				public void run() {
-					updateCurrent();
-					currentHandler.postDelayed(currentRunnable, 10000);
-				}
-
-			};
-		}
-
 		startUpdates();
 		updatePickerSelection();
-
 	}
 
 	@Override
@@ -242,6 +228,17 @@ public class CaptueFragment extends Fragment implements ITabFragment {
 	}
 
 	public void startUpdates() {
+		if (currentHandler == null) {
+			currentHandler = new Handler();
+			currentRunnable = new Runnable() {
+				@Override
+				public void run() {
+					updateCurrent();
+					currentHandler.postDelayed(currentRunnable, 10000);
+				}
+
+			};
+		}
 		currentHandler.postDelayed(currentRunnable, 10000);
 	}
 
