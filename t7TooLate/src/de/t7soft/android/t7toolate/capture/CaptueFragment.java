@@ -99,12 +99,14 @@ public class CaptueFragment extends Fragment implements ITabFragment {
 		final Date now = Calendar.getInstance().getTime();
 		final String nowTimeStrg = TIME_FORMAT.format(now);
 
-		String currentHtml;
-		try {
-			currentHtml = getString(R.string.capture_current_value);
-			currentHtml = MessageFormat.format(currentHtml, nowTimeStrg);
-		} catch (final Exception e) {
-			currentHtml = getString(R.string.capture_no_current);
+		String currentHtml = "<![CDATA[<i>--:--<i>]]>";
+		if (isAdded()) {
+			try {
+				currentHtml = getString(R.string.capture_current_value);
+				currentHtml = MessageFormat.format(currentHtml, nowTimeStrg);
+			} catch (final Exception e) {
+				currentHtml = getString(R.string.capture_no_current);
+			}
 		}
 		final Spanned currentText = Html.fromHtml(currentHtml);
 		textViewCurrentValue.setText(currentText);
