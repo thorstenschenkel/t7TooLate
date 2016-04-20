@@ -3,15 +3,34 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
 
-    <Spinner
-        android:id="@+id/spinnerAnalysisType"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:background="@color/subtitle_background"
+        android:paddingLeft="@dimen/subtitle_paddingX"
+        android:paddingRight="@dimen/subtitle_paddingX" >
 
-    <FrameLayout 
+        <TextView
+            android:id="@+id/textViewAnalysisType"
+            android:layout_marginRight="7dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/analysis_view"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="@color/subtitle_text" />
+
+        <Spinner
+            android:id="@+id/spinnerAnalysisType"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textSize="40sp" />
+    </LinearLayout>
+
+    <FrameLayout
         android:id="@+id/fragment"
         android:layout_width="match_parent"
-        android:layout_height="0dp" 
+        android:layout_height="0dp"
         android:layout_weight="1" />
 
 </LinearLayout>

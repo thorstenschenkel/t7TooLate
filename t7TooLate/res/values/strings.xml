@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">t7 TooLate</string>
-    <string name="title_activity_main">t7 TooLate</string>
-    <string name="hello_world">Hello world!</string>
+    <string name="app_name">ZuSpät?!</string>
+    <string name="title_activity_main">ZuSpät?!</string>
     <string name="about_menu_item">Info</string>
     <string name="tooLate_info_msg" formatted="false"><![CDATA[<table border="0"><tr><td>Version:</td><td>{0}</tr><tr><td>Date:</td><td>{1}</td></tr><tr><td>Author:</td><td>Thorsten Schenkel</td></tr><tr><td>Homepage:</td><td><a href="http://www.t7soft.de/html/joomla_t7soft/index.php">www.t7soft.de</td></tr><tr><td>&nbsp;</td><td>&nbsp;</td></tr><tr><td>third-party:</td><td><a href="https://icons8.com/">Icons8</td></tr></table>]]></string>
     <!-- Common -->
@@ -69,6 +68,7 @@
     <!-- Analysis -->
     <string name="analysis_tab_tilte">Auswertung</string>
     <string name="filter_menu_item">Filter</string>
+    <string name="analysis_view">Ansicht</string>
     <string name="analysis_dummy_date_time">09.03.2016 14:20</string>
     <string name="analysis_dummy_delay">+ 1 min</string>
     <string name="capture_comment">Anmerkung</string>
