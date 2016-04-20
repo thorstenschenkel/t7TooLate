@@ -12,6 +12,7 @@ import android.app.ActionBar.Tab;
 import android.app.AlertDialog;
 import android.app.FragmentTransaction;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Bundle;
@@ -167,11 +168,19 @@ public class MainActivity extends FragmentActivity {
 	@Override
 	public boolean onOptionsItemSelected(final MenuItem item) {
 		switch (item.getItemId()) {
+			case R.id.action_settings:
+				showSettings();
+				return true;
 			case R.id.action_about:
 				showAboutDlg();
 				return true;
 		}
 		return super.onOptionsItemSelected(item);
+	}
+
+	private void showSettings() {
+		final Intent intent = new Intent(this, SettingsActivity.class);
+		startActivity(intent);
 	}
 
 	private void showAboutDlg() {

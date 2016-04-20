@@ -1,11 +1,8 @@
 package de.t7soft.android.t7toolate.database;
 
-import java.util.List;
-
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import de.t7soft.android.t7toolate.model.Capture;
 
 /*protected*/public class ToLateDatabaseHelper extends SQLiteOpenHelper {
 
@@ -130,23 +127,7 @@ import de.t7soft.android.t7toolate.model.Capture;
 
 	@Override
 	public void onUpgrade(final SQLiteDatabase db, final int oldVersion, final int newVersion) {
-		// if (oldVersion < DATABASE_VERSION) {
-		// db.execSQL("DROP TABLE IF EXISTS " + OLD_CONNECTIONS_TABLE_NAME);
-		// db.execSQL("DROP TABLE IF EXISTS " + CONNECTIONS_TABLE_NAME);
-		// db.execSQL("DROP TABLE IF EXISTS " + CAPTURES_TABLE_NAME);
-		// }
-		// onCreate(db);
-
-		if (oldVersion == 2) {
-			final List<Capture> captures = ToLateDatabaseAdapter.getOldAllCaptures(db);
-
-			db.execSQL("DROP TABLE IF EXISTS " + CAPTURES_TABLE_NAME);
-			createCaptursTable(db);
-
-			for (final Capture capture : captures) {
-				ToLateDatabaseAdapter.insertCapture(db, capture);
-			}
-		} else if (oldVersion < DATABASE_VERSION) {
+		if (oldVersion < DATABASE_VERSION) {
 			db.execSQL("DROP TABLE IF EXISTS " + CONNECTIONS_TABLE_NAME);
 			db.execSQL("DROP TABLE IF EXISTS " + CAPTURES_TABLE_NAME);
 			onCreate(db);

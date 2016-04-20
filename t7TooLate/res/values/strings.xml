@@ -3,6 +3,7 @@
 
     <string name="app_name">ZuSpät?!</string>
     <string name="title_activity_main">ZuSpät?!</string>
+    <string name="settings_menu_item">Einstellungen</string>
     <string name="about_menu_item">Info</string>
     <string name="tooLate_info_msg" formatted="false"><![CDATA[<table border="0"><tr><td>Version:</td><td>{0}</tr><tr><td>Date:</td><td>{1}</td></tr><tr><td>Author:</td><td>Thorsten Schenkel</td></tr><tr><td>Homepage:</td><td><a href="http://www.t7soft.de/html/joomla_t7soft/index.php">www.t7soft.de</td></tr><tr><td>&nbsp;</td><td>&nbsp;</td></tr><tr><td>third-party:</td><td><a href="https://icons8.com/">Icons8</td></tr></table>]]></string>
     <!-- Common -->
@@ -15,6 +16,17 @@
     <string name="save">Speichern</string>
     <string name="time_picker">Zeitauswahl</string>
     <string name="date_picker">Datumauswahl</string>
+    <!-- Settings -->
+    <string name="settings_sub_tilte">Einstellungen</string>
+    <string name="settings_delay">Verspätung</string>
+    <string name="settings_delay_on_time">pünktlich</string>
+    <string name="settings_delay_slight">leicht verspätet</string>
+    <string name="settings_delay_late">verspätet</string>
+    <string name="settings_delay_extrem">extrem verspätet</string>
+    <string name="settings_min">min</string>
+    <string name="settings_min_hint">min</string>
+    <string name="settings_lt">&lt;</string>
+    <string name="settings_ge">&#8805;</string>
     <!-- Tabs -->
     <!-- Capture -->
     <string name="capture_tab_tilte">Erfassen</string>

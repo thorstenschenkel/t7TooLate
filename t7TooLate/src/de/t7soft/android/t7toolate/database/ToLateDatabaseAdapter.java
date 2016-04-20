@@ -25,7 +25,6 @@ public class ToLateDatabaseAdapter {
 	private static final DateFormat TIME_FORMAT = new SimpleDateFormat("HH:mm");
 	private static final DateFormat INTERNAL_DATE_TIME_FORMAT = new SimpleDateFormat("yyyy-MM-dd");
 	private static final DateFormat DATE_TIME_FORMAT = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-	private static final DateFormat OLD_DATE_TIME_FORMAT = new SimpleDateFormat("dd.MM.yyyy HH:mm");
 
 	private final ToLateDatabaseHelper dbHelper;
 	private final Context context;
@@ -415,51 +414,6 @@ public class ToLateDatabaseAdapter {
 	public static int deleteCapture(final SQLiteDatabase db, final Capture capture) {
 		final String selection = createCaptureSelection(capture.getId());
 		return db.delete(ToLateDatabaseHelper.CAPTURES_TABLE_NAME, selection, null);
-	}
-
-	// --- Old
-
-	/* public */static List<Capture> getOldAllCaptures(final SQLiteDatabase db) {
-
-		final List<Capture> captures = new ArrayList<Capture>();
-
-		final Cursor cursor = getAllCapturesCursor(db, null);
-
-		if (cursor != null) {
-			if (cursor.moveToFirst()) {
-				while (!cursor.isAfterLast()) {
-					final Capture capture = createCaptureOld(cursor);
-					captures.add(capture);
-					cursor.moveToNext();
-				}
-			}
-			cursor.close();
-		}
-		return captures;
-	}
-
-	private static Capture createCaptureOld(final Cursor cursor) {
-		final String id = getString(cursor, ToLateDatabaseHelper.CAPTURE_ID_COL_NAME);
-		final Capture capture = new Capture(id);
-		final Connection connection = capture.getConnection();
-		connection.setName(getString(cursor, ToLateDatabaseHelper.CAPTURE_CONNECTION_NAME_COL_NAME));
-		connection.setStartStation(getString(cursor, ToLateDatabaseHelper.CAPTURE_CONNECTION_START_STATION_COL_NAME));
-		connection.setStartTime(getTime(cursor, ToLateDatabaseHelper.CAPTURE_CONNECTION_START_TIME_COL_NAME));
-		connection.setEndStation(getString(cursor, ToLateDatabaseHelper.CAPTURE_CONNECTION_END_STATION_COL_NAME));
-		connection.setEndTime(getTime(cursor, ToLateDatabaseHelper.CAPTURE_CONNECTION_END_TIME_COL_NAME));
-		connection.setConnectionType(getInt(cursor, ToLateDatabaseHelper.CAPTURE_CONNECTION_TYPE_COL_NAME));
-		capture.setCaptureDateTime(getOldDateTime(cursor, ToLateDatabaseHelper.CAPTURE_DATE_TIME_COL_NAME));
-		capture.setComment(getString(cursor, ToLateDatabaseHelper.CAPTURE_COMMENT_COL_NAME));
-		return capture;
-	}
-
-	private static Date getOldDateTime(final Cursor cursor, final String columnName) {
-		final String strg = getString(cursor, cursor.getColumnIndex(columnName));
-		try {
-			return OLD_DATE_TIME_FORMAT.parse(strg);
-		} catch (final ParseException e) {
-			return null;
-		}
 	}
 
 	private static class Selection {
