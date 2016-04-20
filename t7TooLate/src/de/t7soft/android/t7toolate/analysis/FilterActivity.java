@@ -11,6 +11,7 @@ import android.app.DatePickerDialog.OnDateSetListener;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.DatePicker;
@@ -30,12 +31,21 @@ public class FilterActivity extends Activity {
 	private EditText editTextFilterFrom;
 	private EditText editTextFilterTo;
 	private Switch switchDelay;
+	private CheckBox checkBoxOnTime;
+	private CheckBox checkBoxSlight;
+	private CheckBox checkBoxLate;
+	private CheckBox checkBoxExterm;
 
 	@Override
 	protected void onCreate(final Bundle savedInstanceState) {
 
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.filter);
+
+		checkBoxOnTime = (CheckBox) findViewById(R.id.checkBoxOnTime);
+		checkBoxSlight = (CheckBox) findViewById(R.id.checkBoxSlight);
+		checkBoxLate = (CheckBox) findViewById(R.id.checkBoxLate);
+		checkBoxExterm = (CheckBox) findViewById(R.id.checkBoxExterm);
 
 		switchPeriod = (Switch) findViewById(R.id.switchPeriod);
 		switchPeriod.setOnCheckedChangeListener(new OnCheckedChangeListener() {
@@ -66,10 +76,6 @@ public class FilterActivity extends Activity {
 	}
 
 	private void enableDelayPanel(final boolean isChecked) {
-		final View checkBoxOnTime = findViewById(R.id.checkBoxOnTime);
-		final View checkBoxSlight = findViewById(R.id.checkBoxSlight);
-		final View checkBoxLate = findViewById(R.id.checkBoxLate);
-		final View checkBoxExterm = findViewById(R.id.checkBoxExterm);
 		checkBoxOnTime.setEnabled(isChecked);
 		checkBoxSlight.setEnabled(isChecked);
 		checkBoxLate.setEnabled(isChecked);
@@ -94,6 +100,11 @@ public class FilterActivity extends Activity {
 		}
 		final DelayFilter delayFilter = FilterUtils.createDelayFilter(this);
 		switchDelay.setChecked(delayFilter.isActive());
+		checkBoxOnTime.setChecked(delayFilter.isOnTime());
+		checkBoxSlight.setChecked(delayFilter.isSlight());
+		checkBoxLate.setChecked(delayFilter.isLate());
+		checkBoxExterm.setChecked(delayFilter.isExtreme());
+
 		enableDelayPanel(switchDelay.isChecked());
 	}
 
@@ -127,11 +138,16 @@ public class FilterActivity extends Activity {
 		FilterUtils.storePeriodFilter(this, periodFilter);
 
 		// period
-		final DelayFilter delayFilter = new DelayFilter();
+		final DelayFilter delayFilter = new DelayFilter(this);
 		delayFilter.setActive(switchDelay.isChecked());
+		delayFilter.setOnTime(checkBoxOnTime.isChecked());
+		delayFilter.setSlight(checkBoxSlight.isChecked());
+		delayFilter.setLate(checkBoxLate.isChecked());
+		delayFilter.setExterme(checkBoxExterm.isChecked());
 		FilterUtils.storeDelayFilter(this, delayFilter);
 
 		finish();
+
 	}
 
 	public void onStartDate(final View view) {

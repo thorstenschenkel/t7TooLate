@@ -86,17 +86,17 @@ public class CaptureUtils {
 
 	private static int getPrefOnTime(final Context context) {
 		final SharedPreferences settings = context.getSharedPreferences(MainActivity.PREFS_NAME, 0);
-		return settings.getInt(MainActivity.PREF_ON_TIME, 5);
+		return settings.getInt(MainActivity.PREF_ON_TIME, MainActivity.PREF_ON_TIME_DEFAULT);
 	}
 
 	private static int getPrefSlight(final Context context) {
 		final SharedPreferences settings = context.getSharedPreferences(MainActivity.PREFS_NAME, 0);
-		return settings.getInt(MainActivity.PREF_SLIGHT, 10);
+		return settings.getInt(MainActivity.PREF_SLIGHT, MainActivity.PREF_SLIGHT_DEFAULT);
 	}
 
 	private static int getPrefLate(final Context context) {
 		final SharedPreferences settings = context.getSharedPreferences(MainActivity.PREFS_NAME, 0);
-		return settings.getInt(MainActivity.PREF_LATE, 60);
+		return settings.getInt(MainActivity.PREF_LATE, MainActivity.PREF_LATE_DEFAULT);
 	}
 
 }

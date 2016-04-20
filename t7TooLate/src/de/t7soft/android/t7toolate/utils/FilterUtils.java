@@ -16,6 +16,10 @@ public class FilterUtils {
 	private static final String PREF_PERIOD_FROM = "periodFrom";
 	private static final String PREF_PERIOD_TO = "periodTo";
 	private static final String PREF_DELAY_ACTIVE = "delayActive";
+	private static final String PREF_DELAY_ON_TIME = "delayOnTime";
+	private static final String PREF_DELAY_SLIGHT = "delaySlight";
+	private static final String PREF_DELAY_LATE = "delayLate";
+	private static final String PREF_DELAY_EXTREM = "delayExtrem";
 
 	private FilterUtils() {
 		// utility class
@@ -66,6 +70,10 @@ public class FilterUtils {
 		final SharedPreferences preferences = context.getSharedPreferences(MainActivity.PREFS_NAME, 0);
 		final Editor prefEdit = preferences.edit();
 		prefEdit.putBoolean(PREF_DELAY_ACTIVE, filter.isActive());
+		prefEdit.putBoolean(PREF_DELAY_ON_TIME, filter.isOnTime());
+		prefEdit.putBoolean(PREF_DELAY_SLIGHT, filter.isSlight());
+		prefEdit.putBoolean(PREF_DELAY_LATE, filter.isLate());
+		prefEdit.putBoolean(PREF_DELAY_EXTREM, filter.isExtreme());
 		prefEdit.commit();
 
 	}
@@ -73,8 +81,12 @@ public class FilterUtils {
 	public static DelayFilter createDelayFilter(final Context context) {
 
 		final SharedPreferences preferences = context.getSharedPreferences(MainActivity.PREFS_NAME, 0);
-		final DelayFilter filter = new DelayFilter();
+		final DelayFilter filter = new DelayFilter(context);
 		filter.setActive(preferences.getBoolean(PREF_DELAY_ACTIVE, false));
+		filter.setOnTime(preferences.getBoolean(PREF_DELAY_ON_TIME, false));
+		filter.setSlight(preferences.getBoolean(PREF_DELAY_SLIGHT, false));
+		filter.setLate(preferences.getBoolean(PREF_DELAY_LATE, false));
+		filter.setExterme(preferences.getBoolean(PREF_DELAY_EXTREM, false));
 		return filter;
 
 	}

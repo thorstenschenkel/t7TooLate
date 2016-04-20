@@ -41,6 +41,9 @@ public class MainActivity extends FragmentActivity {
 	public static final String PREF_ON_TIME = "onTime";
 	public static final String PREF_SLIGHT = "slight";
 	public static final String PREF_LATE = "late";
+	public static final int PREF_ON_TIME_DEFAULT = 5;
+	public static final int PREF_SLIGHT_DEFAULT = 10;
+	public static final int PREF_LATE_DEFAULT = 60;
 
 	private static final int[] TAB_ICON_IDS = {
 			R.drawable.ic_time, R.drawable.ic_train, R.drawable.ic_analysis

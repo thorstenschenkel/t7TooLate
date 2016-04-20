@@ -1,5 +1,7 @@
 package de.t7soft.android.t7toolate.model;
 
+import android.database.Cursor;
+
 public abstract class AbstractFilter {
 
 	private boolean active;
@@ -19,6 +21,10 @@ public abstract class AbstractFilter {
 
 	public String getName() {
 		return name;
+	}
+
+	public boolean filter(final Cursor cursor) {
+		return true;
 	}
 
 }

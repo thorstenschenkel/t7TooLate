@@ -7,7 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import de.t7soft.android.t7toolate.model.Capture;
 
-public class ToLateDatabaseHelper extends SQLiteOpenHelper {
+/*protected*/public class ToLateDatabaseHelper extends SQLiteOpenHelper {
 
 	private static final String DATABASE_NAME = "tolate.db";
 	private static final int DATABASE_VERSION = 3;

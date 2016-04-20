@@ -236,12 +236,12 @@ public class CaptueFragment extends Fragment implements ITabFragment {
 				@Override
 				public void run() {
 					updateCurrent();
-					currentHandler.postDelayed(currentRunnable, 10000);
+					currentHandler.postDelayed(currentRunnable, 1000);
 				}
 
 			};
 		}
-		currentHandler.postDelayed(currentRunnable, 10000);
+		currentHandler.postDelayed(currentRunnable, 1000);
 	}
 
 	public void stopUpdates() {

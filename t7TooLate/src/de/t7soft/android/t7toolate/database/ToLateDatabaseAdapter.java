@@ -18,7 +18,6 @@ import de.t7soft.android.t7toolate.model.DelayFilter;
 import de.t7soft.android.t7toolate.model.PeriodFilter;
 import de.t7soft.android.t7toolate.utils.CaptureUtils;
 import de.t7soft.android.t7toolate.utils.FilterUtils;
-import de.t7soft.android.t7toolate.utils.StringUtils;
 
 public class ToLateDatabaseAdapter {
 
@@ -137,27 +136,31 @@ public class ToLateDatabaseAdapter {
 		return getAllCaptures(getDatabase());
 	}
 
-	public List<Capture> getAllCaptures(final SQLiteDatabase db) {
+	private List<Capture> getAllCaptures(final SQLiteDatabase db) {
 
 		final List<Capture> captures = new ArrayList<Capture>();
 
 		final Cursor cursor = getAllCapturesCursor(db, context);
 
 		if (cursor != null) {
-			if (cursor.moveToFirst()) {
-				while (!cursor.isAfterLast()) {
-					final Capture capture = createCapture(cursor);
+			final DelayFilter delayFilter = FilterUtils.createDelayFilter(context);
+			final CaptureFilteredCursor filterdCursor = new CaptureFilteredCursor(cursor, delayFilter);
+			if (filterdCursor.moveToFirst()) {
+				while (!filterdCursor.isAfterLast()) {
+					final Capture capture = createCapture(filterdCursor);
 					captures.add(capture);
-					cursor.moveToNext();
+					filterdCursor.moveToNext();
 				}
 			}
-			cursor.close();
+			filterdCursor.close();
 		}
 		return captures;
 	}
 
 	public Cursor getAllCapturesCursor() {
-		return getAllCapturesCursor(getDatabase(), context);
+		final Cursor cursor = getAllCapturesCursor(getDatabase(), context);
+		final DelayFilter delayFilter = FilterUtils.createDelayFilter(context);
+		return new CaptureFilteredCursor(cursor, delayFilter);
 	}
 
 	private static Cursor getAllCapturesCursor(final SQLiteDatabase db, final Context context) {
@@ -177,23 +180,14 @@ public class ToLateDatabaseAdapter {
 
 			final PeriodFilter periodFilter = FilterUtils.createPeriodFilter(context);
 			if ((periodFilter != null) && periodFilter.isActive()) {
-				final Selection periodSelection = new Selection();
 				final Date fromDate = periodFilter.getFrom() != null ? periodFilter.getFrom() : new Date(0);
 				final Date toDate = periodFilter.getTo() != null ? periodFilter.getTo() : new Date();
 				final String selString = ToLateDatabaseHelper.CAPTURE_DATE_TIME_COL_NAME + " BETWEEN ? AND ?";
-				periodSelection.setSelection(selString);
+				selection.setSelection(selString);
 				final String[] args = new String[2];
 				args[0] = INTERNAL_DATE_TIME_FORMAT.format(fromDate) + " 00:00";
 				args[1] = INTERNAL_DATE_TIME_FORMAT.format(toDate) + " 23:59";
-				periodSelection.setSelectionArgs(args);
-				selection.join(periodSelection);
-			}
-
-			final DelayFilter delayFilter = new DelayFilter(); // TODO
-			if ((delayFilter != null) && delayFilter.isActive()) {
-				final Selection delaySelection = new Selection();
-				// TODO
-				selection.join(delaySelection);
+				selection.setSelectionArgs(args);
 			}
 
 		}
@@ -327,7 +321,7 @@ public class ToLateDatabaseAdapter {
 		return getCapture(getDatabase(), id);
 	}
 
-	private static Capture getCapture(final SQLiteDatabase db, final String id) {
+	private Capture getCapture(final SQLiteDatabase db, final String id) {
 
 		Capture capture = null;
 
@@ -487,51 +481,6 @@ public class ToLateDatabaseAdapter {
 
 		public void setSelectionArgs(final String[] selectionArgs) {
 			this.selectionArgs = selectionArgs;
-		}
-
-		public boolean isSelectionEmpty() {
-			return StringUtils.isEmpty(selection);
-		}
-
-		public boolean isSelectionArgsEmpty() {
-			return ((selectionArgs == null) || (selectionArgs.length == 0));
-		}
-
-		public Selection join(final Selection otherSelection) {
-
-			if (otherSelection == null) {
-				return this;
-			}
-			if (isSelectionEmpty() && otherSelection.isSelectionEmpty()) {
-				return this;
-			}
-
-			// string
-			if (isSelectionEmpty()) {
-				setSelection(otherSelection.getSelection());
-			} else {
-				if (!otherSelection.isSelectionEmpty()) {
-					final String jointString = selection + " AND " + otherSelection.getSelection();
-					setSelection(jointString);
-				}
-			}
-
-			// args
-			if (isSelectionArgsEmpty()) {
-				setSelectionArgs(otherSelection.getSelectionArgs());
-			} else {
-				if (!otherSelection.isSelectionArgsEmpty()) {
-					final int length = selectionArgs.length;
-					final int otherlength = otherSelection.getSelectionArgs().length;
-					final String[] jointArgs = new String[length + otherlength];
-					System.arraycopy(selectionArgs, 0, jointArgs, 0, length);
-					System.arraycopy(otherSelection.getSelectionArgs(), 0, jointArgs, length, otherlength);
-					setSelectionArgs(jointArgs);
-				}
-			}
-
-			return this;
-
 		}
 
 	}

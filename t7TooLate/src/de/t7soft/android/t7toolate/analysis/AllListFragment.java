@@ -23,16 +23,18 @@ public class AllListFragment extends ListFragment {
 
 		allView = inflater.inflate(R.layout.fragment_all, container, false);
 
-		final Cursor cursor = getDbAdapter().getAllCapturesCursor();
-		capturesAdapter = new AllCapturesCursorAdapter(getActivity(), cursor);
+		capturesAdapter = new AllCapturesCursorAdapter(getActivity(), getCursor());
 		setListAdapter(capturesAdapter);
 
 		return allView;
 	}
 
+	private Cursor getCursor() {
+		return getDbAdapter().getAllCapturesCursor();
+	}
+
 	private void updateListAdapter() {
-		final Cursor cursor = getDbAdapter().getAllCapturesCursor();
-		capturesAdapter.changeCursor(cursor);
+		capturesAdapter.changeCursor(getCursor());
 	}
 
 	@Override
