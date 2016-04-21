@@ -7,6 +7,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/subtitle_background"
+        android:paddingTop="@dimen/subtitle_paddingY"
+        android:paddingBottom="@dimen/subtitle_paddingY"
         android:paddingLeft="@dimen/subtitle_paddingX"
         android:paddingRight="@dimen/subtitle_paddingX" >
 

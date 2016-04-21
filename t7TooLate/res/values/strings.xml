@@ -27,6 +27,9 @@
     <string name="settings_min_hint">min</string>
     <string name="settings_lt">&lt;</string>
     <string name="settings_ge">&#8805;</string>
+    <string name="settings_error_no_value">Wert fehlt oder Zahl ist ungültig!</string>
+    <string name="settings_error_slight">Wert von \"leicht verspätet\" muss größer dem Wert von \"pünktlich\" sein!!</string>
+    <string name="settings_error_late">Wert von \"verspätet\" muss größer dem Wert von \"leicht verspätet\" sein!!</string>
     <!-- Tabs -->
     <!-- Capture -->
     <string name="capture_tab_tilte">Erfassen</string>

@@ -39,8 +39,8 @@ public class AnalysisFragment extends Fragment implements ITabFragment {
 
 		final Spinner spinnerAnalysisType = (Spinner) analysisView.findViewById(R.id.spinnerAnalysisType);
 		final ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(),
-				R.array.analysis_types_array, R.layout.view_spinner);
-		adapter.setDropDownViewResource(R.layout.view_spinner);
+				R.array.analysis_types_array, R.layout.view_spinner_textview);
+		adapter.setDropDownViewResource(R.layout.view_spinner_dropdown);
 		spinnerAnalysisType.setAdapter(adapter);
 		spinnerAnalysisType.setOnItemSelectedListener(new OnItemSelectedListener() {
 

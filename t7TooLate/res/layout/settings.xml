@@ -61,9 +61,9 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:labelFor="@+id/editTextOnTime"
-                android:minWidth="125dp"
+                android:minWidth="150dp"
                 android:text="@string/settings_delay_on_time"
-                android:textAppearance="?android:attr/textAppearanceSmall" />
+                android:textAppearance="?android:attr/textAppearanceMedium" />
 
             <TextView
                 android:id="@+id/textViewOnTimeLt"
@@ -72,7 +72,7 @@
                 android:layout_marginRight="5dp"
                 android:minWidth="10dp"
                 android:text="@string/settings_lt"
-                android:textAppearance="?android:attr/textAppearanceSmall" />
+                android:textAppearance="?android:attr/textAppearanceMedium" />
 
             <EditText
                 android:id="@+id/editTextOnTime"
@@ -110,9 +110,9 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:labelFor="@+id/editTextSlight"
-                android:minWidth="125dp"
+                android:minWidth="150dp"
                 android:text="@string/settings_delay_slight"
-                android:textAppearance="?android:attr/textAppearanceSmall" />
+                android:textAppearance="?android:attr/textAppearanceMedium" />
 
             <TextView
                 android:id="@+id/textViewSlightLt"
@@ -121,7 +121,7 @@
                 android:layout_marginRight="5dp"
                 android:minWidth="10dp"
                 android:text="@string/settings_lt"
-                android:textAppearance="?android:attr/textAppearanceSmall" />
+                android:textAppearance="?android:attr/textAppearanceMedium" />
 
             <EditText
                 android:id="@+id/editTextSlight"
@@ -159,9 +159,9 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:labelFor="@+id/editTextLate"
-                android:minWidth="125dp"
+                android:minWidth="150dp"
                 android:text="@string/settings_delay_late"
-                android:textAppearance="?android:attr/textAppearanceSmall" />
+                android:textAppearance="?android:attr/textAppearanceMedium" />
 
             <TextView
                 android:id="@+id/textViewLateLt"
@@ -170,7 +170,7 @@
                 android:layout_marginRight="5dp"
                 android:minWidth="10dp"
                 android:text="@string/settings_lt"
-                android:textAppearance="?android:attr/textAppearanceSmall" />
+                android:textAppearance="?android:attr/textAppearanceMedium" />
 
             <EditText
                 android:id="@+id/editTextLate"
@@ -208,9 +208,9 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:labelFor="@+id/editTextExtrem"
-                android:minWidth="125dp"
+                android:minWidth="150dp"
                 android:text="@string/settings_delay_extrem"
-                android:textAppearance="?android:attr/textAppearanceSmall" />
+                android:textAppearance="?android:attr/textAppearanceMedium" />
 
             <TextView
                 android:id="@+id/textViewExtremGe"
@@ -219,7 +219,7 @@
                 android:layout_marginRight="5dp"
                 android:minWidth="10dp"
                 android:text="@string/settings_ge"
-                android:textAppearance="?android:attr/textAppearanceSmall" />
+                android:textAppearance="?android:attr/textAppearanceMedium" />
 
             <EditText
                 android:id="@+id/editTextExtrem"
@@ -227,8 +227,11 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:ems="10"
-                android:hint="@string/settings_min_hint"
-                android:inputType="number"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
+                android:cursorVisible="false"
+                android:clickable="false"
+                android:inputType="none"
                 android:singleLine="true"
                 android:textColor="@android:color/primary_text_light" >
             </EditText>
