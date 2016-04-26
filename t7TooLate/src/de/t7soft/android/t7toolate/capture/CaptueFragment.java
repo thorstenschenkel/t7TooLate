@@ -253,22 +253,46 @@ public class CaptueFragment extends Fragment implements ITabFragment {
 	public void onCapture(final View view) {
 
 		Toast.makeText(getActivity(), "debug: #onCapture", Toast.LENGTH_SHORT).show();
+		final Capture capture = createCapture();
+		if (capture != null) {
+			getDbAdapter().insertCapture(capture);
+			Toast.makeText(getActivity(), R.string.capture_saved, Toast.LENGTH_SHORT).show();
+		}
+
+	}
+
+	public void onCanceled(final View view) {
+
+		Toast.makeText(getActivity(), "debug: #onCanceled", Toast.LENGTH_SHORT).show();
+		final Capture capture = createCapture();
+		if (capture != null) {
+			capture.setCanceled(true);
+			getDbAdapter().insertCapture(capture);
+			Toast.makeText(getActivity(), R.string.capture_saved, Toast.LENGTH_SHORT).show();
+		}
+
+	}
+
+	private Capture createCapture() {
+
 		Connection selectedConnection = null;
 		final int selIndex = numberPickerConnection.getValue();
 		connections = getDbAdapter().getAllConnections();
 		if ((connections != null) && (connections.size() > 0) && (selIndex < connections.size())) {
 			selectedConnection = connections.get(selIndex);
 		}
+
 		if (selectedConnection != null) {
-			final Capture capture = new Capture();
 			try {
+				final Capture capture = new Capture();
 				capture.setConnection(selectedConnection.clone());
-				getDbAdapter().insertCapture(capture);
-				Toast.makeText(getActivity(), R.string.capture_saved, Toast.LENGTH_SHORT).show();
+				return capture;
 			} catch (final CloneNotSupportedException e) {
 				e.printStackTrace();
 			}
 		}
+
+		return null;
 
 	}
 

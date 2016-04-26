@@ -9,6 +9,7 @@ public class Capture {
 	private Connection connection;
 	private Date captureDateTime;
 	private String comment;
+	private boolean canceled;
 
 	public Capture() {
 		this(UUID.randomUUID().toString());
@@ -19,6 +20,7 @@ public class Capture {
 		this.connection = new Connection();
 		this.captureDateTime = new Date();
 		this.comment = "";
+		this.canceled = false;
 	}
 
 	public Connection getConnection() {
@@ -47,6 +49,14 @@ public class Capture {
 
 	public String getId() {
 		return id;
+	}
+
+	public boolean isCanceled() {
+		return canceled;
+	}
+
+	public void setCanceled(final boolean canceled) {
+		this.canceled = canceled;
 	}
 
 }

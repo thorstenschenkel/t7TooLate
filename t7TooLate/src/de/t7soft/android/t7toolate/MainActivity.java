@@ -91,6 +91,10 @@ public class MainActivity extends FragmentActivity {
 		captueFragment.onCapture(view);
 	}
 
+	public void onCanceled(final View view) {
+		captueFragment.onCanceled(view);
+	}
+
 	public void onAddConnection(final View view) {
 		connectionsFragment.onAdd(view);
 	}

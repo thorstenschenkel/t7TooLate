@@ -19,6 +19,10 @@ public class CaptureUtils {
 
 	public static int getDelayMinutes(final Capture capture) {
 
+		if (capture.isCanceled()) {
+			return Integer.MAX_VALUE;
+		}
+
 		final Connection connection = capture.getConnection();
 		final long captrueSeconds = getSeconds(capture.getCaptureDateTime());
 		final long endSeconds = getSeconds(connection.getEndTime());

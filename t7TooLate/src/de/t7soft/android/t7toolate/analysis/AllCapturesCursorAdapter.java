@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,8 +23,11 @@ public class AllCapturesCursorAdapter extends CursorAdapter {
 	private static final java.text.DateFormat TIME_FORMAT = new SimpleDateFormat("HH:mm");
 	private static final DateFormat DATE_TIME_FORMAT = new SimpleDateFormat("EEE, dd.MM.yyyy HH:mm");
 
+	private final Context context;
+
 	public AllCapturesCursorAdapter(final Context context, final Cursor cursor) {
 		super(context, cursor, 0);
+		this.context = context;
 	}
 
 	@Override
@@ -66,6 +70,10 @@ public class AllCapturesCursorAdapter extends CursorAdapter {
 
 		final TextView textViewDelay = (TextView) rowView.findViewById(R.id.textViewRowCaptureDelay);
 		final int borderColor = CaptureUtils.fillTextViewDelay(capture, textViewDelay);
+		if (capture.isCanceled()) {
+			textViewDelay.setText(R.string.canceled);
+			textViewDelay.setTypeface(null, Typeface.NORMAL);
+		}
 
 		final View viewLeftBorder = rowView.findViewById(R.id.viewLeftBorder);
 		viewLeftBorder.setBackgroundColor(rowView.getResources().getColor(borderColor));
@@ -80,6 +88,10 @@ public class AllCapturesCursorAdapter extends CursorAdapter {
 		}
 		final Capture capture = ToLateDatabaseAdapter.createCapture(cursor);
 		return capture;
+	}
+
+	public Context getContext() {
+		return context;
 	}
 
 }

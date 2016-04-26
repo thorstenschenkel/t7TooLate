@@ -205,6 +205,10 @@ public class ToLateDatabaseAdapter {
 		connection.setConnectionType(getInt(cursor, ToLateDatabaseHelper.CAPTURE_CONNECTION_TYPE_COL_NAME));
 		capture.setCaptureDateTime(getDateTime(cursor, ToLateDatabaseHelper.CAPTURE_DATE_TIME_COL_NAME));
 		capture.setComment(getString(cursor, ToLateDatabaseHelper.CAPTURE_COMMENT_COL_NAME));
+		final int delay = getInt(cursor, ToLateDatabaseHelper.CAPTURE_DELAY_COL_NAME);
+		if (delay == Integer.MAX_VALUE) {
+			capture.setCanceled(true);
+		}
 		return capture;
 	}
 

@@ -10,6 +10,10 @@
     <color name="btn_pressed_background">#283593</color>    
     <color name="btn_disabled_background">#9FA8DA</color>    
     <color name="btn_text">#E8EAF6</color>       
+    <color name="btn_red_background">#D32F2F</color>    
+    <color name="btn_red_pressed_background">#C62828</color>    
+    <color name="btn_red_disabled_background">#EF9A9A</color>    
+    <color name="btn_red_text">#FFEBEE</color>       
     <color name="text_color_on_time">#2E7D32</color>       
     <color name="text_color_slight">#EF6C00</color>       
     <color name="text_color_late">#B71C1C</color>       

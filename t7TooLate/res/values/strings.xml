@@ -33,6 +33,7 @@
     <!-- Tabs -->
     <!-- Capture -->
     <string name="capture_tab_tilte">Erfassen</string>
+    <string name="canceled">Ausgefallen</string>
     <string name="capture">Angekommen</string>
     <string name="capture_connection">Verbindung</string>
     <string name="capture_planed_end">Planmäßige Ankunft</string>
@@ -86,6 +87,7 @@
     <string name="analysis_view">Ansicht</string>
     <string name="analysis_dummy_date_time">09.03.2016 14:20</string>
     <string name="analysis_dummy_delay">+ 1 min</string>
+    <string name="analysis_delay_canceled">ausgefallen</string>
     <string name="capture_comment">Anmerkung</string>
     <string name="capture_delete_msg_title">Löschen</string>
     <string name="capture_delete_msg_text">Soll die Aufzeichnung vom \"{0}\" gelöscht werden?</string>

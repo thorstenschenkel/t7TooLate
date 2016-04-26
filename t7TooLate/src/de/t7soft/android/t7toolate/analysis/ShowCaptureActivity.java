@@ -8,6 +8,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -88,7 +89,12 @@ public class ShowCaptureActivity extends Activity {
 
 	private void deleteCapture() {
 		String deleteMessage = getString(R.string.capture_delete_msg_text);
-		final String dateTimeStrg = DATE_TIME_FORMAT.format(capture.getCaptureDateTime());
+		String dateTimeStrg;
+		if (capture.isCanceled()) {
+			dateTimeStrg = getString(R.string.analysis_delay_canceled);
+		} else {
+			dateTimeStrg = DATE_TIME_FORMAT.format(capture.getCaptureDateTime());
+		}
 		deleteMessage = MessageFormat.format(deleteMessage, dateTimeStrg);
 		final AlertDialog.Builder builder = new AlertDialog.Builder(this);
 		builder.setMessage(deleteMessage) //
@@ -143,6 +149,10 @@ public class ShowCaptureActivity extends Activity {
 
 		final TextView textViewDelay = (TextView) findViewById(R.id.textViewCaptureDelay);
 		final int borderColor = CaptureUtils.fillTextViewDelay(capture, textViewDelay);
+		if (capture.isCanceled()) {
+			textViewDelay.setText(R.string.canceled);
+			textViewDelay.setTypeface(null, Typeface.NORMAL);
+		}
 
 		final View viewTopBorder = findViewById(R.id.viewTopBorder);
 		viewTopBorder.setBackgroundColor(getResources().getColor(borderColor));
