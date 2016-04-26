@@ -112,12 +112,13 @@ public class CaptueFragment extends Fragment implements ITabFragment {
 		textViewCurrentValue.setText(currentText);
 
 		final int index = numberPickerConnection.getValue();
-		final long nowSeconds = getSeconds(now);
-
-		final Connection connection = connections.get(index);
-		final long endSeconds = getSeconds(connection.getEndTime());
-		final long diff = nowSeconds - endSeconds;
-		final long minutes = diff / 60;
+		long minutes = 0;
+		if (index < connections.size()) {
+			final Connection connection = connections.get(index);
+			final long endSeconds = getSeconds(connection.getEndTime());
+			final long diff = getSeconds(now) - endSeconds;
+			minutes = diff / 60;
+		}
 		if (minutes > 0) {
 			CaptureUtils.fillTextViewDelay((int) minutes, textViewDelayValue);
 		} else {
