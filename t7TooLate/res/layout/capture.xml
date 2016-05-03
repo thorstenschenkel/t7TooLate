@@ -98,7 +98,6 @@
             android:layout_marginRight="10dp"
             android:layout_weight="0.4"
             android:background="@drawable/button_bar_button_red"
-            android:onClick="onCanceled"
             android:text="@string/canceled"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="@color/btn_red_text" >
@@ -110,7 +109,6 @@
             android:layout_height="wrap_content"
             android:layout_weight="0.6"
             android:background="@drawable/button_bar_button"
-            android:onClick="onCapture"
             android:text="@string/capture"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="@color/btn_text" >

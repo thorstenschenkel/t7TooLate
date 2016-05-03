@@ -17,7 +17,9 @@ import android.text.Spanned;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.NumberPicker;
 import android.widget.NumberPicker.OnValueChangeListener;
 import android.widget.TextView;
@@ -41,11 +43,28 @@ public class CaptueFragment extends Fragment implements ITabFragment {
 	private List<Connection> connections;
 	private Handler currentHandler;
 	private Runnable currentRunnable;
+	private Button buttonCanceled;
+	private Button buttonCapture;
 
 	@Override
 	public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
 
 		final View captureView = inflater.inflate(R.layout.capture, container, false);
+
+		buttonCanceled = (Button) captureView.findViewById(R.id.buttonCanceled);
+		buttonCanceled.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(final View v) {
+				onCanceled(v);
+			}
+		});
+		buttonCapture = (Button) captureView.findViewById(R.id.buttonCapture);
+		buttonCapture.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(final View v) {
+				onCapture(v);
+			}
+		});
 
 		textViewPlanedEndValue = (TextView) captureView.findViewById(R.id.textViewPlanedEndValue);
 		textViewCurrentValue = (TextView) captureView.findViewById(R.id.textViewCurrentValue);
@@ -214,6 +233,13 @@ public class CaptueFragment extends Fragment implements ITabFragment {
 		super.onResume();
 		startUpdates();
 		updatePickerSelection();
+		updateButtons();
+	}
+
+	private void updateButtons() {
+		final boolean enabled = (connections != null) && (connections.size() > 0);
+		buttonCanceled.setEnabled(enabled);
+		buttonCapture.setEnabled(enabled);
 	}
 
 	@Override
