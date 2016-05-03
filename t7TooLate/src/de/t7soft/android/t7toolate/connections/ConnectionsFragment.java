@@ -10,8 +10,10 @@ import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import de.t7soft.android.t7toolate.ITabFragment;
 import de.t7soft.android.t7toolate.MainActivity;
@@ -28,6 +30,14 @@ public class ConnectionsFragment extends ListFragment implements ITabFragment {
 	public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
 
 		final View connectionsView = inflater.inflate(R.layout.connections, container, false);
+
+		final Button buttonAddConnection = (Button) connectionsView.findViewById(R.id.buttonAddConnection);
+		buttonAddConnection.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(final View v) {
+				onAdd(v);
+			}
+		});
 
 		listAdapter = createListAdapter(connections);
 		setListAdapter(listAdapter);

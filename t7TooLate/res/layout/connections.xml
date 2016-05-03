@@ -25,7 +25,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/button_bar_button"
-            android:onClick="onAddConnection"
             android:text="@string/add"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="@color/btn_text" />
