@@ -10,4 +10,10 @@
         android:layout_height="wrap_content"
         android:text="@string/analysis_tab_tilte" />
 
+    <de.t7soft.android.t7toolate.analysis.WeekPicker
+        android:id="@+id/weekPicker1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+    </de.t7soft.android.t7toolate.analysis.WeekPicker>
+
 </LinearLayout>

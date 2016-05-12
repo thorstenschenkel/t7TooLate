@@ -51,6 +51,10 @@ public class CaptueFragment extends Fragment implements ITabFragment {
 
 		final View captureView = inflater.inflate(R.layout.capture, container, false);
 
+		textViewPlanedEndValue = (TextView) captureView.findViewById(R.id.textViewPlanedEndValue);
+		textViewCurrentValue = (TextView) captureView.findViewById(R.id.textViewCurrentValue);
+		textViewDelayValue = (TextView) captureView.findViewById(R.id.textViewDelayValue);
+
 		buttonCanceled = (Button) captureView.findViewById(R.id.buttonCanceled);
 		buttonCanceled.setOnClickListener(new OnClickListener() {
 			@Override
@@ -65,10 +69,6 @@ public class CaptueFragment extends Fragment implements ITabFragment {
 				onCapture(v);
 			}
 		});
-
-		textViewPlanedEndValue = (TextView) captureView.findViewById(R.id.textViewPlanedEndValue);
-		textViewCurrentValue = (TextView) captureView.findViewById(R.id.textViewCurrentValue);
-		textViewDelayValue = (TextView) captureView.findViewById(R.id.textViewDelayValue);
 
 		numberPickerConnection = (ConnectionPicker) captureView.findViewById(R.id.numberPickerConnection);
 		numberPickerConnection.setOnValueChangedListener(new OnValueChangeListener() {
@@ -128,8 +128,16 @@ public class CaptueFragment extends Fragment implements ITabFragment {
 			}
 		}
 		final Spanned currentText = Html.fromHtml(currentHtml);
+		if (textViewCurrentValue == null) {
+			Log.e(this.getClass().getSimpleName(), "can't update current, textViewCurrentValue is null");
+			return;
+		}
 		textViewCurrentValue.setText(currentText);
 
+		if (numberPickerConnection == null) {
+			Log.e(this.getClass().getSimpleName(), "can't update current, numberPickerConnection is null");
+			return;
+		}
 		final int index = numberPickerConnection.getValue();
 		long minutes = 0;
 		if (index < connections.size()) {

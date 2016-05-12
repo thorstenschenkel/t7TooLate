@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal" >
+
+        <ImageButton
+            android:id="@+id/buttonWeekPrev"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:background="@drawable/button_bar_button"
+            android:src="@drawable/ic_clock_small" />
+
+        <TextView
+            android:id="@+id/textViewWeek"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/buttonWeekPrev"
+            android:layout_alignTop="@+id/buttonWeekPrev"
+            android:layout_toRightOf="@+id/buttonWeekPrev"
+            android:gravity="center_vertical"
+            android:text="@string/analysis_dummy_week" />
+
+        <ImageButton
+            android:id="@+id/buttonWeekNext"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/buttonWeekPrev"
+            android:layout_alignTop="@+id/buttonWeekPrev"
+            android:layout_toRightOf="@+id/textViewWeek"
+            android:background="@drawable/button_bar_button"
+            android:src="@drawable/ic_clock_small" />
+
+        <ImageButton
+            android:id="@+id/buttonWeekThis"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/buttonWeekPrev"
+            android:layout_alignTop="@+id/buttonWeekPrev"
+            android:layout_toRightOf="@+id/buttonWeekNext"
+            android:background="@drawable/button_bar_button"
+            android:src="@drawable/ic_clock_small" />
+
+</RelativeLayout>
