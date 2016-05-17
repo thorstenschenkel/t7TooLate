@@ -374,6 +374,42 @@ public class ToLateDatabaseAdapter {
 		return ToLateDatabaseHelper.CONNECTION_ID_COL_NAME + "=" + "\"" + id + "\"";
 	}
 
+	public long updateCapture(final Capture capture) {
+		return updateCapture(getDatabase(), capture);
+	}
+
+	private static long updateCapture(final SQLiteDatabase db, final Capture capture) {
+		final String selection = createCaptureSelection(capture.getId());
+		final ContentValues values = new ContentValues();
+		final Connection connection = capture.getConnection();
+		values.put(ToLateDatabaseHelper.CAPTURE_CONNECTION_NAME_COL_NAME, connection.getName());
+		values.put(ToLateDatabaseHelper.CAPTURE_CONNECTION_START_STATION_COL_NAME, connection.getStartStation());
+		if (connection.getStartTime() != null) {
+			values.put(ToLateDatabaseHelper.CAPTURE_CONNECTION_START_TIME_COL_NAME,
+					TIME_FORMAT.format(connection.getStartTime()));
+		} else {
+			values.put(ToLateDatabaseHelper.CAPTURE_CONNECTION_START_TIME_COL_NAME, "");
+		}
+		values.put(ToLateDatabaseHelper.CAPTURE_CONNECTION_END_STATION_COL_NAME, connection.getEndStation());
+		if (connection.getEndTime() != null) {
+			values.put(ToLateDatabaseHelper.CAPTURE_CONNECTION_END_TIME_COL_NAME,
+					TIME_FORMAT.format(connection.getEndTime()));
+		} else {
+			values.put(ToLateDatabaseHelper.CAPTURE_CONNECTION_END_TIME_COL_NAME, "");
+		}
+		values.put(ToLateDatabaseHelper.CAPTURE_CONNECTION_TYPE_COL_NAME, connection.getConnectionType());
+		if (capture.getCaptureDateTime() != null) {
+			values.put(ToLateDatabaseHelper.CAPTURE_DATE_TIME_COL_NAME,
+					DATE_TIME_FORMAT.format(capture.getCaptureDateTime()));
+		} else {
+			values.put(ToLateDatabaseHelper.CAPTURE_DATE_TIME_COL_NAME, "");
+		}
+		values.put(ToLateDatabaseHelper.CAPTURE_COMMENT_COL_NAME, capture.getComment());
+		final int delay = CaptureUtils.getDelayMinutes(capture);
+		values.put(ToLateDatabaseHelper.CAPTURE_DELAY_COL_NAME, delay);
+		return db.update(ToLateDatabaseHelper.CAPTURES_TABLE_NAME, values, selection, null);
+	}
+
 	public long updateConnection(final Connection connection) {
 		return updateConnection(getDatabase(), connection);
 	}

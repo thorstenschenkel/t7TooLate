@@ -17,6 +17,7 @@ import de.t7soft.android.t7toolate.model.Capture;
 import de.t7soft.android.t7toolate.model.Connection;
 import de.t7soft.android.t7toolate.model.ConnectionTypes;
 import de.t7soft.android.t7toolate.utils.CaptureUtils;
+import de.t7soft.android.t7toolate.utils.StringUtils;
 
 public class AllCapturesCursorAdapter extends CursorAdapter {
 
@@ -73,6 +74,14 @@ public class AllCapturesCursorAdapter extends CursorAdapter {
 		if (capture.isCanceled()) {
 			textViewDelay.setText(R.string.canceled);
 			textViewDelay.setTypeface(null, Typeface.NORMAL);
+		}
+
+		final TextView textViewRowComment = (TextView) rowView.findViewById(R.id.textViewRowComment);
+		if (StringUtils.isEmpty(capture.getComment())) {
+			textViewRowComment.setVisibility(View.GONE);
+		} else {
+			textViewRowComment.setVisibility(View.VISIBLE);
+			textViewRowComment.setText(capture.getComment());
 		}
 
 		final View viewLeftBorder = rowView.findViewById(R.id.viewLeftBorder);

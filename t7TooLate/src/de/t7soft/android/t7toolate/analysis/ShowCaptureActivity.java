@@ -13,6 +13,8 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import de.t7soft.android.t7toolate.R;
@@ -33,7 +35,7 @@ public class ShowCaptureActivity extends Activity {
 	private TextView startTimeValueTextView;
 	private TextView endStationValueTextView;
 	private TextView endTimeValueTextView;
-	private TextView commentValueTextView;
+	private EditText editTextCaptureCommentValue;
 	private ToLateDatabaseAdapter dbAdapter;
 
 	@Override
@@ -157,11 +159,25 @@ public class ShowCaptureActivity extends Activity {
 		final View viewTopBorder = findViewById(R.id.viewTopBorder);
 		viewTopBorder.setBackgroundColor(getResources().getColor(borderColor));
 
-		// TODO comment
+		editTextCaptureCommentValue = (EditText) findViewById(R.id.editTextCaptureCommentValue);
+		editTextCaptureCommentValue.setText(capture.getComment());
+
+		final Button okButton = (Button) findViewById(R.id.buttonCaptureOk);
+		okButton.setOnClickListener(new android.view.View.OnClickListener() {
+			@Override
+			public void onClick(final View v) {
+				onOk(v);
+			}
+		});
 
 	}
 
-	public void onCancel(final View view) {
+	private void onOk(final View view) {
+		final String comment = editTextCaptureCommentValue.getText().toString();
+		if ((capture != null) && !capture.getComment().equals(comment)) {
+			capture.setComment(comment);
+			dbAdapter.updateCapture(capture);
+		}
 		finish();
 	}
 

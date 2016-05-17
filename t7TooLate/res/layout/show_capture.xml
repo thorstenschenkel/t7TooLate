@@ -227,25 +227,24 @@
             android:id="@+id/textViewCaptureComment"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:labelFor="@+id/editTextCaptureCommentValue"
             android:singleLine="true"
             android:text="@string/capture_comment"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:textColor="@color/header_text" />
 
-        <TextView
-            android:id="@+id/textViewCaptureCommentValue"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="10dp"
-            android:text="@string/capture_comment"
-            android:textColor="@android:color/primary_text_light_nodisable"
-            android:textStyle="bold" />
-
-        <Space
+        <EditText
+            android:id="@+id/editTextCaptureCommentValue"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:hint="@string/capture_comment_hint"
+            android:inputType="textMultiLine|textAutoCorrect|textAutoComplete|textNoSuggestions"
+            android:gravity="top|left"
+            android:textColor="@android:color/primary_text_light_nodisable"
+            android:textStyle="bold" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -254,11 +253,10 @@
             android:orientation="horizontal" >
 
             <Button
-                android:id="@+id/buttonConnectionCancel"
+                android:id="@+id/buttonCaptureOk"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/button_bar_button"
-                android:onClick="onCancel"
                 android:text="@string/ok"
                 android:textColor="@color/btn_text" />
         </LinearLayout>

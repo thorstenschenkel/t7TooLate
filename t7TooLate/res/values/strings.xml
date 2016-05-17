@@ -43,6 +43,7 @@
     <string name="capture_current_value"><![CDATA[<b>{0}</b>]]></string>
     <string name="capture_no_current"><![CDATA[<i>--:--<i>]]></string>
     <string name="capture_saved">Ankunft gespeichert</string>
+    <string name="capture_dummy_comment">Comment</string>
     <!-- Connections -->
     <string name="connections_tab_tilte">Verbindungen</string>
     <string name="add_menu_item">Hinzufügen</string>
@@ -90,6 +91,7 @@
     <string name="analysis_dummy_delay">+ 1 min</string>
     <string name="analysis_delay_canceled">ausgefallen</string>
     <string name="capture_comment">Anmerkung</string>
+    <string name="capture_comment_hint">Anmerkung eingeben</string>
     <string name="capture_delete_msg_title">Löschen</string>
     <string name="capture_delete_msg_text">Soll die Aufzeichnung vom \"{0}\" gelöscht werden?</string>
     <string name="filter_sub_tilte">Filter</string>

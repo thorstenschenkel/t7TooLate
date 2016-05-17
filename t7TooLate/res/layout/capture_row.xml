@@ -126,6 +126,18 @@
             </LinearLayout>
         </LinearLayout>
 
+        <TextView
+            android:id="@+id/textViewRowComment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="@dimen/capture_padding_x"
+            android:paddingRight="@dimen/capture_padding_x"
+            android:singleLine="true"
+            android:text="@string/capture_dummy_comment"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="@android:color/primary_text_light_nodisable"
+            android:textStyle="italic"/>
+
         <Space
             android:layout_width="match_parent"
             android:layout_height="5dp" />
