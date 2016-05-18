@@ -15,4 +15,6 @@
     <dimen name="capture_padding_x">5dp</dimen>
     <dimen name="capture_padding_y">5dp</dimen>
     
+    <dimen name="week_peek_button_size">35dp</dimen>
+    
 </resources>

@@ -92,6 +92,7 @@
     <string name="analysis_delay_canceled">ausgefallen</string>
     <string name="capture_comment">Anmerkung</string>
     <string name="capture_comment_hint">Anmerkung eingeben</string>
+    <string name="capture_comment_saved">Anmerkung gespeichert</string>
     <string name="capture_delete_msg_title">Löschen</string>
     <string name="capture_delete_msg_text">Soll die Aufzeichnung vom \"{0}\" gelöscht werden?</string>
     <string name="filter_sub_tilte">Filter</string>
@@ -106,5 +107,9 @@
     <string name="filter_delay_slight">leicht verspätet</string>
     <string name="filter_delay_late">verspätet</string>
     <string name="filter_delay_extrem">extrem verspätet</string>
+    <!-- Week Picker -->
+    <string name="picker_next_week">Nächste Woche</string>
+    <string name="picker_prev_week">Vorherige Woche</string>
+    <string name="picker_this_week">Diese Woche</string>
 
 </resources>

@@ -17,6 +17,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 import de.t7soft.android.t7toolate.R;
 import de.t7soft.android.t7toolate.database.ToLateDatabaseAdapter;
 import de.t7soft.android.t7toolate.model.Capture;
@@ -177,6 +178,7 @@ public class ShowCaptureActivity extends Activity {
 		if ((capture != null) && !capture.getComment().equals(comment)) {
 			capture.setComment(comment);
 			dbAdapter.updateCapture(capture);
+			Toast.makeText(this, R.string.capture_comment_saved, Toast.LENGTH_SHORT).show();
 		}
 		finish();
 	}

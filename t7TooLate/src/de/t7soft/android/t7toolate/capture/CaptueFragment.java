@@ -298,7 +298,6 @@ public class CaptueFragment extends Fragment implements ITabFragment {
 
 	public void onCanceled(final View view) {
 
-		Toast.makeText(getActivity(), "debug: #onCanceled", Toast.LENGTH_SHORT).show();
 		final Capture capture = createCapture();
 		if (capture != null) {
 			capture.setCanceled(true);

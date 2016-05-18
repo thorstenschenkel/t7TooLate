@@ -4,16 +4,30 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
 
-    <TextView
-        android:id="@+id/textView1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/analysis_tab_tilte" />
 
-    <de.t7soft.android.t7toolate.analysis.WeekPicker
-        android:id="@+id/weekPicker1"
+    <LinearLayout
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
-    </de.t7soft.android.t7toolate.analysis.WeekPicker>
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5" />
+
+        <de.t7soft.android.t7toolate.analysis.WeekPicker
+            android:id="@+id/weekPicker"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="fill" >
+        </de.t7soft.android.t7toolate.analysis.WeekPicker>
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5" />
+    </LinearLayout>
 
 </LinearLayout>
