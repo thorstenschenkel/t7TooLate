@@ -172,12 +172,19 @@ public class ToLateDatabaseAdapter {
 	}
 
 	private static Selection createFilterSelection(final Context context) {
+		PeriodFilter periodFilter = null;
+		if (context != null) {
+			periodFilter = FilterUtils.createPeriodFilter(context);
+		}
+		return createFilterSelection(periodFilter);
+	}
+
+	private static Selection createFilterSelection(final PeriodFilter periodFilter) {
 
 		final Selection selection = new Selection();
 
-		if (context != null) {
+		if (periodFilter != null) {
 
-			final PeriodFilter periodFilter = FilterUtils.createPeriodFilter(context);
 			if ((periodFilter != null) && periodFilter.isActive()) {
 				final Date fromDate = periodFilter.getFrom() != null ? periodFilter.getFrom() : new Date(0);
 				final Date toDate = periodFilter.getTo() != null ? periodFilter.getTo() : new Date();
@@ -191,6 +198,21 @@ public class ToLateDatabaseAdapter {
 
 		}
 		return selection;
+
+	}
+
+	public Cursor getWeekCapturesCursor(final PeriodFilter periodFilter) {
+		final Cursor cursor = getPeriodCapturesCursor(getDatabase(), periodFilter);
+		return new CaptureFilteredCursor(cursor, null);
+	}
+
+	private static Cursor getPeriodCapturesCursor(final SQLiteDatabase db, final PeriodFilter periodFilter) {
+		final String orderBy = ToLateDatabaseHelper.CAPTURE_DATE_TIME_COL_NAME + " ASC";
+		final Selection selection = createFilterSelection(periodFilter);
+		// Maybe db is null !!! TODO
+		final Cursor cursor = db.query(ToLateDatabaseHelper.CAPTURES_TABLE_NAME, null, selection.getSelection(),
+				selection.getSelectionArgs(), null, null, orderBy);
+		return cursor;
 	}
 
 	public static Capture createCapture(final Cursor cursor) {

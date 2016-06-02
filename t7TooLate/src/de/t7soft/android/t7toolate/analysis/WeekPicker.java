@@ -8,6 +8,7 @@ import java.util.Date;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
+import android.view.SoundEffectConstants;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
@@ -23,6 +24,7 @@ public class WeekPicker extends LinearLayout {
 	private final ImageButton buttonWeekPrev;
 	private final ImageButton buttonWeekNext;
 	private Calendar currentMonday;
+	private ListenerInfo mListenerInfo;
 
 	public WeekPicker(final Context context, final AttributeSet attrs) {
 
@@ -38,6 +40,7 @@ public class WeekPicker extends LinearLayout {
 			@Override
 			public void onClick(final View v) {
 				prevWeek();
+				fireWeekChanged();
 			}
 		});
 		buttonWeekNext = (ImageButton) findViewById(R.id.buttonWeekNext);
@@ -45,6 +48,7 @@ public class WeekPicker extends LinearLayout {
 			@Override
 			public void onClick(final View v) {
 				nextWeek();
+				fireWeekChanged();
 			}
 		});
 		buttonWeekThis = (ImageButton) findViewById(R.id.buttonWeekThis);
@@ -53,6 +57,7 @@ public class WeekPicker extends LinearLayout {
 			public void onClick(final View v) {
 				currentMonday = getMonday();
 				updatePicker();
+				fireWeekChanged();
 			}
 		});
 
@@ -99,7 +104,7 @@ public class WeekPicker extends LinearLayout {
 		return c;
 	}
 
-	private Calendar getSunday(final Calendar monday) {
+	public Calendar getSunday(final Calendar monday) {
 		final Calendar c = Calendar.getInstance();
 		c.setTime(monday.getTime());
 		removeTime(c);
@@ -117,6 +122,43 @@ public class WeekPicker extends LinearLayout {
 		calendar.set(Calendar.MINUTE, 0);
 		calendar.set(Calendar.SECOND, 0);
 		calendar.set(Calendar.MILLISECOND, 0);
+	}
+
+	private boolean fireWeekChanged() {
+		final ListenerInfo li = mListenerInfo;
+		if ((li != null) && (li.mOnWeekListener != null)) {
+			playSoundEffect(SoundEffectConstants.CLICK);
+			return li.mOnWeekListener.onWeekCahnged(this);
+		}
+		return false;
+	}
+
+	public Calendar getCurrentMonday() {
+		return currentMonday;
+	}
+
+	public void setOnWeekListener(final OnWeekListener l) {
+		getListenerInfo().mOnWeekListener = l;
+	}
+
+	@Override
+	public boolean hasOnClickListeners() {
+		final ListenerInfo li = mListenerInfo;
+		return ((li != null) && (li.mOnWeekListener != null));
+	}
+
+	private ListenerInfo getListenerInfo() {
+		if (mListenerInfo != null) {
+			return mListenerInfo;
+		}
+		mListenerInfo = new ListenerInfo();
+		return mListenerInfo;
+	}
+
+	private final static class ListenerInfo {
+
+		public OnWeekListener mOnWeekListener;
+
 	}
 
 }
