@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:id="@+id/viewCaptureDay"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/subtitle_text"
+        android:paddingBottom="5dp"
+        android:paddingLeft="@dimen/capture_padding_x"
+        android:paddingTop="5dp" >
+
+        <TextView
+            android:id="@+id/textViewRowCaptureDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingRight="@dimen/connection_time_padding_right"
+            android:singleLine="true"
+            android:text="@string/analysis_dummy_date"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="@color/subtitle_background"
+            android:textStyle="bold" />
+
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal" >
+
+        <View
+            android:id="@+id/viewLeftBorder"
+            android:layout_width="5dp"
+            android:layout_height="match_parent"
+            android:background="@android:color/holo_purple" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical" >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="5dp"
+                android:paddingLeft="@dimen/capture_padding_x" >
+
+                <TextView
+                    android:id="@+id/textViewRowCaptureTime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingRight="@dimen/connection_time_padding_right"
+                    android:singleLine="true"
+                    android:text="@string/analysis_dummy_time"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:textColor="@color/subtitle_background" />
+
+                <Space
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+
+                <TextView
+                    android:id="@+id/textViewRowCaptureDelay"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="end"
+                    android:paddingLeft="@dimen/capture_padding_x"
+                    android:paddingRight="@dimen/capture_padding_x"
+                    android:singleLine="true"
+                    android:text="@string/analysis_dummy_delay"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:textColor="@color/subtitle_background"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/textViewRowCaptureName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@drawable/ct_plane"
+                android:drawablePadding="10dp"
+                android:paddingLeft="@dimen/capture_padding_x"
+                android:paddingRight="@dimen/capture_padding_x"
+                android:singleLine="true"
+                android:text="@string/connection_dummy_name"
+                android:textAppearance="?android:attr/textAppearanceLarge" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:baselineAligned="false"
+                android:paddingLeft="@dimen/capture_padding_x"
+                android:paddingRight="@dimen/capture_padding_x" >
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.5" >
+
+                    <TextView
+                        android:id="@+id/textViewRowCaptureStartTime"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingRight="@dimen/connection_time_padding_right"
+                        android:singleLine="true"
+                        android:text="@string/connection_dummy_time"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:textColor="@android:color/secondary_text_light" />
+
+                    <TextView
+                        android:id="@+id/textViewRowCaptureStartStation"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:singleLine="true"
+                        android:text="@string/connection_dummy_station"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:textColor="@android:color/primary_text_light_nodisable"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.5" >
+
+                    <TextView
+                        android:id="@+id/textViewRowCaptureEndTime"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="@dimen/connection_time_padding_left"
+                        android:paddingRight="@dimen/connection_time_padding_right"
+                        android:singleLine="true"
+                        android:text="@string/connection_dummy_time"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:textColor="@android:color/secondary_text_light" />
+
+                    <TextView
+                        android:id="@+id/textViewRowCaptureEndStation"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:singleLine="true"
+                        android:text="@string/connection_dummy_station"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:textColor="@android:color/primary_text_light_nodisable"
+                        android:textStyle="bold" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/textViewRowComment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="@dimen/capture_padding_x"
+                android:paddingRight="@dimen/capture_padding_x"
+                android:singleLine="true"
+                android:text="@string/capture_dummy_comment"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="@android:color/primary_text_light_nodisable"
+                android:textStyle="italic" />
+
+            <View
+                android:id="@+id/viewSeparator"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="5dp"
+                android:background="@android:color/darker_gray" />
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>

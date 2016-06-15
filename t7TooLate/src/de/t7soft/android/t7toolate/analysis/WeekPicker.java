@@ -128,7 +128,7 @@ public class WeekPicker extends LinearLayout {
 		final ListenerInfo li = mListenerInfo;
 		if ((li != null) && (li.mOnWeekListener != null)) {
 			playSoundEffect(SoundEffectConstants.CLICK);
-			return li.mOnWeekListener.onWeekCahnged(this);
+			return li.mOnWeekListener.onWeekChanged(this);
 		}
 		return false;
 	}

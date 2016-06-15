@@ -17,7 +17,7 @@ public class WeekFragment extends ListFragment {
 
 	private View weekView;
 	private WeekPicker picker;
-	private AllCapturesCursorAdapter capturesAdapter;
+	private WeekCapturesCursorAdapter capturesAdapter;
 
 	@Override
 	public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
@@ -26,13 +26,13 @@ public class WeekFragment extends ListFragment {
 		picker = (WeekPicker) weekView.findViewById(R.id.weekPicker);
 		picker.setOnWeekListener(new OnWeekListener() {
 			@Override
-			public boolean onWeekCahnged(final WeekPicker v) {
+			public boolean onWeekChanged(final WeekPicker v) {
 				capturesAdapter.changeCursor(getCursor());
 				return true;
 			}
 		});
 
-		capturesAdapter = new AllCapturesCursorAdapter(getActivity(), getCursor());
+		capturesAdapter = new WeekCapturesCursorAdapter(getActivity(), getCursor());
 		setListAdapter(capturesAdapter);
 
 		return weekView;

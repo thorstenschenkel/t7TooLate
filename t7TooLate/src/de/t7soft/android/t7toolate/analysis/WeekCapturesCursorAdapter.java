@@ -2,6 +2,7 @@ package de.t7soft.android.t7toolate.analysis;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 import android.content.Context;
 import android.database.Cursor;
@@ -19,30 +20,41 @@ import de.t7soft.android.t7toolate.model.ConnectionTypes;
 import de.t7soft.android.t7toolate.utils.CaptureUtils;
 import de.t7soft.android.t7toolate.utils.StringUtils;
 
-public class AllCapturesCursorAdapter extends CursorAdapter {
+public class WeekCapturesCursorAdapter extends CursorAdapter {
 
 	private static final java.text.DateFormat TIME_FORMAT = new SimpleDateFormat("HH:mm");
-	private static final DateFormat DATE_TIME_FORMAT = new SimpleDateFormat("EEE, dd.MM.yyyy HH:mm");
+	private static final DateFormat DATE_FORMAT = new SimpleDateFormat("EEE, dd.MM.yyyy");
 
 	private final Context context;
 
-	public AllCapturesCursorAdapter(final Context context, final Cursor cursor) {
+	public WeekCapturesCursorAdapter(final Context context, final Cursor cursor) {
 		super(context, cursor, 0);
 		this.context = context;
 	}
 
 	@Override
 	public View newView(final Context context, final Cursor cursor, final ViewGroup parent) {
-		return LayoutInflater.from(context).inflate(R.layout.capture_row, null);
+		return LayoutInflater.from(context).inflate(R.layout.day_capture_row, null);
 	}
 
 	@Override
 	public void bindView(final View view, final Context context, final Cursor cursor) {
 		final Capture capture = ToLateDatabaseAdapter.createCapture(cursor);
-		updateRow(view, capture);
+		boolean showDay = true;
+		if (cursor.move(-1)) {
+			final Capture previousCapture = ToLateDatabaseAdapter.createCapture(cursor);
+			final Calendar calendar = Calendar.getInstance();
+			calendar.setTime(previousCapture.getCaptureDateTime());
+			final int previousWeekDay = calendar.get(Calendar.DAY_OF_WEEK);
+			calendar.setTime(capture.getCaptureDateTime());
+			final int weekDay = calendar.get(Calendar.DAY_OF_WEEK);
+			showDay = previousWeekDay != weekDay;
+			cursor.move(1);
+		}
+		updateRow(view, capture, showDay);
 	}
 
-	private void updateRow(final View rowView, final Capture capture) {
+	private void updateRow(final View rowView, final Capture capture, final boolean showDay) {
 
 		final Connection connection = capture.getConnection();
 
@@ -65,9 +77,19 @@ public class AllCapturesCursorAdapter extends CursorAdapter {
 		timeStrg = TIME_FORMAT.format(connection.getEndTime());
 		textViewEndTime.setText(timeStrg);
 
-		final TextView textViewDateTime = (TextView) rowView.findViewById(R.id.textViewRowCaptureDateTime);
-		final String dateTimeStrg = DATE_TIME_FORMAT.format(capture.getCaptureDateTime());
-		textViewDateTime.setText(dateTimeStrg);
+		final View dayView = rowView.findViewById(R.id.viewCaptureDay);
+		if (showDay) {
+			final TextView textViewDate = (TextView) rowView.findViewById(R.id.textViewRowCaptureDate);
+			final String dateTimeStrg = DATE_FORMAT.format(capture.getCaptureDateTime());
+			textViewDate.setText(dateTimeStrg);
+			dayView.setVisibility(View.VISIBLE);
+		} else {
+			dayView.setVisibility(View.GONE);
+		}
+
+		final TextView textViewTime = (TextView) rowView.findViewById(R.id.textViewRowCaptureTime);
+		timeStrg = TIME_FORMAT.format(capture.getCaptureDateTime());
+		textViewTime.setText(timeStrg);
 
 		final TextView textViewDelay = (TextView) rowView.findViewById(R.id.textViewRowCaptureDelay);
 		final int borderColor = CaptureUtils.fillTextViewDelay(capture, textViewDelay);
