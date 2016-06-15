@@ -4,30 +4,36 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
 
+    <View
+        android:id="@+id/viewTopBorder"
+        android:layout_width="match_parent"
+        android:layout_height="5dp"
+        android:background="@color/subtitle_background" />
+
     <LinearLayout
         android:id="@+id/viewCaptureDay"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/subtitle_text"
-        android:paddingBottom="5dp"
-        android:paddingLeft="@dimen/capture_padding_x"
-        android:paddingTop="5dp" >
+        android:background="@color/subtitle_text" >
+
+        <View
+            android:layout_width="5dp"
+            android:layout_height="match_parent"
+            android:background="@color/subtitle_background" />
 
         <TextView
             android:id="@+id/textViewRowCaptureDate"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:paddingBottom="5dp"
+            android:paddingLeft="@dimen/capture_padding_x"
             android:paddingRight="@dimen/connection_time_padding_right"
+            android:paddingTop="5dp"
             android:singleLine="true"
             android:text="@string/analysis_dummy_date"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:textColor="@color/subtitle_background"
             android:textStyle="bold" />
-
-        <Space
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1" />
     </LinearLayout>
 
     <LinearLayout
@@ -59,7 +65,7 @@
                     android:paddingRight="@dimen/connection_time_padding_right"
                     android:singleLine="true"
                     android:text="@string/analysis_dummy_time"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:textAppearance="?android:attr/textAppearance"
                     android:textColor="@color/subtitle_background" />
 
                 <Space
@@ -76,7 +82,7 @@
                     android:paddingRight="@dimen/capture_padding_x"
                     android:singleLine="true"
                     android:text="@string/analysis_dummy_delay"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:textAppearance="?android:attr/textAppearance"
                     android:textColor="@color/subtitle_background"
                     android:textStyle="bold" />
             </LinearLayout>

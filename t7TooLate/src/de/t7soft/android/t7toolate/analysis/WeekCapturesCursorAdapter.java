@@ -77,14 +77,17 @@ public class WeekCapturesCursorAdapter extends CursorAdapter {
 		timeStrg = TIME_FORMAT.format(connection.getEndTime());
 		textViewEndTime.setText(timeStrg);
 
+		final View viewTopBorder = rowView.findViewById(R.id.viewTopBorder);
 		final View dayView = rowView.findViewById(R.id.viewCaptureDay);
 		if (showDay) {
 			final TextView textViewDate = (TextView) rowView.findViewById(R.id.textViewRowCaptureDate);
 			final String dateTimeStrg = DATE_FORMAT.format(capture.getCaptureDateTime());
 			textViewDate.setText(dateTimeStrg);
 			dayView.setVisibility(View.VISIBLE);
+			viewTopBorder.setVisibility(View.VISIBLE);
 		} else {
 			dayView.setVisibility(View.GONE);
+			viewTopBorder.setVisibility(View.GONE);
 		}
 
 		final TextView textViewTime = (TextView) rowView.findViewById(R.id.textViewRowCaptureTime);
