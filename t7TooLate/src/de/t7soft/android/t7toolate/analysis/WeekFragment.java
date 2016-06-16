@@ -10,15 +10,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.TextView;
 import de.t7soft.android.t7toolate.MainActivity;
 import de.t7soft.android.t7toolate.R;
 import de.t7soft.android.t7toolate.database.ToLateDatabaseAdapter;
 import de.t7soft.android.t7toolate.model.Capture;
 import de.t7soft.android.t7toolate.model.PeriodFilter;
+import de.t7soft.android.t7toolate.utils.CaptureUtils;
 
 public class WeekFragment extends ListFragment {
 
 	private View weekView;
+	private TextView textViewTotalDelay;
 	private WeekPicker picker;
 	private WeekCapturesCursorAdapter capturesAdapter;
 
@@ -30,7 +33,8 @@ public class WeekFragment extends ListFragment {
 		picker.setOnWeekListener(new OnWeekListener() {
 			@Override
 			public boolean onWeekChanged(final WeekPicker v) {
-				capturesAdapter.changeCursor(getCursor());
+				updateListAdapter();
+				updateTotalDelay();
 				return true;
 			}
 		});
@@ -61,7 +65,45 @@ public class WeekFragment extends ListFragment {
 	@Override
 	public void onResume() {
 		updateListAdapter();
+		updateTotalDelay();
 		super.onResume();
+	}
+
+	private void updateTotalDelay() {
+
+		textViewTotalDelay = (TextView) weekView.findViewById(R.id.textViewTotalDelay);
+
+		final Cursor cursor = getCursor();
+		if ((cursor == null) || (cursor.getCount() <= 0)) {
+			textViewTotalDelay.setText(R.string.analysis_no_captures);
+			return;
+		}
+
+		int delay = 0;
+		try {
+			while (cursor.moveToNext()) {
+				final Capture capture = ToLateDatabaseAdapter.createCapture(cursor);
+				if (!capture.isCanceled()) {
+					delay += CaptureUtils.getDelayMinutes(capture);
+				} else {
+					// TODO
+				}
+			}
+		} finally {
+			cursor.close();
+		}
+		String delayText = "";
+		if (delay > 0) {
+			delayText += " +";
+			delayText += delay;
+		} else if (delay < 0) {
+			delayText += delay;
+		} else {
+			delayText += delay;
+		}
+		delayText += " min";
+		textViewTotalDelay.setText(delayText);
+
 	}
 
 	@Override

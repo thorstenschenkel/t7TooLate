@@ -92,6 +92,8 @@
     <string name="analysis_dummy_time">14:20</string>
     <string name="analysis_dummy_delay">+ 1 min</string>
     <string name="analysis_delay_canceled">ausgefallen</string>
+    <string name="analysis_delay_total">Gesamt</string>
+    <string name="analysis_no_captures">keine Aufzeichnung</string>
     <string name="capture_comment">Anmerkung</string>
     <string name="capture_comment_hint">Anmerkung eingeben</string>
     <string name="capture_comment_saved">Anmerkung gespeichert</string>

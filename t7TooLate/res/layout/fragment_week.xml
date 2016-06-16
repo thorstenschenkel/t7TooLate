@@ -4,12 +4,11 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
 
-
     <LinearLayout
-        android:layout_marginTop="5dp"
-        android:layout_marginBottom="5dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="5dp"
         android:orientation="horizontal" >
 
         <Space
@@ -29,11 +28,46 @@
             android:layout_height="wrap_content"
             android:layout_weight="0.5" />
     </LinearLayout>
-    
+
     <ListView
         android:id="@android:id/list"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+        android:layout_height="0dp"
+        android:layout_weight="1.0" >
     </ListView>
-    
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/subtitle_background"
+            android:paddingLeft="@dimen/capture_padding_x"
+            android:paddingRight="@dimen/capture_padding_x"
+            android:paddingTop="@dimen/capture_padding_y"
+            android:paddingBottom="@dimen/capture_padding_y"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:id="@+id/textViewTotalDelayLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:singleLine="true"
+            android:text="@string/analysis_delay_total"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="@color/subtitle_text" />
+        <Space
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+        
+        <TextView
+            android:id="@+id/textViewTotalDelay"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:singleLine="true"
+            android:text="@string/analysis_dummy_delay"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="@color/subtitle_text"
+            android:textStyle="bold" />
+        </LinearLayout>
+
 </LinearLayout>
