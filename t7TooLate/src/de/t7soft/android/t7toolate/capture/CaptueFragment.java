@@ -287,7 +287,6 @@ public class CaptueFragment extends Fragment implements ITabFragment {
 
 	public void onCapture(final View view) {
 
-		Toast.makeText(getActivity(), "debug: #onCapture", Toast.LENGTH_SHORT).show();
 		final Capture capture = createCapture();
 		if (capture != null) {
 			getDbAdapter().insertCapture(capture);

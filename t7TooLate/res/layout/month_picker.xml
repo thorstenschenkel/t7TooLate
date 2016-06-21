@@ -11,7 +11,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         android:background="@drawable/button_bar_button"
-        android:contentDescription="@string/picker_prev_week"
+        android:contentDescription="@string/picker_prev_month"
         android:minHeight="@dimen/week_peek_button_size"
         android:minWidth="@dimen/week_peek_button_size"
         android:src="@drawable/ic_previous_small" />
@@ -37,7 +37,7 @@
         android:layout_alignTop="@+id/buttonMonthPrev"
         android:layout_toRightOf="@+id/textViewMonth"
         android:background="@drawable/button_bar_button"
-        android:contentDescription="@string/picker_next_week"
+        android:contentDescription="@string/picker_next_month"
         android:minHeight="@dimen/week_peek_button_size"
         android:minWidth="@dimen/week_peek_button_size"
         android:src="@drawable/ic_next_small" />
@@ -51,7 +51,7 @@
         android:layout_marginLeft="4dp"
         android:layout_toRightOf="@+id/buttonMonthNext"
         android:background="@drawable/button_bar_button"
-        android:contentDescription="@string/picker_this_week"
+        android:contentDescription="@string/picker_this_month"
         android:minHeight="@dimen/week_peek_button_size"
         android:minWidth="@dimen/week_peek_button_size"
         android:src="@drawable/ic_today_small" />

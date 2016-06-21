@@ -92,6 +92,7 @@
     <string name="analysis_dummy_date">Mi., 09.03.2016</string>
     <string name="analysis_dummy_time">14:20</string>
     <string name="analysis_dummy_delay">+ 1 min</string>
+    <string name="analysis_dummy_times">5x</string>
     <string name="analysis_delay_canceled">ausgefallen</string>
     <string name="analysis_delay_total">Gesamt</string>
     <string name="analysis_no_captures">keine Aufzeichnung</string>
@@ -116,5 +117,9 @@
     <string name="picker_next_week">Nächste Woche</string>
     <string name="picker_prev_week">Vorherige Woche</string>
     <string name="picker_this_week">Diese Woche</string>
-
+    <!-- Month Picker -->
+    <string name="picker_next_month">Nächster Monat</string>
+    <string name="picker_prev_month">Vorheriger Monat</string>
+    <string name="picker_this_month">Dieser Monat</string>
+    
 </resources>

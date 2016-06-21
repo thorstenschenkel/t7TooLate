@@ -40,11 +40,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/subtitle_background"
-            android:paddingLeft="@dimen/capture_padding_x"
-            android:paddingRight="@dimen/capture_padding_x"
-            android:paddingTop="@dimen/capture_padding_y"
-            android:paddingBottom="@dimen/capture_padding_y"
-        android:orientation="horizontal" >
+        android:orientation="horizontal"
+        android:paddingBottom="@dimen/capture_padding_y"
+        android:paddingLeft="@dimen/capture_padding_x"
+        android:paddingRight="@dimen/capture_padding_x"
+        android:paddingTop="@dimen/capture_padding_y" >
 
         <TextView
             android:id="@+id/textViewTotalDelayLabel"
@@ -54,11 +54,24 @@
             android:text="@string/analysis_delay_total"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:textColor="@color/subtitle_text" />
+
         <Space
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1" />
-        
+
+        <TextView
+            android:id="@+id/textViewCanceled"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/bg_canceld_red"
+            android:drawableRight="@drawable/ic_cancel_small"
+            android:singleLine="true"
+            android:text="@string/analysis_dummy_times"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="@color/text_color_extrem" />
+
         <TextView
             android:id="@+id/textViewTotalDelay"
             android:layout_width="wrap_content"
@@ -68,6 +81,6 @@
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:textColor="@color/subtitle_text"
             android:textStyle="bold" />
-        </LinearLayout>
+    </LinearLayout>
 
 </LinearLayout>
