@@ -55,7 +55,7 @@ public class WeekFragment extends ListFragment {
 			filter.setTo(sunday.getTime());
 			filter.setActive(true);
 		}
-		return getDbAdapter().getWeekCapturesCursor(filter);
+		return getDbAdapter().getPeriodCapturesCursor(filter);
 	}
 
 	private void updateListAdapter() {

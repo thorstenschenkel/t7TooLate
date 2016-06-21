@@ -5,7 +5,7 @@
     android:orientation="horizontal" >
 
     <ImageButton
-        android:id="@+id/buttonWeekPrev"
+        android:id="@+id/buttonMonthPrev"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
@@ -17,23 +17,25 @@
         android:src="@drawable/ic_previous_small" />
 
     <TextView
-        android:id="@+id/textViewWeek"
+        android:id="@+id/textViewMonth"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/buttonWeekPrev"
-        android:layout_alignTop="@+id/buttonWeekPrev"
-        android:layout_toRightOf="@+id/buttonWeekPrev"
+        android:layout_alignBottom="@+id/buttonMonthPrev"
+        android:layout_alignTop="@+id/buttonMonthPrev"
+        android:layout_toRightOf="@+id/buttonMonthPrev"
         android:gravity="center"
+        android:minWidth="150dp"
         android:padding="4dp"
-        android:text="@string/analysis_dummy_week" />
+        android:text="@string/analysis_dummy_month"
+        android:textAlignment="center" />
 
     <ImageButton
-        android:id="@+id/buttonWeekNext"
+        android:id="@+id/buttonMonthNext"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/buttonWeekPrev"
-        android:layout_alignTop="@+id/buttonWeekPrev"
-        android:layout_toRightOf="@+id/textViewWeek"
+        android:layout_alignBottom="@+id/buttonMonthPrev"
+        android:layout_alignTop="@+id/buttonMonthPrev"
+        android:layout_toRightOf="@+id/textViewMonth"
         android:background="@drawable/button_bar_button"
         android:contentDescription="@string/picker_next_week"
         android:minHeight="@dimen/week_peek_button_size"
@@ -41,13 +43,13 @@
         android:src="@drawable/ic_next_small" />
 
     <ImageButton
-        android:id="@+id/buttonWeekThis"
+        android:id="@+id/buttonMonthThis"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/buttonWeekPrev"
-        android:layout_alignTop="@+id/buttonWeekPrev"
+        android:layout_alignBottom="@+id/buttonMonthPrev"
+        android:layout_alignTop="@+id/buttonMonthPrev"
         android:layout_marginLeft="4dp"
-        android:layout_toRightOf="@+id/buttonWeekNext"
+        android:layout_toRightOf="@+id/buttonMonthNext"
         android:background="@drawable/button_bar_button"
         android:contentDescription="@string/picker_this_week"
         android:minHeight="@dimen/week_peek_button_size"

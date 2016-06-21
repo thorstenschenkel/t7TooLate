@@ -86,6 +86,7 @@
     <string name="analysis_tab_tilte">Auswertung</string>
     <string name="filter_menu_item">Filter</string>
     <string name="analysis_view">Ansicht</string>
+    <string name="analysis_dummy_month">September 2016</string>
     <string name="analysis_dummy_week">Mo., 09.03.2016 - So., 17.03.2016</string>
     <string name="analysis_dummy_date_time">Mi., 09.03.2016 14:20</string>
     <string name="analysis_dummy_date">Mi., 09.03.2016</string>

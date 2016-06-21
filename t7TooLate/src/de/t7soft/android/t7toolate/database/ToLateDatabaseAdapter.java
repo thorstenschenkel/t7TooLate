@@ -201,7 +201,7 @@ public class ToLateDatabaseAdapter {
 
 	}
 
-	public Cursor getWeekCapturesCursor(final PeriodFilter periodFilter) {
+	public Cursor getPeriodCapturesCursor(final PeriodFilter periodFilter) {
 		final Cursor cursor = getPeriodCapturesCursor(getDatabase(), periodFilter);
 		return new CaptureFilteredCursor(cursor, null);
 	}
