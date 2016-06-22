@@ -21,9 +21,9 @@ import de.t7soft.android.t7toolate.utils.FilterUtils;
 public class AnalysisFragment extends Fragment implements ITabFragment {
 
 	private View analysisView;
-	private Menu menu;
 	private FragmentManager fragmentManager;
 	private MenuItem menuItemFilter;
+	private Spinner spinnerAnalysisType;
 
 	@Override
 	public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
@@ -37,7 +37,7 @@ public class AnalysisFragment extends Fragment implements ITabFragment {
 		transaction.add(R.id.fragment, new AllListFragment());
 		transaction.commit();
 
-		final Spinner spinnerAnalysisType = (Spinner) analysisView.findViewById(R.id.spinnerAnalysisType);
+		spinnerAnalysisType = (Spinner) analysisView.findViewById(R.id.spinnerAnalysisType);
 		final ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(),
 				R.array.analysis_types_array, R.layout.view_spinner_textview);
 		adapter.setDropDownViewResource(R.layout.view_spinner_dropdown);
@@ -66,7 +66,7 @@ public class AnalysisFragment extends Fragment implements ITabFragment {
 				transaction.replace(R.id.fragment, newFragment);
 				transaction.addToBackStack(null);
 				transaction.commit(); // ?
-
+				updateMenuItems();
 			}
 
 			@Override
@@ -100,8 +100,12 @@ public class AnalysisFragment extends Fragment implements ITabFragment {
 	}
 
 	private void updateMenuItems() {
+		int position = -1;
+		if (spinnerAnalysisType != null) {
+			position = spinnerAnalysisType.getSelectedItemPosition();
+		}
 		if (menuItemFilter != null) {
-			menuItemFilter.setVisible(getUserVisibleHint());
+			menuItemFilter.setVisible(getUserVisibleHint() && (position == 0));
 			if (FilterUtils.isOneFilterActive(getActivity())) {
 				menuItemFilter.setIcon(R.drawable.ic_filter);
 			} else {
