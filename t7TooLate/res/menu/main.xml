@@ -16,7 +16,14 @@
         android:enabled="true"
         android:showAsAction="never"
         android:visible="true"
-        android:title="@string/settings_menu_item"/>    
+        android:title="@string/settings_menu_item"/>
+        
+    <item
+        android:id="@+id/action_change_log"
+        android:enabled="true"
+        android:showAsAction="never"
+        android:visible="true"
+        android:title="@string/change_log_menu_item"/>    
     
     <item
         android:id="@+id/action_about"

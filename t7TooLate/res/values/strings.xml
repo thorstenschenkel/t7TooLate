@@ -4,8 +4,9 @@
     <string name="app_name">ZuSpät?!</string>
     <string name="title_activity_main">ZuSpät?!</string>
     <string name="settings_menu_item">Einstellungen</string>
+    <string name="change_log_menu_item">Änderungen</string>
     <string name="about_menu_item">Info</string>
-    <string name="tooLate_info_msg" formatted="false"><![CDATA[<table border="0"><tr><td>Version:</td><td>{0}</tr><tr><td>Date:</td><td>{1}</td></tr><tr><td>Author:</td><td>Thorsten Schenkel</td></tr><tr><td>Homepage:</td><td><a href="http://www.t7soft.de/html/joomla_t7soft/index.php">www.t7soft.de</td></tr><tr><td>&nbsp;</td><td>&nbsp;</td></tr><tr><td>third-party:</td><td><a href="https://icons8.com/">Icons8</td></tr></table>]]></string>
+    <string name="tooLate_info_msg" formatted="false"><![CDATA[<table border="0"><tbody><tr><td valign="top">Version:</td><td>{0}</td></tr><tr><td valign="top">Date:</td><td>{1}</td></tr><tr><td valign="top">Author:</td><td>Thorsten Schenkel</td></tr><tr><td valign="top">Homepage:</td><td><a href="http://www.t7soft.de/html/joomla_t7soft/index.php"> www.t7soft.de </a></td></tr><tr><td valign="top">third-party:</td><td><a href="https://icons8.com/">Icons8</a><br/><a href="http://petoria.de/android-change-log/">Android Change Log</a></td></tr></tbody></table>]]></string>
     <!-- Common -->
     <string name="empty"></string>
     <string name="ok">OK</string>
@@ -121,5 +122,11 @@
     <string name="picker_next_month">Nächster Monat</string>
     <string name="picker_prev_month">Vorheriger Monat</string>
     <string name="picker_this_month">Dieser Monat</string>
-    
+    <!-- ChangeLog -->
+    <string name="changelog_full_title">Änderungsverlauf</string>
+    <string name="changelog_title">Neuigkeiten</string>
+    <string name="changelog_ok_button">OK</string>
+    <string name="changelog_show_full">mehr...</string>
+    <string name="background_color">white</string>
+
 </resources>

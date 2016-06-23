@@ -7,6 +7,7 @@ import java.util.Locale;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
+import sheetrock.panda.changelog.ChangeLog;
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
 import android.app.AlertDialog;
@@ -32,6 +33,10 @@ import de.t7soft.android.t7toolate.database.ToLateDatabaseAdapter;
 /**
  * 
  * http://android-holo-colors.com/
+ * 
+ * https://github.com/koem/android-change-log
+ * 
+ * https://github.com/cketti/ckChangeLog
  * 
  * @author tsc
  * 
@@ -78,6 +83,12 @@ public class MainActivity extends FragmentActivity {
 	@Override
 	protected void onStart() {
 		super.onStart();
+
+		final ChangeLog cl = new ChangeLog(this);
+		if (cl.firstRun()) {
+			cl.getLogDialog().show();
+		}
+
 		dbAdapter.open();
 	}
 
@@ -175,6 +186,9 @@ public class MainActivity extends FragmentActivity {
 			case R.id.action_settings:
 				showSettings();
 				return true;
+			case R.id.action_change_log:
+				showChangeLog();
+				return true;
 			case R.id.action_about:
 				showAboutDlg();
 				return true;
@@ -185,6 +199,11 @@ public class MainActivity extends FragmentActivity {
 	private void showSettings() {
 		final Intent intent = new Intent(this, SettingsActivity.class);
 		startActivity(intent);
+	}
+
+	private void showChangeLog() {
+		final ChangeLog cl = new ChangeLog(this);
+		cl.getFullLogDialog().show();
 	}
 
 	private void showAboutDlg() {

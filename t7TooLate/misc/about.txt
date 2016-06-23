@@ -1,0 +1,53 @@
+<table border="0">
+<!-- https://html-online.com/editor/ -->
+	<tbody>
+		<tr>
+			<td valign="top">
+				Version:
+			</td>
+			<td>
+				{0}
+			</td>
+		</tr>
+		<tr>
+			<td valign="top">
+				Date:
+			</td>
+			<td>
+				{1}
+			</td>
+		</tr>
+		<tr>
+			<td valign="top">
+				Author:
+			</td>
+			<td>
+				Thorsten Schenkel
+			</td>
+		</tr>
+		<tr>
+			<td valign="top">
+				Homepage:
+			</td>
+			<td>
+				<a href="http://www.t7soft.de/html/joomla_t7soft/index.php">
+					www.t7soft.de
+				</a>
+			</td>
+		</tr>
+		<tr>
+			<td valign="top">
+				third-party:
+			</td>
+			<td>
+				<a href="https://icons8.com/">
+					Icons8
+				</a>
+              <br>
+				<a href="http://petoria.de/android-change-log/">
+					Android Change Log
+				</a>
+			</td>
+		</tr>
+	</tbody>
+</table>
