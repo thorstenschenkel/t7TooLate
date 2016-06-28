@@ -31,6 +31,8 @@
     <string name="settings_error_no_value">Wert fehlt oder Zahl ist ungültig!</string>
     <string name="settings_error_slight">Wert von \"leicht verspätet\" muss größer dem Wert von \"pünktlich\" sein!!</string>
     <string name="settings_error_late">Wert von \"verspätet\" muss größer dem Wert von \"leicht verspätet\" sein!!</string>
+    <string name="settings_misc">Sonstiges</string>
+    <string name="settings_quick_guide">Kurzanleitung erneut anzeigen</string>
     <!-- Tabs -->
     <!-- Capture -->
     <string name="capture_tab_tilte">Erfassen</string>
@@ -128,5 +130,14 @@
     <string name="changelog_ok_button">OK</string>
     <string name="changelog_show_full">mehr...</string>
     <string name="background_color">white</string>
+    <!-- Showcase -->
+    <string name="showcase_connections_title">Verbindungen</string>
+    <string name="showcase_connections_message">Hier trägst du zuerst all deine regelmäßgen Zug- oder Busverbindungen ein.</string>
+    <string name="showcase_capture_title">Erfassen</string>
+    <string name="showcase_capture_message">Sobald dein Zug angekommen ist, wird hier die Ankunftszeit von dir erfasst.</string>
+    <string name="showcase_analysis_title">Auswertung</string>
+    <string name="showcase_analysis_message">Hier werden all deine Aufzeichnungen aufgelistet.</string>
+    <string name="showcase_next">Weiter</string>
+    <string name="showcase_close">Schließen</string>
 
 </resources>

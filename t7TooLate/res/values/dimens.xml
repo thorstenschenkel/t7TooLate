@@ -1,20 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    
+
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
-    
     <dimen name="subtitle_paddingX">10dp</dimen>
     <dimen name="subtitle_paddingY">10dp</dimen>
-    
     <dimen name="connection_padding_x">5dp</dimen>
     <dimen name="connection_padding_y">5dp</dimen>
     <dimen name="connection_time_padding_left">10dp</dimen>
     <dimen name="connection_time_padding_right">5dp</dimen>
-    
     <dimen name="capture_padding_x">5dp</dimen>
     <dimen name="capture_padding_y">5dp</dimen>
-    
     <dimen name="week_peek_button_size">35dp</dimen>
-    
+    <dimen name="button_margin">12dp</dimen>
+    <dimen name="text_padding">24dp</dimen>
+    <dimen name="action_bar_offset">66dp</dimen>
+    <dimen name="showcase_radius">94dp</dimen>
+    <dimen name="showcase_radius_inner">96dp</dimen>
+    <dimen name="showcase_radius_outer">128dp</dimen>
+    <dimen name="showcase_radius_material">48dip</dimen>
+
 </resources>

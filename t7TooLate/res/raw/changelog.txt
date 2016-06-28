@@ -27,6 +27,10 @@
     </style>
   </head>
   <body>
+    $ 0.2
+      % Version 0.2
+      _ 2016-06-28
+      * Kurzanleitung beim ersten Start der App
     $ 0.1
       % Version 0.1
       _ 2016-06-23

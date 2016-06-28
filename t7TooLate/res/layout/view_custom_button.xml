@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Button xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:paddingLeft="50dp"
+    android:paddingRight="50dp"
+    android:background="@drawable/material_showcase_button_bg"
+    android:text="@string/showcase_next"
+    android:textAllCaps="true"
+    android:textColor="@android:color/white"
+    android:textSize="13sp"
+    android:textStyle="bold" >
+</Button>

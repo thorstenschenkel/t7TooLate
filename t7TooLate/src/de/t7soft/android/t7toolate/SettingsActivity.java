@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.EditText;
 
 public class SettingsActivity extends Activity {
@@ -15,6 +16,7 @@ public class SettingsActivity extends Activity {
 	private EditText editTextSlight;
 	private EditText editTextLate;
 	private EditText editTextExtrem;
+	private CheckBox checkBoxQuickQuide;
 
 	@Override
 	protected void onCreate(final Bundle savedInstanceState) {
@@ -44,6 +46,9 @@ public class SettingsActivity extends Activity {
 				editTextExtrem.setText(editTextLate.getText().toString());
 			}
 		});
+
+		checkBoxQuickQuide = (CheckBox) findViewById(R.id.checkBoxQuickQuide);
+		checkBoxQuickQuide.setChecked(false);
 
 	}
 
@@ -85,6 +90,7 @@ public class SettingsActivity extends Activity {
 			// value is empty or not a number
 		}
 		final Settings settings = new Settings(oneTime, slight, late);
+		settings.setShowQuickGuide(checkBoxQuickQuide.isChecked());
 
 		if (!validate(settings)) {
 			return;
@@ -128,6 +134,7 @@ public class SettingsActivity extends Activity {
 		editor.putInt(MainActivity.PREF_ON_TIME, settings.oneTime);
 		editor.putInt(MainActivity.PREF_SLIGHT, settings.slight);
 		editor.putInt(MainActivity.PREF_LATE, settings.late);
+		editor.putBoolean(MainActivity.PREF_SHOW_QUICK_GUIDE, settings.isShowQuickGuide());
 		editor.commit();
 		return true;
 	}
@@ -152,11 +159,13 @@ public class SettingsActivity extends Activity {
 		private final int oneTime;
 		private final int slight;
 		private final int late;
+		private boolean showQuickGuide;
 
 		public Settings(final int oneTime, final int slight, final int late) {
 			this.oneTime = oneTime;
 			this.slight = slight;
 			this.late = late;
+			this.showQuickGuide = false;
 		}
 
 		public int getOneTime() {
@@ -169,6 +178,14 @@ public class SettingsActivity extends Activity {
 
 		public int getLate() {
 			return late;
+		}
+
+		public boolean isShowQuickGuide() {
+			return showQuickGuide;
+		}
+
+		public void setShowQuickGuide(final boolean showQuickGuide) {
+			this.showQuickGuide = showQuickGuide;
 		}
 
 	}

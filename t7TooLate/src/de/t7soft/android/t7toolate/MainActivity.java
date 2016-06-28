@@ -10,10 +10,14 @@ import java.util.zip.ZipFile;
 import sheetrock.panda.changelog.ChangeLog;
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.FragmentTransaction;
+import android.content.Context;
+import android.content.ContextWrapper;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Bundle;
@@ -24,7 +28,15 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.webkit.WebView;
+import android.widget.RelativeLayout;
+
+import com.github.amlcurran.showcaseview.ShowcaseView;
+import com.github.amlcurran.showcaseview.targets.Target;
+
+import de.t7soft.android.t7toolate.MainActivityTarget.PosX;
 import de.t7soft.android.t7toolate.analysis.AnalysisFragment;
 import de.t7soft.android.t7toolate.capture.CaptueFragment;
 import de.t7soft.android.t7toolate.connections.ConnectionsFragment;
@@ -34,9 +46,15 @@ import de.t7soft.android.t7toolate.database.ToLateDatabaseAdapter;
  * 
  * http://android-holo-colors.com/
  * 
- * https://github.com/koem/android-change-log
+ * https://github.com/amlcurran/ShowcaseView
  * 
- * https://github.com/cketti/ckChangeLog
+ * http://amlcurran.github.io/ShowcaseView/
+ * 
+ * http://stackoverflow.com/questions/26056733/android-showcaseview-usage-unable-to-import-it-to-my-project
+ * 
+ * http://stackoverflow.com/questions/20146705/how-do-i-import-showcaseview-in-eclipse
+ * 
+ * http://stackoverflow.com/questions/25063366/how-do-you-use-showcaseview-library-in-your-android-project-which-isnt-based-on
  * 
  * @author tsc
  * 
@@ -47,6 +65,7 @@ public class MainActivity extends FragmentActivity {
 	public static final String PREF_ON_TIME = "onTime";
 	public static final String PREF_SLIGHT = "slight";
 	public static final String PREF_LATE = "late";
+	public static final String PREF_SHOW_QUICK_GUIDE = "showQuickGuide";
 	public static final int PREF_ON_TIME_DEFAULT = 5;
 	public static final int PREF_SLIGHT_DEFAULT = 10;
 	public static final int PREF_LATE_DEFAULT = 60;
@@ -57,6 +76,8 @@ public class MainActivity extends FragmentActivity {
 	private ToLateDatabaseAdapter dbAdapter;
 	private CaptueFragment captueFragment;
 	private ConnectionsFragment connectionsFragment;
+	private ShowcaseView sv;
+	private ViewPager viewPager;
 
 	@Override
 	protected void onCreate(final Bundle savedInstanceState) {
@@ -72,11 +93,36 @@ public class MainActivity extends FragmentActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 
-		final ViewPager viewPager = (ViewPager) findViewById(R.id.pager);
+		viewPager = (ViewPager) findViewById(R.id.pager);
 		setupViewPager(viewPager);
 
 		final ActionBar actionBar = getActionBar();
 		setupActionBar(actionBar, viewPager);
+
+	}
+
+	private void setupShowcase() {
+
+		final RelativeLayout.LayoutParams lps = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,
+				ViewGroup.LayoutParams.WRAP_CONTENT);
+		lps.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+		lps.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
+		final int margin = ((Number) (getResources().getDisplayMetrics().density * 12)).intValue();
+		lps.setMargins(margin, margin, margin, margin);
+
+		final OnClickListener showcaseOnClickListener = new ShowcaseOnClickListener();
+		final Target target = new MainActivityTarget(this, PosX.CENTER);
+		sv = new ShowcaseView.Builder(this).withMaterialShowcase() //
+				.useDecorViewAsParent() //
+				.setTarget(target) //
+				.setContentTitle(R.string.showcase_connections_title) //
+				.setContentText(R.string.showcase_connections_message) //
+				.setStyle(R.style.ShowcaseView) //
+				.replaceEndButton(R.layout.view_custom_button) //
+				.setOnClickListener(showcaseOnClickListener) //
+				.build();
+		sv.setButtonText(getString(R.string.showcase_next));
+		sv.setButtonPosition(lps);
 
 	}
 
@@ -90,6 +136,23 @@ public class MainActivity extends FragmentActivity {
 		}
 
 		dbAdapter.open();
+
+		showQuickGuide();
+
+	}
+
+	private void showQuickGuide() {
+
+		final SharedPreferences settings = getSharedPreferences(MainActivity.PREFS_NAME, 0);
+		final boolean showQuickGuide = settings.getBoolean(MainActivity.PREF_SHOW_QUICK_GUIDE, true);
+		if (showQuickGuide) {
+			viewPager.setCurrentItem(1);
+			setupShowcase();
+			final SharedPreferences.Editor editor = settings.edit();
+			editor.putBoolean(MainActivity.PREF_SHOW_QUICK_GUIDE, false);
+			editor.commit();
+		}
+
 	}
 
 	@Override
@@ -258,6 +321,53 @@ public class MainActivity extends FragmentActivity {
 
 	public ToLateDatabaseAdapter getDbAdapter() {
 		return dbAdapter;
+	}
+
+	private class ShowcaseOnClickListener implements OnClickListener {
+
+		private int callCount;
+
+		@Override
+		public void onClick(final View v) {
+
+			final Context context = v.getContext();
+
+			switch (callCount) {
+				case 0:
+					viewPager.setCurrentItem(0);
+					final Target target2 = new MainActivityTarget(getActivity(v), PosX.LEFT);
+					sv.setShowcase(target2, true);
+					sv.setContentTitle(context.getString(R.string.showcase_capture_title));
+					sv.setContentText(context.getString(R.string.showcase_capture_message));
+					break;
+				case 1:
+					viewPager.setCurrentItem(2);
+					final Target target3 = new MainActivityTarget(getActivity(v), PosX.RIGHT);
+					sv.setShowcase(target3, true);
+					sv.setContentTitle(context.getString(R.string.showcase_analysis_title));
+					sv.setContentText(context.getString(R.string.showcase_analysis_message));
+					sv.setButtonText(getString(R.string.showcase_close));
+					break;
+				case 2:
+					viewPager.setCurrentItem(1);
+					sv.hide();
+					break;
+			}
+
+			callCount++;
+
+		}
+	}
+
+	private static Activity getActivity(final View view) {
+		Context context = view.getContext();
+		while (context instanceof ContextWrapper) {
+			if (context instanceof Activity) {
+				return (Activity) context;
+			}
+			context = ((ContextWrapper) context).getBaseContext();
+		}
+		return null;
 	}
 
 }
