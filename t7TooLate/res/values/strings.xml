@@ -132,9 +132,9 @@
     <string name="background_color">white</string>
     <!-- Showcase -->
     <string name="showcase_connections_title">Verbindungen</string>
-    <string name="showcase_connections_message">Hier trägst du zuerst all deine regelmäßgen Zug- oder Busverbindungen ein.</string>
+    <string name="showcase_connections_message">Zuerst trägst du hier all deine regelmäßgen Zug- oder Busverbindungen ein.</string>
     <string name="showcase_capture_title">Erfassen</string>
-    <string name="showcase_capture_message">Sobald dein Zug angekommen ist, wird hier die Ankunftszeit von dir erfasst.</string>
+    <string name="showcase_capture_message">Sobald dein Zug angekommen ist, wird von dir hier die Ankunftszeit erfasst.</string>
     <string name="showcase_analysis_title">Auswertung</string>
     <string name="showcase_analysis_message">Hier werden all deine Aufzeichnungen aufgelistet.</string>
     <string name="showcase_next">Weiter</string>

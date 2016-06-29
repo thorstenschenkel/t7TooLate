@@ -71,7 +71,7 @@ public class MainActivity extends FragmentActivity {
 	public static final int PREF_LATE_DEFAULT = 60;
 
 	private static final int[] TAB_ICON_IDS = {
-			R.drawable.ic_time, R.drawable.ic_train, R.drawable.ic_analysis
+			R.drawable.ic_time, R.drawable.ic_train, R.drawable.ic_list
 	};
 	private ToLateDatabaseAdapter dbAdapter;
 	private CaptueFragment captueFragment;
