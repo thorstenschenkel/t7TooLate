@@ -17,6 +17,7 @@ import de.t7soft.android.t7toolate.model.Capture;
 import de.t7soft.android.t7toolate.model.Connection;
 import de.t7soft.android.t7toolate.model.ConnectionTypes;
 import de.t7soft.android.t7toolate.utils.CaptureUtils;
+import de.t7soft.android.t7toolate.utils.DummyData;
 import de.t7soft.android.t7toolate.utils.StringUtils;
 
 public class AllCapturesCursorAdapter extends CursorAdapter {
@@ -38,7 +39,8 @@ public class AllCapturesCursorAdapter extends CursorAdapter {
 
 	@Override
 	public void bindView(final View view, final Context context, final Cursor cursor) {
-		final Capture capture = ToLateDatabaseAdapter.createCapture(cursor);
+		final Capture rowCapture = ToLateDatabaseAdapter.createCapture(cursor);
+		final Capture capture = new DummyData().capture(rowCapture);
 		updateRow(view, capture);
 	}
 

@@ -12,6 +12,7 @@ import android.widget.TextView;
 import de.t7soft.android.t7toolate.R;
 import de.t7soft.android.t7toolate.model.Connection;
 import de.t7soft.android.t7toolate.model.ConnectionTypes;
+import de.t7soft.android.t7toolate.utils.DummyData;
 
 public class ConnectionsListAdapter extends BaseAdapter {
 
@@ -47,7 +48,8 @@ public class ConnectionsListAdapter extends BaseAdapter {
 		if (rowView == null) {
 			rowView = inflater.inflate(R.layout.connection_row, null);
 		}
-		final Connection connection = getItem(position);
+		final Connection rowConnection = getItem(position);
+		final Connection connection = new DummyData().connection(rowConnection);
 		updateRow(rowView, connection);
 
 		return rowView;

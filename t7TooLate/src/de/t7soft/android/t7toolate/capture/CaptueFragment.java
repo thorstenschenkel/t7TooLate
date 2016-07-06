@@ -31,6 +31,7 @@ import de.t7soft.android.t7toolate.database.ToLateDatabaseAdapter;
 import de.t7soft.android.t7toolate.model.Capture;
 import de.t7soft.android.t7toolate.model.Connection;
 import de.t7soft.android.t7toolate.utils.CaptureUtils;
+import de.t7soft.android.t7toolate.utils.DummyData;
 
 public class CaptueFragment extends Fragment implements ITabFragment {
 
@@ -87,7 +88,8 @@ public class CaptueFragment extends Fragment implements ITabFragment {
 
 		String connectionHtml;
 		try {
-			final Connection connection = connections.get(index);
+			final Connection selectedConnection = connections.get(index);
+			final Connection connection = new DummyData().connection(selectedConnection);
 			connectionHtml = getString(R.string.capture_planed_end_value);
 			final String endTimeStrg = TIME_FORMAT.format(connection.getEndTime());
 			connectionHtml = MessageFormat.format(connectionHtml, endTimeStrg, connection.getEndStation());
@@ -141,7 +143,8 @@ public class CaptueFragment extends Fragment implements ITabFragment {
 		final int index = numberPickerConnection.getValue();
 		long minutes = 0;
 		if (index < connections.size()) {
-			final Connection connection = connections.get(index);
+			final Connection nextConnection = connections.get(index);
+			final Connection connection = new DummyData().connection(nextConnection);
 			final long endSeconds = getSeconds(connection.getEndTime());
 			final long diff = getSeconds(now) - endSeconds;
 			minutes = diff / 60;
@@ -167,7 +170,8 @@ public class CaptueFragment extends Fragment implements ITabFragment {
 		int minIndex = -1;
 
 		for (int i = 0; i < connections.size(); i++) {
-			final Connection connection = connections.get(i);
+			final Connection nextConnection = connections.get(i);
+			final Connection connection = new DummyData().connection(nextConnection);
 			final long endSeconds = getSeconds(connection.getEndTime());
 			final long diff = nowSeconds - endSeconds;
 			if (Math.abs(diff) < minDiff) {
@@ -215,7 +219,8 @@ public class CaptueFragment extends Fragment implements ITabFragment {
 
 			numberPickerConnection.setMaxValue(connections.size() - 1);
 			final List<String> connectionNames = new LinkedList<String>();
-			for (final Connection connection : connections) {
+			for (final Connection nextConnection : connections) {
+				final Connection connection = new DummyData().connection(nextConnection);
 				connectionNames.add(connection.getName());
 			}
 			final String[] connectionNamesArray = connectionNames.toArray(new String[connectionNames.size()]);

@@ -18,16 +18,17 @@ import de.t7soft.android.t7toolate.model.Capture;
 import de.t7soft.android.t7toolate.model.Connection;
 import de.t7soft.android.t7toolate.model.ConnectionTypes;
 import de.t7soft.android.t7toolate.utils.CaptureUtils;
+import de.t7soft.android.t7toolate.utils.DummyData;
 import de.t7soft.android.t7toolate.utils.StringUtils;
 
-public class WeekCapturesCursorAdapter extends CursorAdapter {
+public class WeekMonthCapturesCursorAdapter extends CursorAdapter {
 
 	private static final java.text.DateFormat TIME_FORMAT = new SimpleDateFormat("HH:mm");
 	private static final DateFormat DATE_FORMAT = new SimpleDateFormat("EEE, dd.MM.yyyy");
 
 	private final Context context;
 
-	public WeekCapturesCursorAdapter(final Context context, final Cursor cursor) {
+	public WeekMonthCapturesCursorAdapter(final Context context, final Cursor cursor) {
 		super(context, cursor, 0);
 		this.context = context;
 	}
@@ -39,7 +40,8 @@ public class WeekCapturesCursorAdapter extends CursorAdapter {
 
 	@Override
 	public void bindView(final View view, final Context context, final Cursor cursor) {
-		final Capture capture = ToLateDatabaseAdapter.createCapture(cursor);
+		final Capture rowCapture = ToLateDatabaseAdapter.createCapture(cursor);
+		final Capture capture = new DummyData().capture(rowCapture);
 		boolean showDay = true;
 		if (cursor.move(-1)) {
 			final Capture previousCapture = ToLateDatabaseAdapter.createCapture(cursor);

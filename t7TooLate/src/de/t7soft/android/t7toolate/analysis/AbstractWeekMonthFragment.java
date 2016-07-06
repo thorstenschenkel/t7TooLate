@@ -20,7 +20,7 @@ import de.t7soft.android.t7toolate.utils.CaptureUtils;
 public abstract class AbstractWeekMonthFragment extends ListFragment {
 
 	private View view;
-	private WeekCapturesCursorAdapter capturesAdapter;
+	private WeekMonthCapturesCursorAdapter capturesAdapter;
 	private TextView textViewTotalDelay;
 	private TextView textViewCanceled;
 
@@ -49,7 +49,7 @@ public abstract class AbstractWeekMonthFragment extends ListFragment {
 
 		registerPickerListener(view);
 
-		capturesAdapter = new WeekCapturesCursorAdapter(getActivity(), getCursor());
+		capturesAdapter = new WeekMonthCapturesCursorAdapter(getActivity(), getCursor());
 		setListAdapter(capturesAdapter);
 
 		return view;

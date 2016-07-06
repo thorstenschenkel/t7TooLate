@@ -4,5 +4,6 @@ Icon Sizes
  
  ??            48            72            96             144             ic_             launcher
  ??            32            48            64             96              ic_             menu / toolbar
+ ??            54            80            108            162             ic_*_wide       tab image
  ??            24            32            48             64              ic_*_small      button image
  ??            24            32            48             64              ct_             "connection type"
