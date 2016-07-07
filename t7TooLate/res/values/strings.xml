@@ -6,7 +6,7 @@
     <string name="settings_menu_item">Einstellungen</string>
     <string name="change_log_menu_item">Änderungen</string>
     <string name="about_menu_item">Info</string>
-    <string name="tooLate_info_msg" formatted="false"><![CDATA[<table border="0"><tbody><tr><td valign="top">Version:</td><td>{0}</td></tr><tr><td valign="top">Date:</td><td>{1}</td></tr><tr><td valign="top">Author:</td><td>Thorsten Schenkel</td></tr><tr><td valign="top">Homepage:</td><td><a href="http://www.t7soft.de/html/joomla_t7soft/index.php"> www.t7soft.de </a></td></tr><tr><td valign="top">third-party:</td><td><a href="https://icons8.com/">Icons8</a><br/><a href="http://petoria.de/android-change-log/">Android Change Log</a></td></tr></tbody></table>]]></string>
+    <string name="tooLate_info_msg" formatted="false"><![CDATA[<table border="0"><tbody><tr><td valign="top">Version:</td><td>{0}</td></tr><tr><td valign="top">Date:</td><td>{1}</td></tr><tr><td valign="top">Author:</td><td>Thorsten Schenkel</td></tr><tr><td valign="top">Homepage:</td><td><a href="http://www.t7soft.de/html/joomla_t7soft/index.php"> www.t7soft.de </a></td></tr><tr><td valign="top">third-party:</td><td><a href="https://icons8.com/">Icons8</a><br/><a href="http://petoria.de/android-change-log/">Android Change Log</a><br/><a href="https://github.com/amlcurran/ShowcaseView">ShowcaseView</a></td></tr></tbody></table>]]></string>
     <!-- Common -->
     <string name="empty"></string>
     <string name="ok">OK</string>
