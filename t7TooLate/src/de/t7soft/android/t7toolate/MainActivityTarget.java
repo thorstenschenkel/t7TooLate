@@ -2,6 +2,7 @@ package de.t7soft.android.t7toolate;
 
 import android.app.Activity;
 import android.graphics.Point;
+import android.util.DisplayMetrics;
 import android.view.View;
 
 import com.github.amlcurran.showcaseview.targets.Target;
@@ -24,10 +25,11 @@ public class MainActivityTarget implements Target {
 	public Point getPoint() {
 
 		final View view = activity.getWindow().getDecorView();
+		final DisplayMetrics displayMetrics = view.getResources().getDisplayMetrics();
 
 		final int width = view.getWidth() / 3;
 		int x = 0;
-		final int y = 300;
+		final int y = (int) (100f * displayMetrics.density);
 		switch (posX) {
 			case LEFT:
 				x += width / 2;
