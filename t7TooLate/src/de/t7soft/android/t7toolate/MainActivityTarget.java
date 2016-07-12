@@ -37,10 +37,12 @@ public class MainActivityTarget implements Target {
 
 	private final Activity activity;
 	private final PosX posX;
+	private final View widgetView;
 
-	public MainActivityTarget(final Activity mainActivity, final PosX posX) {
+	public MainActivityTarget(final Activity mainActivity, final View widgetView, final PosX posX) {
 		this.activity = mainActivity;
 		this.posX = posX;
+		this.widgetView = widgetView;
 	}
 
 	@Override
@@ -65,6 +67,10 @@ public class MainActivityTarget implements Target {
 			default:
 				x += width / 2;
 				break;
+		}
+
+		if (view != null) {
+			x += widgetView.getX();
 		}
 
 		return new Point(x, y);

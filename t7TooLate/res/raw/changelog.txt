@@ -27,6 +27,10 @@
     </style>
   </head>
   <body>
+    $ 0.3
+      % Version 0.3
+      _ 2016-07-12
+      * Verbesserte Darstellung der Kurzanleitung auf Tablets
     $ 0.2
       % Version 0.2
       _ 2016-06-28

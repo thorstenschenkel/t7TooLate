@@ -133,7 +133,7 @@ public class MainActivity extends FragmentActivity {
 		lps.setMargins(margin, margin, margin, margin);
 
 		final OnClickListener showcaseOnClickListener = new ShowcaseOnClickListener();
-		final Target target = new MainActivityTarget(this, PosX.CENTER);
+		final Target target = new MainActivityTarget(this, viewPager, PosX.CENTER);
 		sv = new ShowcaseView.Builder(this).withMaterialShowcase() //
 				.useDecorViewAsParent() //
 				.setTarget(target) //
@@ -357,14 +357,14 @@ public class MainActivity extends FragmentActivity {
 			switch (callCount) {
 				case 0:
 					viewPager.setCurrentItem(0);
-					final Target target2 = new MainActivityTarget(getActivity(v), PosX.LEFT);
+					final Target target2 = new MainActivityTarget(getActivity(v), viewPager, PosX.LEFT);
 					sv.setShowcase(target2, true);
 					sv.setContentTitle(context.getString(R.string.showcase_capture_title));
 					sv.setContentText(context.getString(R.string.showcase_capture_message));
 					break;
 				case 1:
 					viewPager.setCurrentItem(2);
-					final Target target3 = new MainActivityTarget(getActivity(v), PosX.RIGHT);
+					final Target target3 = new MainActivityTarget(getActivity(v), viewPager, PosX.RIGHT);
 					sv.setShowcase(target3, true);
 					sv.setContentTitle(context.getString(R.string.showcase_analysis_title));
 					sv.setContentText(context.getString(R.string.showcase_analysis_message));
