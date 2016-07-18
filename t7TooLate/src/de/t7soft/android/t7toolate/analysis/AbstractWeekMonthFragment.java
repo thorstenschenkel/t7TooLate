@@ -58,6 +58,7 @@ public abstract class AbstractWeekMonthFragment extends ListFragment {
 		view = inflater.inflate(getViewResource(), container, false);
 		textViewTotalDelay = (TextView) view.findViewById(R.id.textViewTotalDelay);
 		textViewCanceled = (TextView) view.findViewById(R.id.textViewCanceled);
+		textViewCanceled.setVisibility(View.GONE);
 		textViewCanceled.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(final View v) {
