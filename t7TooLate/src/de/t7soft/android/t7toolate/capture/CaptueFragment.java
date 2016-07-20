@@ -239,7 +239,6 @@ public class CaptueFragment extends Fragment implements ITabFragment {
 				}
 			});
 
-			numberPickerConnection.setMaxValue(connections.size() - 1);
 			final List<String> connectionNames = new LinkedList<String>();
 			for (final Connection nextConnection : connections) {
 				final Connection connection = new DummyData().connection(nextConnection);
@@ -247,6 +246,7 @@ public class CaptueFragment extends Fragment implements ITabFragment {
 			}
 			final String[] connectionNamesArray = connectionNames.toArray(new String[connectionNames.size()]);
 			numberPickerConnection.setDisplayedValues(connectionNamesArray);
+			numberPickerConnection.setMaxValue(connections.size() - 1);
 			setPickerValueInternal(0, false);
 			updatePlanedEnd(0);
 			updateCurrent();
