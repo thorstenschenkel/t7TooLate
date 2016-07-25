@@ -27,6 +27,10 @@
     </style>
   </head>
   <body>
+    $ 0.4
+      % Version 0.4
+      _ 2016-07-25
+      * Picker zur Auswahl der Verbindung erweitert
     $ 0.3
       % Version 0.3
       _ 2016-07-12
