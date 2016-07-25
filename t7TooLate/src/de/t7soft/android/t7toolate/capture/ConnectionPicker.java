@@ -24,23 +24,64 @@ package de.t7soft.android.t7toolate.capture;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 import android.content.Context;
-import android.text.Editable;
-import android.text.TextWatcher;
+import android.content.res.ColorStateList;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.Paint.Align;
+import android.graphics.Rect;
+import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
+import android.util.SparseArray;
+import android.util.TypedValue;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.NumberPicker;
+import de.t7soft.android.t7toolate.R;
+import de.t7soft.android.t7toolate.model.Connection;
+import de.t7soft.android.t7toolate.model.ConnectionTypes;
 
+/**
+ * https://android-arsenal.com/details/1/3309
+ */
 public class ConnectionPicker extends NumberPicker {
+
+	// NumberPicker.SELECTOR_WHEEL_ITEM_COUNT
+	private static final int SELECTOR_WHEEL_ITEM_COUNT = 3;
+	// NumberPicker.SELECTOR_MIDDLE_ITEM_INDEX
+	private static final int SELECTOR_MIDDLE_ITEM_INDEX = SELECTOR_WHEEL_ITEM_COUNT / 2;
+	/**
+	 * The default unscaled height of the selection divider.
+	 */
+	private static final int UNSCALED_DEFAULT_SELECTION_DIVIDER_HEIGHT = 2;
+
+	/**
+	 * The default unscaled distance between the selection dividers.
+	 */
+	private static final int UNSCALED_DEFAULT_SELECTION_DIVIDERS_DISTANCE = 48;
+	private static final java.text.DateFormat TIME_FORMAT = new SimpleDateFormat("HH:mm");
 
 	/**
 	 * The text for showing the current value.
 	 */
 	private EditText pickerInputText;
+	private Paint selectorWheelPaint;
+	private Paint selectorWheelPaint2;
+	private int selectorElementHeight;
+	private int mTopSelectionDividerTop;
+	private int mBottomSelectionDividerBottom;
+	private int mSelectionDividerHeight;
+	private Drawable selectionDivider;
+	private List<Connection> connections;
+	private Rect orgiBmpRect;
+	private Rect destBmpRect;
+	private Rect nameBounds;
 
 	public ConnectionPicker(final Context context, final AttributeSet attrs, final int defStyle) {
 		super(context, attrs, defStyle);
@@ -58,53 +99,34 @@ public class ConnectionPicker extends NumberPicker {
 	}
 
 	private void init() {
-		final List<Field> fileds = getAllFields(ConnectionPicker.class);
 
-		try {
-			for (final Field field : fileds) {
-				if ("mInputText".equals(field.getName())) {
-					field.setAccessible(true);
-					pickerInputText = (EditText) field.get(this);
-					pickerInputText.addTextChangedListener(new TextWatcher() {
+		pickerInputText = getInputText();
 
-						@Override
-						public void beforeTextChanged(final CharSequence s, final int start, final int count,
-								final int after) {
-						}
+		if (pickerInputText != null) {
 
-						@Override
-						public void onTextChanged(final CharSequence s, final int start, final int before,
-								final int count) {
-						}
+			final Paint paint = new Paint();
+			paint.setAntiAlias(true);
+			paint.setTextAlign(Align.CENTER);
+			paint.setTextSize((int) (pickerInputText.getTextSize() * 1.15f));
+			paint.setTypeface(pickerInputText.getTypeface());
+			final ColorStateList colors = pickerInputText.getTextColors();
+			final int color = colors.getColorForState(ENABLED_STATE_SET, Color.WHITE);
+			paint.setColor(color);
+			selectorWheelPaint = paint;
 
-						@Override
-						public void afterTextChanged(final Editable s) {
-							// final int drawableResId = ConnectionTypes.ICON_IDS[1];
-							// pickerInputText.setCompoundDrawablesWithIntrinsicBounds(drawableResId, 0, 0, 0);
-						}
-					});
-					break;
-				}
-			}
-		} catch (final IllegalAccessException e) {
-			e.printStackTrace();
-		} catch (final IllegalArgumentException e) {
-			e.printStackTrace();
+			selectorWheelPaint2 = new Paint(selectorWheelPaint);
+			selectorWheelPaint2.setTextSize((int) (pickerInputText.getTextSize() * 0.85f));
+			final int color2 = getResources().getColor(R.color.btn_background);
+			selectorWheelPaint2.setColor(color2);
+			pickerInputText.setVisibility(INVISIBLE);
 		}
 
-	}
+		selectionDivider = getMSelectionDivider();
 
-	private List<Field> getAllFields(final Class clazz) {
-		final List<Field> fields = new ArrayList<Field>();
+		nameBounds = new Rect();
+		orgiBmpRect = new Rect();
+		destBmpRect = new Rect();
 
-		fields.addAll(Arrays.asList(clazz.getDeclaredFields()));
-
-		final Class superClazz = clazz.getSuperclass();
-		if (superClazz != null) {
-			fields.addAll(getAllFields(superClazz));
-		}
-
-		return fields;
 	}
 
 	public void setValueInternal(final int current, final boolean notifyChange) {
@@ -115,6 +137,201 @@ public class ConnectionPicker extends NumberPicker {
 		} catch (final Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+	@Override
+	protected void onLayout(final boolean changed, final int left, final int top, final int right, final int bottom) {
+
+		super.onLayout(changed, left, top, right, bottom);
+
+		if (changed && (pickerInputText != null)) {
+
+			final int[] selectorIndices = getMSelectorIndices();
+			if (selectorIndices.length == 0) {
+				selectorElementHeight = Integer.MIN_VALUE;
+				return;
+			}
+			final int textSize = (int) pickerInputText.getTextSize();
+			final int totalTextHeight = selectorIndices.length * textSize;
+			final float totalTextGapHeight = getHeight() - totalTextHeight;
+			final float textGapCount = selectorIndices.length;
+			final int selectorTextGapHeight = (int) ((totalTextGapHeight / textGapCount) + 0.5f);
+			selectorElementHeight = textSize + selectorTextGapHeight;
+
+		}
+
+		if (changed) {
+			final int defSelectionDividerDistance = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
+					UNSCALED_DEFAULT_SELECTION_DIVIDERS_DISTANCE, getResources().getDisplayMetrics());
+			final int defSelectionDividerHeight = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
+					UNSCALED_DEFAULT_SELECTION_DIVIDER_HEIGHT, getResources().getDisplayMetrics());
+			mSelectionDividerHeight = defSelectionDividerHeight;
+			mTopSelectionDividerTop = ((getHeight() - defSelectionDividerDistance) / 2) - mSelectionDividerHeight;
+			mBottomSelectionDividerBottom = mTopSelectionDividerTop + (2 * mSelectionDividerHeight)
+					+ defSelectionDividerDistance;
+		}
+	}
+
+	@Override
+	protected void onDraw(final Canvas canvas) {
+
+		boolean callSuper = false;
+
+		if ((pickerInputText == null) || (selectorWheelPaint == null) || (selectorElementHeight == Integer.MIN_VALUE)) {
+			callSuper = true;
+		}
+
+		final float x = getWidth() / 2;
+		int y = getMCurrentScrollOffset();
+		if (y == Integer.MIN_VALUE) {
+			callSuper = true;
+		}
+
+		final int[] selectorIndices = getMSelectorIndices();
+		if (selectorIndices.length == 0) {
+			callSuper = true;
+		}
+		final SparseArray<String> selectorIndexToStringCache = getMSelectorIndexToStringCache();
+		if (selectorIndexToStringCache == null) {
+			callSuper = true;
+		}
+
+		if (callSuper) {
+			super.onDraw(canvas);
+			return;
+		}
+
+		for (int i = 0; i < selectorIndices.length; i++) {
+			final int selectorIndex = selectorIndices[i];
+			final String scrollSelectorValue = selectorIndexToStringCache.get(selectorIndex);
+			if ((i != SELECTOR_MIDDLE_ITEM_INDEX) || (pickerInputText.getVisibility() != VISIBLE)) {
+				selectorWheelPaint.getTextBounds(scrollSelectorValue, 0, scrollSelectorValue.length(), nameBounds);
+				final int yOffset = (int) ((selectorWheelPaint.getTextSize() + selectorWheelPaint2.getTextSize()) / 4.0f);
+				canvas.drawText(scrollSelectorValue, x, y - yOffset, selectorWheelPaint);
+				final Connection connection = getConnection(scrollSelectorValue);
+				if (connection != null) {
+					drawBitmap(canvas, connection, x, y - yOffset);
+					canvas.drawText(getLineTwo(connection), x, y + yOffset, selectorWheelPaint2);
+				}
+			}
+			y += selectorElementHeight;
+		}
+
+		if (selectionDivider != null) {
+			// draw the top divider
+			final int topOfTopDivider = mTopSelectionDividerTop;
+			final int bottomOfTopDivider = topOfTopDivider + mSelectionDividerHeight;
+			selectionDivider.setBounds(0, topOfTopDivider, getWidth(), bottomOfTopDivider);
+			selectionDivider.draw(canvas);
+
+			// draw the bottom divider
+			final int bottomOfBottomDivider = mBottomSelectionDividerBottom;
+			final int topOfBottomDivider = bottomOfBottomDivider - mSelectionDividerHeight;
+			selectionDivider.setBounds(0, topOfBottomDivider, getWidth(), bottomOfBottomDivider);
+			selectionDivider.draw(canvas);
+		}
+
+	}
+
+	private void drawBitmap(final Canvas canvas, final Connection connection, final float x, final float y) {
+
+		final int drawableResId = ConnectionTypes.ICON_IDS[connection.getConnectionType()];
+		final Bitmap bitmap = BitmapFactory.decodeResource(getResources(), drawableResId);
+		orgiBmpRect.right = bitmap.getWidth();
+		orgiBmpRect.bottom = bitmap.getHeight();
+
+		final int newHeight = (int) (Math.abs(nameBounds.height()) * 1.3);
+		final int newWidth = newHeight;
+		destBmpRect.left = (int) (x - (nameBounds.width() / 2) - newWidth - (newWidth / 2));
+		destBmpRect.right = destBmpRect.left + newWidth;
+		destBmpRect.top = (int) (y - newHeight);
+		destBmpRect.bottom = destBmpRect.top + newHeight;
+		canvas.drawBitmap(bitmap, orgiBmpRect, destBmpRect, null);
+
+	}
+
+	private String getLineTwo(final Connection connection) {
+
+		if (connection == null) {
+			return "";
+		}
+
+		final StringBuilder sb = new StringBuilder(TIME_FORMAT.format(connection.getStartTime()));
+		sb.append(' ');
+		sb.append(connection.getStartStation());
+		sb.append(" \u2794 ");
+		sb.append(TIME_FORMAT.format(connection.getEndTime()));
+		sb.append(' ');
+		sb.append(connection.getEndStation());
+
+		return sb.toString();
+
+	}
+
+	private EditText getInputText() {
+		for (int i = 0; i < getChildCount(); i++) {
+			final View child = getChildAt(i);
+			if (child instanceof EditText) {
+				return ((EditText) child);
+			}
+		}
+		return null;
+	}
+
+	private Drawable getMSelectionDivider() {
+		final Object value = getFieldValue("mSelectionDivider");
+		return (Drawable) value;
+	}
+
+	private SparseArray<String> getMSelectorIndexToStringCache() {
+		final Object value = getFieldValue("mSelectorIndexToStringCache");
+		return (SparseArray<String>) value;
+	}
+
+	private int[] getMSelectorIndices() {
+		final Object value = getFieldValue("mSelectorIndices");
+		if (value != null) {
+			return (int[]) value;
+		}
+		return new int[0];
+	}
+
+	private int getMCurrentScrollOffset() {
+		final Object value = getFieldValue("mCurrentScrollOffset");
+		if (value != null) {
+			return (int) value;
+		}
+		return Integer.MIN_VALUE;
+	}
+
+	private Object getFieldValue(final String fieldName) {
+		try {
+			final Field f = NumberPicker.class.getDeclaredField(fieldName);
+			f.setAccessible(true);
+			return f.get(this);
+		} catch (NoSuchFieldException | IllegalAccessException | IllegalArgumentException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	public List<Connection> getConnections() {
+		return connections;
+	}
+
+	public void setConnections(final List<Connection> connections) {
+		this.connections = connections;
+	}
+
+	private Connection getConnection(final String name) {
+		if (connections != null) {
+			for (final Connection connection : connections) {
+				if (connection.getName().equals(name)) {
+					return connection;
+				}
+			}
+		}
+		return null;
 	}
 
 }

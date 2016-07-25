@@ -246,6 +246,7 @@ public class CaptueFragment extends Fragment implements ITabFragment {
 			}
 			final String[] connectionNamesArray = connectionNames.toArray(new String[connectionNames.size()]);
 			numberPickerConnection.setDisplayedValues(connectionNamesArray);
+			numberPickerConnection.setConnections(connections);
 			numberPickerConnection.setMaxValue(connections.size() - 1);
 			setPickerValueInternal(0, false);
 			updatePlanedEnd(0);
