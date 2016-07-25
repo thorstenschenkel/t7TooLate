@@ -296,7 +296,7 @@ public class ConnectionPicker extends NumberPicker {
 	private int getMCurrentScrollOffset() {
 		final Object value = getFieldValue("mCurrentScrollOffset");
 		if (value != null) {
-			return (int) value;
+			return (Integer) value;
 		}
 		return Integer.MIN_VALUE;
 	}
@@ -306,7 +306,11 @@ public class ConnectionPicker extends NumberPicker {
 			final Field f = NumberPicker.class.getDeclaredField(fieldName);
 			f.setAccessible(true);
 			return f.get(this);
-		} catch (NoSuchFieldException | IllegalAccessException | IllegalArgumentException e) {
+		} catch (NoSuchFieldException e) {
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			e.printStackTrace();
+		} catch (IllegalArgumentException e) {
 			e.printStackTrace();
 		}
 		return null;
