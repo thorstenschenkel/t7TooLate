@@ -29,8 +29,6 @@ import java.util.List;
 
 import android.content.Context;
 import android.content.res.ColorStateList;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -45,7 +43,6 @@ import android.widget.EditText;
 import android.widget.NumberPicker;
 import de.t7soft.android.t7toolate.R;
 import de.t7soft.android.t7toolate.model.Connection;
-import de.t7soft.android.t7toolate.model.ConnectionTypes;
 
 /**
  * https://android-arsenal.com/details/1/3309
@@ -107,7 +104,7 @@ public class ConnectionPicker extends NumberPicker {
 			final Paint paint = new Paint();
 			paint.setAntiAlias(true);
 			paint.setTextAlign(Align.CENTER);
-			paint.setTextSize((int) (pickerInputText.getTextSize() * 1.15f));
+			paint.setTextSize((int) (pickerInputText.getTextSize() * 1.10f));
 			paint.setTypeface(pickerInputText.getTypeface());
 			final ColorStateList colors = pickerInputText.getTextColors();
 			final int color = colors.getColorForState(ENABLED_STATE_SET, Color.WHITE);
@@ -115,7 +112,7 @@ public class ConnectionPicker extends NumberPicker {
 			selectorWheelPaint = paint;
 
 			selectorWheelPaint2 = new Paint(selectorWheelPaint);
-			selectorWheelPaint2.setTextSize((int) (pickerInputText.getTextSize() * 0.85f));
+			selectorWheelPaint2.setTextSize((int) (pickerInputText.getTextSize() * 0.75f));
 			final int color2 = getResources().getColor(R.color.btn_background);
 			selectorWheelPaint2.setColor(color2);
 			pickerInputText.setVisibility(INVISIBLE);
@@ -210,7 +207,7 @@ public class ConnectionPicker extends NumberPicker {
 				canvas.drawText(scrollSelectorValue, x, y - yOffset, selectorWheelPaint);
 				final Connection connection = getConnection(scrollSelectorValue);
 				if (connection != null) {
-					drawBitmap(canvas, connection, x, y - yOffset);
+					// drawBitmap(canvas, connection, x, y - yOffset);
 					canvas.drawText(getLineTwo(connection), x, y + yOffset, selectorWheelPaint2);
 				}
 			}
@@ -233,22 +230,22 @@ public class ConnectionPicker extends NumberPicker {
 
 	}
 
-	private void drawBitmap(final Canvas canvas, final Connection connection, final float x, final float y) {
-
-		final int drawableResId = ConnectionTypes.ICON_IDS[connection.getConnectionType()];
-		final Bitmap bitmap = BitmapFactory.decodeResource(getResources(), drawableResId);
-		orgiBmpRect.right = bitmap.getWidth();
-		orgiBmpRect.bottom = bitmap.getHeight();
-
-		final int newHeight = (int) (Math.abs(nameBounds.height()) * 1.3);
-		final int newWidth = newHeight;
-		destBmpRect.left = (int) (x - (nameBounds.width() / 2) - newWidth - (newWidth / 2));
-		destBmpRect.right = destBmpRect.left + newWidth;
-		destBmpRect.top = (int) (y - newHeight);
-		destBmpRect.bottom = destBmpRect.top + newHeight;
-		canvas.drawBitmap(bitmap, orgiBmpRect, destBmpRect, null);
-
-	}
+	// private void drawBitmap(final Canvas canvas, final Connection connection, final float x, final float y) {
+	//
+	// final int drawableResId = ConnectionTypes.ICON_IDS[connection.getConnectionType()];
+	// final Bitmap bitmap = BitmapFactory.decodeResource(getResources(), drawableResId);
+	// orgiBmpRect.right = bitmap.getWidth();
+	// orgiBmpRect.bottom = bitmap.getHeight();
+	//
+	// final int newHeight = (int) (Math.abs(nameBounds.height()) * 1.3);
+	// final int newWidth = newHeight;
+	// destBmpRect.left = (int) (x - (nameBounds.width() / 2) - newWidth - (newWidth / 2));
+	// destBmpRect.right = destBmpRect.left + newWidth;
+	// destBmpRect.top = (int) (y - newHeight);
+	// destBmpRect.bottom = destBmpRect.top + newHeight;
+	// canvas.drawBitmap(bitmap, orgiBmpRect, destBmpRect, null);
+	//
+	// }
 
 	private String getLineTwo(final Connection connection) {
 
