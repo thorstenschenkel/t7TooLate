@@ -22,13 +22,10 @@
  */
 package de.t7soft.android.t7toolate.connections;
 
-import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
-import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -37,14 +34,16 @@ import android.view.View;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
+import de.t7soft.android.t7toolate.IDialogResultTarget;
 import de.t7soft.android.t7toolate.R;
 import de.t7soft.android.t7toolate.database.ToLateDatabaseAdapter;
 import de.t7soft.android.t7toolate.model.Connection;
 import de.t7soft.android.t7toolate.model.ConnectionTypes;
 
-public class ShowConnectionActivity extends Activity {
+public class ShowConnectionActivity extends Activity implements IDialogResultTarget {
 
 	public static final String CONNECTION_ID = "connectionId";
+	@SuppressLint("SimpleDateFormat")
 	private static final java.text.DateFormat TIME_FORMAT = new SimpleDateFormat("HH:mm");
 	private Connection connection;
 	private TextView nameValueTextView;
@@ -57,6 +56,7 @@ public class ShowConnectionActivity extends Activity {
 	private CheckBox checkBoxConnectionSa;
 	private CheckBox checkBoxConnectionSu;
 	private ToLateDatabaseAdapter dbAdapter;
+	private DeleteConnectionDialog deleteDialog;
 
 	@Override
 	protected void onCreate(final Bundle savedInstanceState) {
@@ -67,6 +67,7 @@ public class ShowConnectionActivity extends Activity {
 		if (dbAdapter == null) {
 			dbAdapter = new ToLateDatabaseAdapter(this);
 		}
+		deleteDialog = new DeleteConnectionDialog(this, this);
 
 	}
 
@@ -97,7 +98,7 @@ public class ShowConnectionActivity extends Activity {
 				editConnection();
 				return true;
 			case R.id.action_delete:
-				deleteConnection();
+				deleteDialog.show(connection);
 				return true;
 		}
 		return super.onOptionsItemSelected(item);
@@ -107,31 +108,6 @@ public class ShowConnectionActivity extends Activity {
 		final Intent intent = new Intent(this, EditConnectionActivity.class);
 		intent.putExtra(EditConnectionActivity.CONNECTION_ID, connection.getId());
 		startActivity(intent);
-	}
-
-	private void deleteConnection() {
-		String deleteMessage = getString(R.string.connection_delete_msg_text);
-		deleteMessage = MessageFormat.format(deleteMessage, connection.getName());
-		final AlertDialog.Builder builder = new AlertDialog.Builder(this);
-		builder.setMessage(deleteMessage) //
-				// .setIcon(android.R.drawable.stat_notify_error)
-				.setTitle(R.string.connection_delete_msg_title);
-		builder.setPositiveButton(getString(R.string.yes), new OnClickListener() {
-			@Override
-			public void onClick(final DialogInterface dialog, final int which) {
-				dbAdapter.deleteConnection(connection);
-				dialog.dismiss();
-				finish();
-			}
-		});
-		builder.setNegativeButton(getString(R.string.no), new OnClickListener() {
-			@Override
-			public void onClick(final DialogInterface dialog, final int which) {
-				dialog.dismiss();
-			}
-		});
-		builder.create();
-		builder.show();
 	}
 
 	protected Connection createConnection() {
@@ -170,6 +146,13 @@ public class ShowConnectionActivity extends Activity {
 
 	public void onCancel(final View view) {
 		finish();
+	}
+
+	@Override
+	public void onDialogResult(final int resultCode) {
+		if (resultCode == IDialogResultTarget.DELETED) {
+			finish();
+		}
 	}
 
 }

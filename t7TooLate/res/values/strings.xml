@@ -50,6 +50,7 @@
     <!-- Connections -->
     <string name="connections_tab_tilte">Verbindungen</string>
     <string name="add_menu_item">Hinzufügen</string>
+    <string name="open_menu_item">Öffnen</string>
     <string name="edit_menu_item">Bearbeiten</string>
     <string name="delete_menu_item">Löschen</string>
     <string name="connection_dummy_name">Dummy-Name</string>

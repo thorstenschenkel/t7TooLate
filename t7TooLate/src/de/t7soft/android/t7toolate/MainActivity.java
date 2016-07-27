@@ -68,16 +68,6 @@ import de.t7soft.android.t7toolate.database.ToLateDatabaseAdapter;
  * 
  * http://android-holo-colors.com/
  * 
- * https://github.com/amlcurran/ShowcaseView
- * 
- * http://amlcurran.github.io/ShowcaseView/
- * 
- * http://stackoverflow.com/questions/26056733/android-showcaseview-usage-unable-to-import-it-to-my-project
- * 
- * http://stackoverflow.com/questions/20146705/how-do-i-import-showcaseview-in-eclipse
- * 
- * http://stackoverflow.com/questions/25063366/how-do-you-use-showcaseview-library-in-your-android-project-which-isnt-based-on
- * 
  * @author tsc
  * 
  */
@@ -246,14 +236,7 @@ public class MainActivity extends FragmentActivity {
 		// Add New Tab
 		for (int i = 0; i < TAB_ICON_IDS.length; i++) {
 			final Tab tab = actionBar.newTab();
-			// tab.setText(TAB_TILTE_IDS[i]);
 			tab.setIcon(TAB_ICON_IDS[i]);
-			// tab.setCustomView(R.layout.tab_layout);
-			// final View tabView = tab.getCustomView();
-			// final TextView textView = (TextView) tabView.findViewById(R.id.tabTitleTextView);
-			// textView.setText(TAB_TILTE_IDS[i]);
-			// final ImageView imageView = (ImageView) tabView.findViewById(R.id.tabIconImageView);
-			// imageView.setImageResource(TAB_ICON_IDS[i]);
 			actionBar.addTab(tab.setTabListener(tabListener));
 		}
 	}

@@ -30,23 +30,34 @@ import java.util.List;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
+import android.util.Log;
+import android.view.ContextMenu;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.view.LayoutInflater;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import de.t7soft.android.t7toolate.IDialogResultTarget;
 import de.t7soft.android.t7toolate.ITabFragment;
 import de.t7soft.android.t7toolate.MainActivity;
 import de.t7soft.android.t7toolate.R;
 import de.t7soft.android.t7toolate.database.ToLateDatabaseAdapter;
 import de.t7soft.android.t7toolate.model.Connection;
 
-public class ConnectionsFragment extends ListFragment implements ITabFragment {
+public class ConnectionsFragment extends ListFragment implements ITabFragment, IDialogResultTarget {
+
+	private static final String LOG_TAG = ConnectionsFragment.class.getSimpleName();
 
 	private final List<Connection> connections = new ArrayList<Connection>();
 	private BaseAdapter listAdapter;
+
+	private DeleteConnectionDialog deleteDialog;
 
 	@Override
 	public View onCreateView(final LayoutInflater inflater, final ViewGroup container, final Bundle savedInstanceState) {
@@ -66,6 +77,13 @@ public class ConnectionsFragment extends ListFragment implements ITabFragment {
 
 		return connectionsView;
 
+	}
+
+	@Override
+	public void onActivityCreated(final Bundle savedInstanceState) {
+		super.onActivityCreated(savedInstanceState);
+		registerForContextMenu(getListView());
+		deleteDialog = new DeleteConnectionDialog(getActivity(), this);
 	}
 
 	private ConnectionsListAdapter createListAdapter(final List<Connection> connections) {
@@ -111,19 +129,69 @@ public class ConnectionsFragment extends ListFragment implements ITabFragment {
 
 		final int itemPosition = position - getListView().getHeaderViewsCount();
 		if ((itemPosition >= 0) && (itemPosition < getListAdapter().getCount())) {
-
 			final Connection connection = (Connection) getListAdapter().getItem(itemPosition);
-
-			final Intent intent = new Intent(getActivity(), ShowConnectionActivity.class);
-			intent.putExtra(ShowConnectionActivity.CONNECTION_ID, connection.getId());
-			startActivity(intent);
-
+			openConnection(connection);
 		}
 
 	}
 
+	private void editConnection(final Connection connection) {
+		if (connection != null) {
+			final Intent intent = new Intent(getActivity(), EditConnectionActivity.class);
+			intent.putExtra(EditConnectionActivity.CONNECTION_ID, connection.getId());
+			startActivity(intent);
+		}
+	}
+
+	private void openConnection(final Connection connection) {
+		if (connection != null) {
+			final Intent intent = new Intent(getActivity(), ShowConnectionActivity.class);
+			intent.putExtra(ShowConnectionActivity.CONNECTION_ID, connection.getId());
+			startActivity(intent);
+		}
+	}
+
 	public ToLateDatabaseAdapter getDbAdapter() {
 		return ((MainActivity) getActivity()).getDbAdapter();
+	}
+
+	@Override
+	public void onCreateContextMenu(final ContextMenu menu, final View v, final ContextMenuInfo menuInfo) {
+		super.onCreateContextMenu(menu, v, menuInfo);
+		if (v == getListView()) {
+			final MenuInflater inflater = getActivity().getMenuInflater();
+			inflater.inflate(R.menu.connections_context_menu, menu);
+		}
+	}
+
+	@Override
+	public boolean onContextItemSelected(final MenuItem item) {
+		final AdapterContextMenuInfo info = (AdapterContextMenuInfo) item.getMenuInfo();
+		final Connection connection = (Connection) getListAdapter().getItem(info.position);
+		if (connection == null) {
+			Log.w(LOG_TAG, "No connection at position " + info.position);
+			return false;
+		}
+		switch (item.getItemId()) {
+			case R.id.open_connection_item:
+				openConnection(connection);
+				return true;
+			case R.id.edit_connection_item:
+				editConnection(connection);
+				return true;
+			case R.id.delete_connection_item:
+				deleteDialog.show(connection);
+				return true;
+			default:
+				return super.onContextItemSelected(item);
+		}
+	}
+
+	@Override
+	public void onDialogResult(final int resultCode) {
+		if (resultCode == IDialogResultTarget.DELETED) {
+			updateListAdapter();
+		}
 	}
 
 }

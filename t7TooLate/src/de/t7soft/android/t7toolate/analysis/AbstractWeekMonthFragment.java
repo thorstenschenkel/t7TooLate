@@ -22,24 +22,20 @@
  */
 package de.t7soft.android.t7toolate.analysis;
 
-import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.support.v4.app.ListFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-import de.t7soft.android.t7toolate.MainActivity;
 import de.t7soft.android.t7toolate.R;
 import de.t7soft.android.t7toolate.database.ToLateDatabaseAdapter;
 import de.t7soft.android.t7toolate.model.Capture;
 import de.t7soft.android.t7toolate.utils.CaptureUtils;
 
-public abstract class AbstractWeekMonthFragment extends ListFragment {
+public abstract class AbstractWeekMonthFragment extends AbstractAnalysisFragment {
 
 	private View view;
 	private WeekMonthCapturesCursorAdapter capturesAdapter;
@@ -130,29 +126,8 @@ public abstract class AbstractWeekMonthFragment extends ListFragment {
 
 	}
 
-	@Override
-	public void onListItemClick(final ListView l, final View v, final int position, final long id) {
-
-		final int itemPosition = position - getListView().getHeaderViewsCount();
-		if ((itemPosition >= 0) && (itemPosition < getListAdapter().getCount())) {
-
-			final Capture capture = (Capture) getListAdapter().getItem(itemPosition);
-			if (capture != null) {
-				final Intent intent = new Intent(getActivity(), ShowCaptureActivity.class);
-				intent.putExtra(ShowCaptureActivity.CAPTURE_ID, capture.getId());
-				startActivity(intent);
-			}
-
-		}
-
-	}
-
 	protected void updateListAdapter() {
 		capturesAdapter.changeCursor(getCursor());
-	}
-
-	public ToLateDatabaseAdapter getDbAdapter() {
-		return ((MainActivity) getActivity()).getDbAdapter();
 	}
 
 }

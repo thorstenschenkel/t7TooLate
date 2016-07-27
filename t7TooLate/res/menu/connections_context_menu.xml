@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <item
+        android:id="@+id/open_connection_item"
+        android:enabled="true"
+        android:title="@string/open_menu_item"
+        android:visible="true">
+    </item>
+    <item
+        android:id="@+id/edit_connection_item"
+        android:enabled="true"
+        android:title="@string/edit_menu_item"
+        android:visible="true">
+    </item>
+    <item
+        android:id="@+id/delete_connection_item"
+        android:enabled="true"
+        android:title="@string/delete_menu_item"
+        android:visible="true">
+    </item>
+
+</menu>
