@@ -202,11 +202,11 @@ public class ConnectionPicker extends NumberPicker {
 			final int selectorIndex = selectorIndices[i];
 			final String scrollSelectorValue = selectorIndexToStringCache.get(selectorIndex);
 			if ((i != SELECTOR_MIDDLE_ITEM_INDEX) || (pickerInputText.getVisibility() != VISIBLE)) {
-				selectorWheelPaint.getTextBounds(scrollSelectorValue, 0, scrollSelectorValue.length(), nameBounds);
-				final int yOffset = (int) ((selectorWheelPaint.getTextSize() + selectorWheelPaint2.getTextSize()) / 4.0f);
-				canvas.drawText(scrollSelectorValue, x, y - yOffset, selectorWheelPaint);
 				final Connection connection = getConnection(scrollSelectorValue);
 				if (connection != null) {
+					selectorWheelPaint.getTextBounds(scrollSelectorValue, 0, scrollSelectorValue.length(), nameBounds);
+					final int yOffset = (int) ((selectorWheelPaint.getTextSize() + selectorWheelPaint2.getTextSize()) / 4.0f);
+					canvas.drawText(scrollSelectorValue, x, y - yOffset, selectorWheelPaint);
 					// drawBitmap(canvas, connection, x, y - yOffset);
 					canvas.drawText(getLineTwo(connection), x, y + yOffset, selectorWheelPaint2);
 				}
@@ -306,11 +306,11 @@ public class ConnectionPicker extends NumberPicker {
 			final Field f = NumberPicker.class.getDeclaredField(fieldName);
 			f.setAccessible(true);
 			return f.get(this);
-		} catch (NoSuchFieldException e) {
+		} catch (final NoSuchFieldException e) {
 			e.printStackTrace();
-		} catch (IllegalAccessException e) {
+		} catch (final IllegalAccessException e) {
 			e.printStackTrace();
-		} catch (IllegalArgumentException e) {
+		} catch (final IllegalArgumentException e) {
 			e.printStackTrace();
 		}
 		return null;

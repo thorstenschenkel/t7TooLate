@@ -191,6 +191,7 @@ public class ConnectionsFragment extends ListFragment implements ITabFragment, I
 	public void onDialogResult(final int resultCode) {
 		if (resultCode == IDialogResultTarget.DELETED) {
 			updateListAdapter();
+			((MainActivity) getActivity()).setPickerInvalidate(true);
 		}
 	}
 

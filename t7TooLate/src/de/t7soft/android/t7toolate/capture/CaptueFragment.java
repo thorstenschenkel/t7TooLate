@@ -218,6 +218,10 @@ public class CaptueFragment extends Fragment implements ITabFragment {
 
 	private void updatePicker() {
 
+		Log.d(this.getClass().getSimpleName(), "updatePicker() called");
+
+		numberPickerConnection.setDisplayedValues(null);
+		numberPickerConnection.setConnections(null);
 		numberPickerConnection.setWrapSelectorWheel(false);
 		numberPickerConnection.setMinValue(0);
 
@@ -244,18 +248,21 @@ public class CaptueFragment extends Fragment implements ITabFragment {
 				final Connection connection = new DummyData().connection(nextConnection);
 				connectionNames.add(connection.getName());
 			}
-			final String[] connectionNamesArray = connectionNames.toArray(new String[connectionNames.size()]);
+			String[] connectionNamesArray = connectionNames.toArray(new String[connectionNames.size()]);
+			if (connectionNames.size() == 0) {
+				connectionNamesArray = null;
+			}
 			numberPickerConnection.setValue(0);
+			numberPickerConnection.setMaxValue(connections.size() - 1);
 			numberPickerConnection.setDisplayedValues(connectionNamesArray);
 			numberPickerConnection.setConnections(connections);
-			numberPickerConnection.setMaxValue(connections.size() - 1);
 			setPickerValueInternal(0, false);
 			updatePlanedEnd(0);
-			updateCurrent();
-		} else {
-			// TODO
-			updateCurrent(); // ?
 		}
+		updateCurrent();
+		updateButtons();
+
+		resetPickerInvalidate();
 
 	}
 
@@ -266,12 +273,12 @@ public class CaptueFragment extends Fragment implements ITabFragment {
 
 	@Override
 	public void onResume() {
+		Log.d(this.getClass().getSimpleName(), "onResume() called");
 		stopUpdates();
 		updatePicker();
 		super.onResume();
 		startUpdates();
 		updatePickerSelection();
-		updateButtons();
 	}
 
 	private void updateButtons() {
@@ -282,11 +289,15 @@ public class CaptueFragment extends Fragment implements ITabFragment {
 
 	@Override
 	public void setUserVisibleHint(final boolean isVisibleToUser) {
+		Log.d(this.getClass().getSimpleName(), "setUserVisibleHint() called");
 		super.setUserVisibleHint(isVisibleToUser);
 		if (isVisibleToUser) {
+			if (isPickerInvalidate()) {
+				updatePicker();
+			}
 			updatePickerSelection();
 		}
-		Log.d(this.getClass().getSimpleName(), "Fragment is visible: " + isVisibleToUser);
+		Log.d(this.getClass().getSimpleName(), "setUserVisibleHint() -> Fragment is visible: " + isVisibleToUser);
 	}
 
 	public ToLateDatabaseAdapter getDbAdapter() {
@@ -356,6 +367,14 @@ public class CaptueFragment extends Fragment implements ITabFragment {
 
 		return null;
 
+	}
+
+	public boolean isPickerInvalidate() {
+		return ((MainActivity) getActivity()).isPickerInvalidate();
+	}
+
+	public void resetPickerInvalidate() {
+		((MainActivity) getActivity()).setPickerInvalidate(false);
 	}
 
 }

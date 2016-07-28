@@ -90,6 +90,7 @@ public class MainActivity extends FragmentActivity {
 	private ConnectionsFragment connectionsFragment;
 	private ShowcaseView sv;
 	private ViewPager viewPager;
+	private boolean pickerInvalidate;
 
 	@Override
 	protected void onCreate(final Bundle savedInstanceState) {
@@ -373,6 +374,14 @@ public class MainActivity extends FragmentActivity {
 			context = ((ContextWrapper) context).getBaseContext();
 		}
 		return null;
+	}
+
+	public boolean isPickerInvalidate() {
+		return pickerInvalidate;
+	}
+
+	public void setPickerInvalidate(final boolean pickerInvalidate) {
+		this.pickerInvalidate = pickerInvalidate;
 	}
 
 }
