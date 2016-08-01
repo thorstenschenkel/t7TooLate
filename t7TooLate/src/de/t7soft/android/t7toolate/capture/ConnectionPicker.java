@@ -38,6 +38,7 @@ import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.util.SparseArray;
 import android.util.TypedValue;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.NumberPicker;
@@ -301,6 +302,14 @@ public class ConnectionPicker extends NumberPicker {
 		return Integer.MIN_VALUE;
 	}
 
+	private Runnable getMBeginSoftInputOnLongPressCommand() {
+		final Object value = getFieldValue("mBeginSoftInputOnLongPressCommand");
+		if (value != null) {
+			return (Runnable) value;
+		}
+		return null;
+	}
+
 	private Object getFieldValue(final String fieldName) {
 		try {
 			final Field f = NumberPicker.class.getDeclaredField(fieldName);
@@ -333,6 +342,22 @@ public class ConnectionPicker extends NumberPicker {
 			}
 		}
 		return null;
+	}
+
+	private void removeBeginSoftInputCommand() {
+		final Runnable mBeginSoftInputOnLongPressCommand = getMBeginSoftInputOnLongPressCommand();
+		if (mBeginSoftInputOnLongPressCommand != null) {
+			removeCallbacks(mBeginSoftInputOnLongPressCommand);
+		}
+	}
+
+	@Override
+	public boolean onInterceptTouchEvent(final MotionEvent event) {
+		final boolean ret = super.onInterceptTouchEvent(event);
+		if (ret) {
+			removeBeginSoftInputCommand();
+		}
+		return ret;
 	}
 
 }
