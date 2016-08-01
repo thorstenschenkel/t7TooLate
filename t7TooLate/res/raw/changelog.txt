@@ -27,6 +27,11 @@
     </style>
   </head>
   <body>
+    $ 0.5
+      % Version 0.5
+      _ 2016-08-01
+      * Kontextmenü nach längerem Drücken in Listen
+      * Fehlerbehebung bei Picker zur Auswahl der Verbindung
     $ 0.4
       % Version 0.4
       _ 2016-07-25
