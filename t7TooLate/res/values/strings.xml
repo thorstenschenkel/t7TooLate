@@ -53,6 +53,7 @@
     <string name="open_menu_item">Öffnen</string>
     <string name="edit_menu_item">Bearbeiten</string>
     <string name="delete_menu_item">Löschen</string>
+    <string name="share_menu_item">Teilen</string>
     <string name="connection_dummy_name">Dummy-Name</string>
     <string name="connection_dummy_time">12:34</string>
     <string name="connection_dummy_station">Dummy-Station</string>
