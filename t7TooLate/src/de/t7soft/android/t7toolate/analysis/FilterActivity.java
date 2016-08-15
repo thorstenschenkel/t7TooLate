@@ -31,6 +31,7 @@ import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.DatePickerDialog.OnDateSetListener;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
@@ -47,6 +48,8 @@ import de.t7soft.android.t7toolate.utils.FilterUtils;
 import de.t7soft.android.t7toolate.utils.StringUtils;
 
 public class FilterActivity extends Activity {
+
+	private static final String LOG_TAG = FilterActivity.class.getSimpleName();
 
 	private static final java.text.DateFormat DATE_FORMAT = new SimpleDateFormat("dd.MM.yyyy");
 	private Switch switchPeriod;
@@ -143,7 +146,8 @@ public class FilterActivity extends Activity {
 				final Date date = DATE_FORMAT.parse(dateString);
 				periodFilter.setFrom(date);
 			} catch (final ParseException e) {
-				// TODO
+				Log.e(LOG_TAG, "string of from date has not the correct format", e);
+				return;
 			}
 		}
 		dateString = editTextFilterTo.getText().toString();
@@ -154,7 +158,8 @@ public class FilterActivity extends Activity {
 				final Date date = DATE_FORMAT.parse(dateString);
 				periodFilter.setTo(date);
 			} catch (final ParseException e) {
-				// TODO
+				Log.e(LOG_TAG, "string of to date has not the correct format", e);
+				return;
 			}
 		}
 		FilterUtils.storePeriodFilter(this, periodFilter);
