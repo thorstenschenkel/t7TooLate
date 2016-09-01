@@ -57,7 +57,7 @@
     <string name="connection_dummy_name">Dummy-Name</string>
     <string name="connection_dummy_time">12:34</string>
     <string name="connection_dummy_station">Dummy-Station</string>
-    <!-- Edit Connection -->
+    <!-- Show Connection -->
     <string name="show_connection_sub_tilte">Verbindungsdetails</string>
     <!-- Edit Connection -->
     <string name="add_connection_sub_tilte">Verbindung hinzufügen</string>
@@ -118,6 +118,8 @@
     <string name="filter_delay_slight">leicht verspätet</string>
     <string name="filter_delay_late">verspätet</string>
     <string name="filter_delay_extrem">extrem verspätet</string>
+    <!-- Edit Capture -->
+    <string name="edit_capture_sub_tilte">Aufzeichnung bearbeiten</string>
     <!-- Week Picker -->
     <string name="picker_next_week">Nächste Woche</string>
     <string name="picker_prev_week">Vorherige Woche</string>

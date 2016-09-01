@@ -27,7 +27,8 @@
         <activity android:name=".connections.ShowConnectionActivity" android:screenOrientation="portrait"></activity>
         <activity android:name=".analysis.ShowCaptureActivity" android:screenOrientation="portrait"></activity>
         <activity android:screenOrientation="portrait" android:name=".analysis.FilterActivity"></activity>
-        <activity android:name="SettingsActivity"></activity>
+        <activity android:name="SettingsActivity" android:screenOrientation="portrait"></activity>
+        <activity android:screenOrientation="portrait" android:name=".analysis.EditCaptureActivity"></activity>
     </application>
 
 </manifest>

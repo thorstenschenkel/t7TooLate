@@ -2,13 +2,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="de.t7soft.android.t7TooLate.MainActivity" >
     
-<!--     <item -->
-<!--         android:id="@+id/action_edit" -->
-<!--         android:icon="@drawable/ic_edit" -->
-<!--         android:enabled="true" -->
-<!--         android:showAsAction="ifRoom" -->
-<!--         android:visible="true" -->
-<!--         android:title="@string/edit_menu_item"/>     -->
     <!--
          <item
         android:id="@+id/action_share"
@@ -16,8 +9,16 @@
         android:enabled="true"
         android:showAsAction="ifRoom"
         android:visible="true"
-        android:title="@string/share_menu_item"/>    
+        android:title="@string/share_menu_item"/>    
+
     -->
+    <item
+        android:id="@+id/action_edit"
+        android:icon="@drawable/ic_edit"
+        android:enabled="true"
+        android:showAsAction="ifRoom"
+        android:visible="true"
+        android:title="@string/edit_menu_item"/>    
     <item
         android:id="@+id/action_delete"
         android:icon="@drawable/ic_delete"

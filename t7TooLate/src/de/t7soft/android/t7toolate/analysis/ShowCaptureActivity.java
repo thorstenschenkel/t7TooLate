@@ -27,6 +27,7 @@ import java.text.SimpleDateFormat;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.Menu;
@@ -102,6 +103,9 @@ public class ShowCaptureActivity extends Activity implements IDialogResultTarget
 			case R.id.action_delete:
 				deleteDialog.show(capture);
 				return true;
+			case R.id.action_edit:
+				editCapture(capture);
+				return true;
 		}
 		return super.onOptionsItemSelected(item);
 	}
@@ -109,6 +113,14 @@ public class ShowCaptureActivity extends Activity implements IDialogResultTarget
 	protected Capture createCaptue() {
 		final String captureId = getIntent().getExtras().getString(CAPTURE_ID);
 		return dbAdapter.getCapture(captureId);
+	}
+
+	private void editCapture(final Capture capture) {
+		if (capture != null) {
+			final Intent intent = new Intent(this, EditCaptureActivity.class);
+			intent.putExtra(EditCaptureActivity.CAPTURE_ID, capture.getId());
+			startActivity(intent);
+		}
 	}
 
 	private void initActivity() {
