@@ -196,9 +196,12 @@ public class CaptueFragment extends Fragment implements ITabFragment {
 			final Connection connection = new DummyData().connection(nextConnection);
 			final long endSeconds = getSeconds(connection.getEndTime());
 			final long diff = nowSeconds - endSeconds;
-			if (Math.abs(diff) < minDiff) {
-				minDiff = Math.abs(diff);
-				minIndex = i;
+			final long absDiff = Math.abs(diff);
+			if ((diff >= 0) || (absDiff < 300 /* 5 min */)) {
+				if (absDiff < minDiff) {
+					minDiff = absDiff;
+					minIndex = i;
+				}
 			}
 		}
 
@@ -350,7 +353,6 @@ public class CaptueFragment extends Fragment implements ITabFragment {
 
 		Connection selectedConnection = null;
 		final int selIndex = numberPickerConnection.getValue();
-		connections = getDbAdapter().getAllConnections();
 		if ((connections != null) && (connections.size() > 0) && (selIndex < connections.size())) {
 			selectedConnection = connections.get(selIndex);
 		}
