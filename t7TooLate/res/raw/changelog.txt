@@ -27,6 +27,10 @@
     </style>
   </head>
   <body>
+    $ 1.1
+      % Version 1.1
+      _ 2016-09-14
+      * Fehler bei Asuwahl der Verbindung nach Betaetigen des Buttons "Angekommen" behoben
     $ 1.0
       % Version 1.0
       _ 2016-08-16
