@@ -29,7 +29,9 @@ import java.util.Locale;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
-import sheetrock.panda.changelog.ChangeLog;
+import com.github.amlcurran.showcaseview.ShowcaseView;
+import com.github.amlcurran.showcaseview.targets.Target;
+
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
 import android.app.Activity;
@@ -54,15 +56,13 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.webkit.WebView;
 import android.widget.RelativeLayout;
-
-import com.github.amlcurran.showcaseview.ShowcaseView;
-import com.github.amlcurran.showcaseview.targets.Target;
-
 import de.t7soft.android.t7toolate.MainActivityTarget.PosX;
 import de.t7soft.android.t7toolate.analysis.AnalysisFragment;
 import de.t7soft.android.t7toolate.capture.CaptueFragment;
 import de.t7soft.android.t7toolate.connections.ConnectionsFragment;
+import de.t7soft.android.t7toolate.database.DatabaseActivity;
 import de.t7soft.android.t7toolate.database.ToLateDatabaseAdapter;
+import sheetrock.panda.changelog.ChangeLog;
 
 /**
  * 
@@ -82,9 +82,7 @@ public class MainActivity extends FragmentActivity {
 	public static final int PREF_SLIGHT_DEFAULT = 10;
 	public static final int PREF_LATE_DEFAULT = 60;
 
-	private static final int[] TAB_ICON_IDS = {
-			R.drawable.ic_time, R.drawable.ic_connection_wide, R.drawable.ic_list
-	};
+	private static final int[] TAB_ICON_IDS = { R.drawable.ic_time, R.drawable.ic_connection_wide, R.drawable.ic_list };
 	private ToLateDatabaseAdapter dbAdapter;
 	private CaptueFragment captueFragment;
 	private ConnectionsFragment connectionsFragment;
@@ -255,6 +253,9 @@ public class MainActivity extends FragmentActivity {
 			case R.id.action_settings:
 				showSettings();
 				return true;
+			case R.id.action_database:
+				showDatabase();
+				return true;
 			case R.id.action_change_log:
 				showChangeLog();
 				return true;
@@ -273,6 +274,11 @@ public class MainActivity extends FragmentActivity {
 	private void showChangeLog() {
 		final ChangeLog cl = new ChangeLog(this);
 		cl.getFullLogDialog().show();
+	}
+
+	private void showDatabase() {
+		final Intent intent = new Intent(this, DatabaseActivity.class);
+		startActivity(intent);
 	}
 
 	private void showAboutDlg() {

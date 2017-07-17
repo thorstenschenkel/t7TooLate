@@ -18,7 +18,7 @@
         android:visible="true"
         android:title="@string/settings_menu_item"/>
         
-    <item
+    <item android:id="@+id/action_database" android:title="@string/database_menu_item" android:visible="true" android:enabled="true" android:showAsAction="never"></item><item
         android:id="@+id/action_change_log"
         android:enabled="true"
         android:showAsAction="never"
@@ -31,6 +31,7 @@
         android:enabled="true"
         android:showAsAction="never"
         android:visible="true"
-        android:title="@string/about_menu_item"/>    
+        android:title="@string/about_menu_item"/>
+        
     
 </menu>
